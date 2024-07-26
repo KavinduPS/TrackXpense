@@ -1,0 +1,39 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+backend/node_modules/
+frontend/node_modules/
+
+# Build output
+backend/dist/
+frontend/dist/
+frontend/build/
+
+# Environment variables
+backend/.env
+frontend/.env
+
+# TypeScript compiled files
+backend/*.tsbuildinfo
+frontend/*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.swp
+*.bak
