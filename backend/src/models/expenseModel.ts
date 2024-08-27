@@ -9,6 +9,11 @@ export interface IExpense {
 }
 
 const expenseSchema: Schema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
   title: {
     type: String,
     required: true,
