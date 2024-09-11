@@ -1,15 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
-// Define the interface for Income
+
 export interface IIncome {
   title: string;
   amount: number;
   date: Date;
-  source: string; // income sourse(eg:job,Business...etc)
-  description?: string; // Optional field
+  source: string; 
+  description?: string; // Optional
 }
 
-// Create the schema for Income
+
 const incomeSchema: Schema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -37,5 +37,5 @@ const incomeSchema: Schema = new Schema({
   },
 });
 
-// Export the Income model
+
 export default mongoose.model("Income", incomeSchema);
