@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import "../../index.css";
@@ -11,6 +11,7 @@ interface signForm {
 }
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
   const initialValues: signForm = { username: "", password: "", email: "" };
 
   const validationSchema = Yup.object({
@@ -22,7 +23,10 @@ const Signup: React.FC = () => {
   });
 
   return (
-    <div className=" h-screen bg-zinc-700 flex justify-center  items-center ">
+    <div
+      className=" h-screen flex justify-center  items-center "
+      style={{ backgroundColor: "#352F44" }}
+    >
       <div
         className="absolute inset-0 bg-signup-bg bg-cover bg-center opacity-10 bg-no-repeat "
         style={{
@@ -43,6 +47,7 @@ const Signup: React.FC = () => {
             console.log({ values, actions });
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
+            navigate("/dashboard");
           }}
         >
           {({ isSubmitting, touched, errors }) => (
@@ -84,14 +89,13 @@ const Signup: React.FC = () => {
               )}
 
               <div className="mt-10">
-                <Link to="/signup">
-                  <button
-                    type="button"
-                    className="w-3/6 bg-green-200 h-9 rounded-lg text-zinc-700"
-                  >
-                    Sign Up
-                  </button>
-                </Link>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-3/6 bg-green-200 h-9 rounded-lg text-zinc-700"
+                >
+                  Sign Up
+                </button>
               </div>
             </Form>
           )}

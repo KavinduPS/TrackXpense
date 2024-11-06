@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/trackxpense_logo.png";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
@@ -10,6 +11,7 @@ interface loginForm {
   password: string;
 }
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const initialValues: loginForm = { username: "", password: "" };
 
   const validationSchema = Yup.object({
@@ -18,7 +20,10 @@ const Login: React.FC = () => {
   });
 
   return (
-    <div className="h-screen bg-zinc-700 flex justify-center items-center ">
+    <div
+      className="h-screen flex justify-center items-center "
+      style={{ backgroundColor: "#352F44" }}
+    >
       <div className="w-1/3">
         <div className="flex justify-center">
           <img src={logo} alt="TrackXpense Logo" />
@@ -31,6 +36,7 @@ const Login: React.FC = () => {
             console.log({ values, actions });
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
+            navigate("/dashboard");
           }}
         >
           {({ isSubmitting, touched, errors }) => (

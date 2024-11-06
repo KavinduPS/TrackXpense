@@ -6,6 +6,7 @@ import "./App.css";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Expenses from "./pages/expenses/page";
 import Income from "./pages/income/page";
+import About from "./pages/About/about";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/income" element={<Income />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </Router>
