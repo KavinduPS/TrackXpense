@@ -2,10 +2,12 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db";
+import incomeRoutes from "./routes/incomeRoutes";
 import expensesRoutes from "./routes/expenseRoutes";
 import userRoutes from "./routes/userRoutes";
 import errorHandler from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 connectDB();
@@ -25,6 +27,8 @@ app.use(cookieParser());
 
 app.use("/api/expenses", expensesRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/incomes", incomeRoutes);
+
 
 app.get("/", async (req, res, next) => {
   try {
