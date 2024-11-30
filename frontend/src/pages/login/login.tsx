@@ -5,19 +5,34 @@ import { Link } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import "../../index.css";
+import { loginUser } from "../../services/API/apiServices";
 
 interface loginForm {
-  username: string;
+  email: string;
   password: string;
 }
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const initialValues: loginForm = { username: "", password: "" };
+  const initialValues: loginForm = { email: "", password: "" };
 
   const validationSchema = Yup.object({
-    username: Yup.string().required("Username is required"),
+    email: Yup.string().required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
+
+  const handleLogin = async (values: loginForm) => {
+    try {
+      const { email, password } = values;
+      const response = await loginUser(email, password);
+      if (response) {
+        navigate("/dashboard");
+      } else {
+        alert("Invalid Credentials");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -32,19 +47,14 @@ const Login: React.FC = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            console.log({ values, actions });
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-            navigate("/dashboard");
-          }}
+          onSubmit={(values) => handleLogin(values)}
         >
           {({ isSubmitting, touched, errors }) => (
             <Form>
               <div>
                 <Field
-                  name="username"
-                  placeholder="Username"
+                  name="email"
+                  placeholder="Email"
                   className="mt-20 w-72 h-10 rounded-lg px-2 focus:outline-none"
                 />
 
@@ -54,6 +64,9 @@ const Login: React.FC = () => {
                   </div>
                 )}
               </div>
+              {touched.email && errors.email && (
+                <div className="text-red-600 pr-20 mr-2">{errors.email}</div>
+              )}
               <div>
                 <Field
                   name="password"
