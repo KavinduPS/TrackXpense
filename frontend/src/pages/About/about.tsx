@@ -23,84 +23,83 @@ const About: React.FC = () => {
   });
 
   return (
-    <div
-      className="flex min-h-screen  text-white"
-      style={{ backgroundColor: "#352F44" }}
-    >
+    <div className="flex min-h-screen bg-Darkgrayishviolet text-white">
       <Sidebar />
-      <div className="relative">
+      <div className="relative flex-1">
+        <div className="absolute top-0 right-0 p-6 ">
+          <img
+            src={logo}
+            alt="TrackXpense Logo"
+            style={{ width: "380px", height: "60px" }}
+          />
+        </div>
         <div className="text-left ml-20 mt-40 text-xl ">
           <h1>Contact Us</h1>
-        </div>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            console.log({ values, actions });
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }}
-        >
-          {({ isSubmitting, touched, errors }) => (
-            <Form>
-              <div className="ml-20">
-                <Field
-                  name="name"
-                  placeholder="Name"
-                  className="mt-10 w-60 h-9 rounded-lg px-2 mr-20"
-                />
-              </div>
-              {touched.name && errors.name && (
-                <div className="text-red-600 pr-20 mr-5">{errors.name}</div>
-              )}
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values, actions) => {
+              console.log({ values, actions });
+              alert(JSON.stringify(values, null, 2));
+              actions.setSubmitting(false);
+            }}
+          >
+            {({ isSubmitting, touched, errors }) => (
+              <Form>
+                <div>
+                  <Field
+                    name="name"
+                    placeholder="Name"
+                    className="mt-10 w-60 h-9 rounded-lg  px-2 text-base mr-20 border border-gray-400 hover:border-gray-600 focus:outline-none bg-Darkgrayishviolet"
+                  />
+                </div>
+                {touched.name && errors.name && (
+                  <div className="text-red-600 pr-20 mr-5 text-base">
+                    {errors.name}
+                  </div>
+                )}
 
-              <div className="ml-20">
-                <Field
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  className="mt-5 w-60 h-9 rounded-lg px-2 mr-20"
-                />
-              </div>
-              {touched.email && errors.email && (
-                <div className="text-red-600 pr-24 mr-2 ">{errors.email}</div>
-              )}
+                <div>
+                  <Field
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    className="mt-5 w-60 h-9 rounded-lg px-2 text-base mr-20 border border-gray-400 hover:border-gray-600 focus:outline-none bg-Darkgrayishviolet"
+                  />
+                </div>
+                {touched.email && errors.email && (
+                  <div className="text-red-600 pr-24 mr-2 text-base">
+                    {errors.email}
+                  </div>
+                )}
 
-              <div className="ml-20">
-                <Field
-                  as="textarea"
-                  name="message"
-                  placeholder="Message"
-                  className="mt-5 w-60 rounded-lg px-2 mr-20 h-40"
-                />
-              </div>
-              {touched.message && errors.message && (
-                <div className="text-red-600 pr-24 mr-2">{errors.message}</div>
-              )}
+                <div>
+                  <Field
+                    as="textarea"
+                    name="message"
+                    placeholder="Message"
+                    className="mt-5 w-60 rounded-lg px-2 text-base mr-20 h-40 border border-gray-400 hover:border-gray-600 focus:outline-none bg-Darkgrayishviolet"
+                  />
+                </div>
+                {touched.message && errors.message && (
+                  <div className="text-red-600 pr-24 mr-2 text-base">
+                    {errors.message}
+                  </div>
+                )}
 
-              <div className="mt-10 ">
-                <button
-                  type="button"
-                  className="w-60 h-9 rounded-lg text-zinc-700"
-                  style={{ backgroundColor: "#FDCB9E" }}
-                >
-                  Submit
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-
-      <div className="mt-40 w-60">
-        <h2>About Us</h2>
-        <div className="text-justify">
-          <h2>
-            Your financial peace of mind is our mission. Simplify your budgeting
-            and stay on top of your expenses with our user-friendly and
-            innovative platform."
-          </h2>
+                <div className="mt-10 ">
+                  <button
+                    type="button"
+                    className="w-60 h-9 rounded-lg text-zinc-700 text-lg"
+                    style={{ backgroundColor: "#FDCB9E" }}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>
