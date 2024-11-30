@@ -55,8 +55,14 @@ const Login: React.FC = () => {
                 <Field
                   name="email"
                   placeholder="Email"
-                  className="mt-20 w-3/6 h-9 rounded-lg px-2"
+                  className="mt-20 w-72 h-10 rounded-lg px-2 focus:outline-none"
                 />
+
+                {touched.username && errors.username && (
+                  <div className="text-red-600 mr-2 -ml-28">
+                    {errors.username}
+                  </div>
+                )}
               </div>
               {touched.email && errors.email && (
                 <div className="text-red-600 pr-20 mr-2">{errors.email}</div>
@@ -66,14 +72,15 @@ const Login: React.FC = () => {
                   name="password"
                   type="password"
                   placeholder="Password"
-                  className="mt-5 w-3/6 h-9 rounded-lg px-2"
+                  className="mt-5 w-72 h-10 rounded-lg px-2 focus:outline-none"
                 />
+
+                {touched.password && errors.password && (
+                  <div className="text-red-600  mr-3 -ml-28">
+                    {errors.password}
+                  </div>
+                )}
               </div>
-              {touched.password && errors.password && (
-                <div className="text-red-600 pr-20 mr-2 ">
-                  {errors.password}
-                </div>
-              )}
 
               <div className="my-5">
                 <a href="#" className="text-neutral-100 ">
@@ -84,7 +91,7 @@ const Login: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-3/6 bg-orange-200 h-9 rounded-lg text-zinc-700"
+                  className="w-72 bg-orange-200 h-10 rounded-lg text-zinc-700"
                 >
                   Login
                 </button>
@@ -96,7 +103,7 @@ const Login: React.FC = () => {
                 <Link to="/signup">
                   <button
                     type="button"
-                    className="w-3/6 bg-green-200 h-9 rounded-lg text-zinc-700"
+                    className="w-72 bg-green-200 h-10 rounded-lg text-zinc-700"
                   >
                     Sign Up
                   </button>

@@ -1,10 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../State/userSlice";
 import * as Yup from "yup";
 import "../../index.css";
 
 interface signForm {
+  name: "";
   username: "";
   password: "";
   email: "";
@@ -12,9 +15,22 @@ interface signForm {
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
-  const initialValues: signForm = { username: "", password: "", email: "" };
+  const dispatch = useDispatch();
+
+  const handleSignup = (values: signForm) => {
+    dispatch(setUser({ name: values.name, email: values.email }));
+    navigate("/profile");
+  };
+
+  const initialValues: signForm = {
+    name: "",
+    username: "",
+    password: "",
+    email: "",
+  };
 
   const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
     email: Yup.string()
@@ -23,10 +39,7 @@ const Signup: React.FC = () => {
   });
 
   return (
-    <div
-      className=" h-screen flex justify-center  items-center "
-      style={{ backgroundColor: "#352F44" }}
-    >
+    <div className=" h-screen flex justify-center  items-center bg-Darkgrayishviolet ">
       <div
         className="absolute inset-0 bg-signup-bg bg-cover bg-center opacity-10 bg-no-repeat "
         style={{
@@ -44,6 +57,7 @@ const Signup: React.FC = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
+            handleSignup(values);
             console.log({ values, actions });
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
@@ -54,45 +68,67 @@ const Signup: React.FC = () => {
             <Form>
               <div>
                 <Field
+                  name="name"
+                  placeholder="Name"
+                  className="mt-20 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
+                />
+
+                {touched.name && errors.name && (
+                  <div className="text-red-600 text-center mr-36">
+                    {errors.name}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <Field
                   name="username"
                   placeholder="Username"
-                  className="mt-20 w-3/6 h-9 rounded-lg px-2"
+                  className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
                 />
+
+                {touched.username && errors.username && (
+                  <div className="text-red-600 text-center mr-28">
+                    {errors.username}
+                  </div>
+                )}
               </div>
-              {touched.username && errors.username && (
-                <div className="text-red-600 pr-20 mr-2">{errors.username}</div>
-              )}
+
               <div>
                 <Field
                   name="password"
                   type="password"
                   placeholder="Password"
-                  className="mt-5 w-3/6 h-9 rounded-lg px-2"
+                  className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
                 />
+
+                {touched.password && errors.password && (
+                  <div className="text-red-600 text-center mr-32 ml-3">
+                    {errors.password}
+                  </div>
+                )}
               </div>
-              {touched.password && errors.password && (
-                <div className="text-red-600 pr-20 mr-2 ">
-                  {errors.password}
-                </div>
-              )}
 
               <div>
                 <Field
                   name="email"
                   type="email"
                   placeholder="E mail"
-                  className="mt-5 w-3/6 h-9 rounded-lg px-2"
+                  className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
                 />
+
+                {touched.email && errors.email && (
+                  <div className="text-red-600 text-center mr-36 ">
+                    {errors.email}
+                  </div>
+                )}
               </div>
-              {touched.email && errors.email && (
-                <div className="text-red-600 pr-24 mr-5 ">{errors.email}</div>
-              )}
 
               <div className="mt-10">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-3/6 bg-green-200 h-9 rounded-lg text-zinc-700"
+                  className="w-3/6 bg-green-200 h-10 rounded-lg text-zinc-700"
                 >
                   Sign Up
                 </button>
