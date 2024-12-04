@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { FaTrashAlt, FaEdit } from 'react-icons/fa'; 
-import Sidebar from '../../components/Sidebar';
+import React, { useState } from "react";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-import DeleteConfirmationModal from '../../components/DeleteConfirmationModal'; 
-import EditExpenseModal from '../../components/EditExpenseModal';
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
+import EditExpenseModal from "../../components/EditExpenseModal";
+import ExpensesLineChart from "../../components/Charts/ExpensesLineChart";
+import { useGetAllExpensesQuery } from "../../modules/expenses/expensesApiSlice";
 
 interface Expense {
   id: number;
@@ -16,26 +18,35 @@ interface Expense {
 const Expenses: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [expenseData, setExpenseData] = useState<Partial<Expense>>({
-    name: '',
+    name: "",
     amount: 0,
-    date: '',
-    category: '',
+    date: "",
+    category: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState<Expense | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setExpenseData(prevData => ({
+    setExpenseData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const addExpense = () => {
-    if (expenseData.name && expenseData.amount && expenseData.date && expenseData.category) {
+    if (
+      expenseData.name &&
+      expenseData.amount &&
+      expenseData.date &&
+      expenseData.category
+    ) {
       const newExpense: Expense = {
         id: expenses.length + 1,
         name: expenseData.name!,
@@ -44,7 +55,7 @@ const Expenses: React.FC = () => {
         category: expenseData.category!,
       };
       setExpenses([...expenses, newExpense]);
-      setExpenseData({ name: '', amount: 0, date: '', category: '' });
+      setExpenseData({ name: "", amount: 0, date: "", category: "" });
     }
   };
 
@@ -60,7 +71,7 @@ const Expenses: React.FC = () => {
 
   const confirmDelete = () => {
     if (expenseToDelete !== null) {
-      setExpenses(expenses.filter(expense => expense.id !== expenseToDelete));
+      setExpenses(expenses.filter((expense) => expense.id !== expenseToDelete));
     }
     closeDeleteModal();
   };
@@ -74,7 +85,7 @@ const Expenses: React.FC = () => {
   const closeEditModal = () => {
     setIsEditModalOpen(false);
     setExpenseToEdit(null);
-    setExpenseData({ name: '', amount: 0, date: '', category: '' }); // Reset the form
+    setExpenseData({ name: "", amount: 0, date: "", category: "" }); // Reset the form
   };
 
   const handleSaveEdit = () => {
@@ -85,10 +96,16 @@ const Expenses: React.FC = () => {
         amount: Number(expenseData.amount), // Ensure amount is a number
       };
 
-      setExpenses(expenses.map(expense => (expense.id === updatedExpense.id ? updatedExpense : expense)));
+      setExpenses(
+        expenses.map((expense) =>
+          expense.id === updatedExpense.id ? updatedExpense : expense
+        )
+      );
       closeEditModal();
     }
   };
+
+  const { data } = useGetAllExpensesQuery();
 
   return (
     <div className="flex min-h-screen bg-zinc-600 text-white">
@@ -97,17 +114,26 @@ const Expenses: React.FC = () => {
       <div className="flex-grow p-8">
         <div className="relative">
           <div className="absolute top-0 right-6 m-4">
-            <img src={logo} alt="TrackXpense Logo" style={{ width: '380px', height: '80px' }} />
+            <img
+              src={logo}
+              alt="TrackXpense Logo"
+              style={{ width: "380px", height: "80px" }}
+            />
           </div>
         </div>
 
         <div className="flex justify-between mt-40">
           <div className="w-full lg:w-1/3 p-4 bg-zinc-700 rounded-lg mr-8">
+            {data ? (
+              <ExpensesLineChart expensesData={data} />
+            ) : (
+              <h2>Loading</h2>
+            )}
             <h2 className="text-xl mb-4">Expenses</h2>
             <input
               type="text"
               name="name"
-              value={expenseData.name || ''}
+              value={expenseData.name || ""}
               onChange={handleChange}
               placeholder="Expense Name"
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
@@ -115,7 +141,7 @@ const Expenses: React.FC = () => {
             <input
               type="number"
               name="amount"
-              value={expenseData.amount || ''}
+              value={expenseData.amount || ""}
               onChange={handleChange}
               placeholder="Expense Amount"
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
@@ -123,17 +149,19 @@ const Expenses: React.FC = () => {
             <input
               type="date"
               name="date"
-              value={expenseData.date || ''}
+              value={expenseData.date || ""}
               onChange={handleChange}
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
             />
             <select
               name="category"
-              value={expenseData.category || ''}
+              value={expenseData.category || ""}
               onChange={handleChange}
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
             >
-              <option value="" disabled>Category</option>
+              <option value="" disabled>
+                Category
+              </option>
               <option value="Food">Food</option>
               <option value="Transport">Transport</option>
               <option value="Shopping">Shopping</option>
@@ -157,14 +185,17 @@ const Expenses: React.FC = () => {
             <div className="space-y-4">
               {expenses.length > 0 ? (
                 expenses.map((expense) => (
-                  <div key={expense.id} className="flex justify-between items-center p-4 bg-zinc-700 rounded-lg">
+                  <div
+                    key={expense.id}
+                    className="flex justify-between items-center p-4 bg-zinc-700 rounded-lg"
+                  >
                     <div>
                       <p className="font-semibold">{expense.name}</p>
                       <p className="text-sm">LKR {expense.amount}</p>
                       <p className="text-sm">{expense.date}</p>
                     </div>
                     <div className="flex space-x-4">
-                      <button 
+                      <button
                         className="text-yellow-500"
                         onClick={() => openEditModal(expense)}
                       >
@@ -196,12 +227,19 @@ const Expenses: React.FC = () => {
 
       {/* Edit Expense Modal */}
       <EditExpenseModal
-  isOpen={isEditModalOpen}
-  expense={expenseToEdit || { id: 0, name: '', amount: 0, date: '', category: '' }} // Default to a blank expense object
-  onSave={handleSaveEdit}
-  onCancel={closeEditModal}
-/>
-
+        isOpen={isEditModalOpen}
+        expense={
+          expenseToEdit || {
+            id: 0,
+            name: "",
+            amount: 0,
+            date: "",
+            category: "",
+          }
+        } // Default to a blank expense object
+        onSave={handleSaveEdit}
+        onCancel={closeEditModal}
+      />
     </div>
   );
 };

@@ -17,14 +17,14 @@ const createExpense = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { title, amount, date, category, description } = req.body;
-  if (!title || !amount || !date || !category) {
+  const { name, amount, date, category, description } = req.body;
+  if (!name || !amount || !date || !category) {
     res.status(400);
     throw new Error("Please enter required fields");
   }
   try {
     const newExpense = await Expense.create({
-      title: title,
+      name: name,
       amount: amount,
       date: date,
       category: category,

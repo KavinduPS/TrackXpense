@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 export interface IExpense {
   user: mongoose.Types.ObjectId;
-  title: string;
+  name: string;
   amount: number;
   date: Date;
   category: string;
@@ -15,7 +15,7 @@ const expenseSchema: Schema<IExpense> = new Schema({
     required: true,
     ref: "User",
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
