@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/trackxpense_logo.png";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../../modules/users/usersApiSlice";
+import { AuthState, setCredentials } from "../../modules/auth/authSlice";
+import { toast } from "react-toastify";
 import "../../index.css";
-import { loginUser } from "../../services/API/apiServices";
 
 interface loginForm {
   email: string;
   password: string;
 }
+
+interface RootState {
+  auth: AuthState;
+}
+
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, { isLoading }] = useLoginMutation();
+  const { user } = useSelector((state: RootState) => state.auth);
+
   const initialValues: loginForm = { email: "", password: "" };
 
   const validationSchema = Yup.object({
@@ -20,17 +33,21 @@ const Login: React.FC = () => {
     password: Yup.string().required("Password is required"),
   });
 
-  const handleLogin = async (values: loginForm) => {
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async (values: loginForm): Promise<void> => {
     try {
       const { email, password } = values;
-      const response = await loginUser(email, password);
-      if (response) {
-        navigate("/dashboard");
-      } else {
-        alert("Invalid Credentials");
-      }
-    } catch (error) {
+      const response = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...response }));
+      navigate("/dashboard");
+    } catch (error: any) {
       console.log(error);
+      toast(error?.data?.message);
     }
   };
 
@@ -58,10 +75,8 @@ const Login: React.FC = () => {
                   className="mt-20 w-72 h-10 rounded-lg px-2 focus:outline-none"
                 />
 
-                {touched.username && errors.username && (
-                  <div className="text-red-600 mr-2 -ml-28">
-                    {errors.username}
-                  </div>
+                {touched.email && errors.email && (
+                  <div className="text-red-600 mr-2 -ml-28">{errors.email}</div>
                 )}
               </div>
               {touched.email && errors.email && (
@@ -88,6 +103,7 @@ const Login: React.FC = () => {
                 </a>
               </div>
               <div className="my-5">
+                {isLoading && <h2>Loading...</h2>}
                 <button
                   type="submit"
                   disabled={isSubmitting}

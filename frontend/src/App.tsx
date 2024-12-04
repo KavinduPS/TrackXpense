@@ -8,15 +8,22 @@ import Expenses from "./pages/expenses/page";
 import Income from "./pages/income/page";
 import About from "./pages/About/about";
 import Profile from "./pages/Profile/profile";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <Router>
+      <ToastContainer />
       <div className="App">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          //Private routes
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/income" element={<Income />} />
           <Route path="/about" element={<About />} />
@@ -28,5 +35,3 @@ function App() {
 }
 
 export default App;
-
-//

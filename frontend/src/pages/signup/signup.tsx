@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../State/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../modules/users/usersSlice";
+import { useRegisterMutation } from "../../modules/users/usersApiSlice";
 import * as Yup from "yup";
 import "../../index.css";
+import { AuthState, setCredentials } from "../../modules/auth/authSlice";
+import { toast } from "react-toastify";
 
 interface signForm {
   name: "";
@@ -13,14 +16,16 @@ interface signForm {
   email: "";
 }
 
+interface RootState {
+  auth: AuthState;
+}
+
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSignup = (values: signForm) => {
-    dispatch(setUser({ name: values.name, email: values.email }));
-    navigate("/profile");
-  };
+  const [register, { isLoading }] = useRegisterMutation();
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const initialValues: signForm = {
     name: "",
@@ -37,6 +42,24 @@ const Signup: React.FC = () => {
       .email("Invalid email format")
       .required("Email is required"),
   });
+
+  const handleSignup = async (values: signForm): Promise<void> => {
+    try {
+      const { name, email, password } = values;
+      const response = await register({ name, email, password }).unwrap();
+      dispatch(setCredentials({ ...response }));
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.log(error);
+      toast(error?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   return (
     <div className=" h-screen flex justify-center  items-center bg-Darkgrayishviolet ">
@@ -56,13 +79,7 @@ const Signup: React.FC = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            handleSignup(values);
-            console.log({ values, actions });
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-            navigate("/dashboard");
-          }}
+          onSubmit={handleSignup}
         >
           {({ isSubmitting, touched, errors }) => (
             <Form>
@@ -123,7 +140,7 @@ const Signup: React.FC = () => {
                   </div>
                 )}
               </div>
-
+              {isLoading && <h2>Loading...</h2>}
               <div className="mt-10">
                 <button
                   type="submit"

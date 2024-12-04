@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../State/store";
-import { setUser } from "../../State/userSlice";
+import { setUser } from "../../modules/users/usersSlice";
 import { AiFillEdit } from "react-icons/ai";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";

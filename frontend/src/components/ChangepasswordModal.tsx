@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPassword } from "../State/userSlice";
+import { setPassword } from "../modules/users/usersSlice";
 import { RootState } from "../State/store";
 
 interface ChangePasswordModalProps {

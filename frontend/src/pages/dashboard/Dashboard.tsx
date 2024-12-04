@@ -20,9 +20,7 @@ const Dashboard: React.FC = () => {
             <div className="absolute top-36 left-14 w-1/4 h-96">
               <Chart />
             </div>
-            <div>
-              <p>Welcome</p>
-            </div>
+            <div></div>
           </div>
         </div>
       </div>

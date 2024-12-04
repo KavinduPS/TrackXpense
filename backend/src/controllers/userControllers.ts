@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 
 //Create user - api/users/register
 const registerUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -35,11 +35,11 @@ const registerUser = async (
     });
 
     if (user) {
+      generateToken(res, user.id);
       res.status(201).json({
-        _id: user.id,
+        _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user.id),
       });
     }
   } catch (error) {
@@ -48,16 +48,20 @@ const registerUser = async (
 };
 
 //Login user - api/users/login
-const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+const loginUser = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
-      res.status(200).json({
-        _id: user.id,
+      generateToken(res, user.id);
+      res.status(201).json({
+        _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user.id),
       });
     } else {
       res.status(401).json({ message: "Invalid credentials" });
@@ -87,4 +91,14 @@ const getUser = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export { registerUser, loginUser, getUser };
+const logoutUser = async (req: AuthRequest, res: Response) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({
+    message: "Logout user",
+  });
+};
+
+export { registerUser, loginUser, getUser, logoutUser };
