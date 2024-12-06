@@ -3,8 +3,11 @@ import Expense, { IExpense } from "../models/expenseModel";
 
 //Get all expenses - api/expenses
 const getExpenses = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id } = req.user;
   try {
-    const expenses: IExpense[] = await Expense.find();
+    const expenses: IExpense[] = await Expense.find({
+      user: _id,
+    });
     res.status(200).json(expenses);
   } catch (error) {
     next(error);
@@ -17,13 +20,15 @@ const createExpense = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { _id } = req.user;
   const { name, amount, date, category, description } = req.body;
-  if (!name || !amount || !date || !category) {
+  if (!name || !amount || !category) {
     res.status(400);
     throw new Error("Please enter required fields");
   }
   try {
     const newExpense = await Expense.create({
+      user: _id,
       name: name,
       amount: amount,
       date: date,
@@ -38,12 +43,17 @@ const createExpense = async (
 
 //Edit expense - api/expenses/:id
 const editExpense = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id } = req.user;
   const { id } = req.params;
   try {
     const expense = await Expense.findById(id);
     if (!expense) {
       res.status(404);
       throw new Error("Expense not found");
+    }
+    if (expense.user.toString() !== _id.toString()) {
+      res.status(403);
+      throw new Error("Not authorized");
     }
     const updatedExpense = await Expense.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -60,12 +70,17 @@ const deleteExpense = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { _id } = req.user;
   const { id } = req.params;
   try {
     const expense = await Expense.findById(id);
     if (!expense) {
       res.status(404);
       throw new Error("Expense not found");
+    }
+    if (expense.user.toString() !== _id.toString()) {
+      res.status(403);
+      throw new Error("Not authorized");
     }
     const deletedExpense = await Expense.findByIdAndDelete(id);
     res.status(200).json(deletedExpense?._id);

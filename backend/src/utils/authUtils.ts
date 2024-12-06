@@ -1,17 +1,19 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongoose";
 
 export interface UserPayload {
-  userId: string;
+  _id: ObjectId;
+  name: string;
+  email: string;
 }
 
-export const generateToken = (res: Response, userId: string): void => {
+export const generateToken = (res: Response, _id: string): void => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
     throw new Error("JWT secret is not defined");
   }
-  const payload: UserPayload = { userId };
-  const token = jwt.sign(payload, secret, { expiresIn: "30d" });
+  const token = jwt.sign({ _id }, secret, { expiresIn: "30d" });
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",

@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthRequest } from "../middleware/authMiddleware";
-import User, { IUser } from "../models/userModel";
+import User from "../models/userModel";
 import { generateToken } from "../utils/authUtils";
 import bcrypt from "bcrypt";
 
 //Create user - api/users/register
 const registerUser = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -48,12 +47,12 @@ const registerUser = async (
 };
 
 //Login user - api/users/login
-const loginUser = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please enter required fields");
+  }
   try {
     const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -72,26 +71,25 @@ const loginUser = async (
 };
 
 //Get user - api/users/profile
-const getUser = async (req: AuthRequest, res: Response) => {
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  const user = req.user;
   try {
-    const user = await User.findById(req.user?.userId);
     if (!user) {
       res.status(404);
       throw new Error("User not found");
     }
-
     res.status(200).json({
-      _id: user._id,
+      id: user._id,
       name: user.name,
       email: user.email,
     });
   } catch (error) {
-    res.status(400);
-    throw new Error("Error fetching user profile");
+    next(error);
   }
 };
 
-const logoutUser = async (req: AuthRequest, res: Response) => {
+//Logout user - api/users/logout
+const logoutUser = async (req: Request, res: Response) => {
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
