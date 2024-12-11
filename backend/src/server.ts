@@ -5,7 +5,7 @@ import connectDB from "./config/db";
 import incomeRoutes from "./routes/incomeRoutes";
 import expensesRoutes from "./routes/expenseRoutes";
 import userRoutes from "./routes/userRoutes";
-import errorHandler from "./middleware/errorHandler";
+import { errorHandler, notFound } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: process.env.APP_ORIGIN,
@@ -29,16 +29,12 @@ app.use("/api/expenses", expensesRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/incomes", incomeRoutes);
 
-
-app.get("/", async (req, res, next) => {
-  try {
-    return res.json({ message: "TrackXpense API is running" });
-  } catch (error) {
-    next(error);
-  }
+app.get("/", (req, res) => {
+  res.json({ message: "TrackXpense API is running" });
 });
 
 app.use(errorHandler);
+app.use(notFound);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
