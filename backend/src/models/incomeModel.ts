@@ -1,11 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface IIncome {
+  user: mongoose.Types.ObjectId;
   name: string;
   amount: number;
   date: Date;
   source: string;
-  description?: string; // Optional
+  description?: string;
 }
 
 const incomeSchema: Schema = new Schema({
@@ -35,4 +36,4 @@ const incomeSchema: Schema = new Schema({
   },
 });
 
-export default mongoose.model("Income", incomeSchema);
+export default mongoose.model<IIncome>("Income", incomeSchema);
