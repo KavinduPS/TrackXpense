@@ -9,7 +9,6 @@ import { useGetAllIncoemsQuery } from "../../modules/incomes/incomesApiSlice";
 const Dashboard: React.FC = () => {
   const { data: expenseData } = useGetAllExpensesQuery();
   const { data: incomeData } = useGetAllIncoemsQuery();
-
   return (
     <>
       <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">
@@ -23,9 +22,10 @@ const Dashboard: React.FC = () => {
                 style={{ width: "380px", height: "60px" }}
               />
             </i>
-            <div className="absolute top-36 left-14 w-1/4 h-96">
-              <Chart />
-              {expenseData && incomeData ? (
+            <div className="flex justify-between">
+              <div className="mt-32 ml-10 w-2/5">
+                <p>Expense Chart</p>
+                {expenseData && incomeData ? (
                 <AllTransactionsChart
                   expenses={expenseData}
                   incomes={incomeData}
@@ -33,6 +33,7 @@ const Dashboard: React.FC = () => {
               ) : (
                 <h2>Loading</h2>
               )}
+              </div>
             </div>
             <div></div>
           </div>

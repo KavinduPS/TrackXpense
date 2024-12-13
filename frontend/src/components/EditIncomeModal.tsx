@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 interface Income {
   id: number;
@@ -15,16 +15,23 @@ type EditIncomeModalProps = {
   onCancel: () => void;
 };
 
-const EditIncomeModal: React.FC<EditIncomeModalProps> = ({ isOpen, income, onSave, onCancel }) => {
+const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
+  isOpen,
+  income,
+  onSave,
+  onCancel,
+}) => {
   const [formData, setFormData] = useState<Income>(income);
 
   useEffect(() => {
-    setFormData(income); // Set initial data when modal opens
+    setFormData(income);
   }, [income]);
 
   if (!isOpen) return null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -33,16 +40,20 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({ isOpen, income, onSav
   };
 
   const handleSave = () => {
-    onSave(formData); // Pass updated data back to parent component
+    onSave(formData);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-lg font-semibold mb-4 text-blue-600">Edit Income</h2>
+        <h2 className="text-lg font-semibold mb-4 text-blue-600">
+          Edit Income
+        </h2>
 
         <div className="flex items-center mb-4">
-          <label htmlFor="name" className="w-32 text-black font-medium">Income Name</label>
+          <label htmlFor="name" className="w-32 text-black font-medium">
+            Income Name
+          </label>
           <input
             type="text"
             name="name"
@@ -52,9 +63,11 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({ isOpen, income, onSav
             className="w-full p-2 border rounded-lg text-black"
           />
         </div>
-        
+
         <div className="flex items-center mb-4">
-          <label htmlFor="amount" className="w-32 text-black font-medium">Income Amount</label>
+          <label htmlFor="amount" className="w-32 text-black font-medium">
+            Income Amount
+          </label>
           <input
             type="number"
             name="amount"
@@ -66,7 +79,9 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({ isOpen, income, onSav
         </div>
 
         <div className="flex items-center mb-4">
-          <label htmlFor="date" className="w-32 text-black font-medium">Date</label>
+          <label htmlFor="date" className="w-32 text-black font-medium">
+            Date
+          </label>
           <input
             type="date"
             name="date"
@@ -77,14 +92,18 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({ isOpen, income, onSav
         </div>
 
         <div className="flex items-center mb-4">
-          <label htmlFor="category" className="w-32 text-black font-medium">Category</label>
+          <label htmlFor="category" className="w-32 text-black font-medium">
+            Category
+          </label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
             className="w-full p-2 border rounded-lg text-black"
           >
-            <option value="" disabled>Select Category</option>
+            <option value="" disabled>
+              Select Category
+            </option>
             <option value="Primary Job">Primary Job</option>
             <option value="Secondary Job">Secondary Job</option>
             <option value="Sales">Sales</option>

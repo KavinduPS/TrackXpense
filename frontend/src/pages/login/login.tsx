@@ -52,10 +52,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div
-      className="h-screen flex justify-center items-center "
-      style={{ backgroundColor: "#352F44" }}
-    >
+    <div className="h-screen flex justify-center items-center bg-Darkgrayishviolet">
       <div className="w-1/3">
         <div className="flex justify-center">
           <img src={logo} alt="TrackXpense Logo" />
