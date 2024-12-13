@@ -74,4 +74,28 @@ const deleteExpense = async (
   }
 };
 
-export { getExpenses, createExpense, editExpense, deleteExpense };
+//Group expenses by category
+const getExpensesGroupedByCategory = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const expensesByCategory = await Expense.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          totalAmount: { $sum: "$amount" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { totalAmount: -1 },
+      },
+    ]);
+    
+    res.status(200).json(expensesByCategory);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+export { getExpenses, createExpense, editExpense, deleteExpense, getExpensesGroupedByCategory };
