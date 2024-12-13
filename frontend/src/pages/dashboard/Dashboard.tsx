@@ -1,12 +1,14 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-import ExpensesLineChart from "../../components/Charts/ExpensesLineChart";
+import Chart from "../../Chart/chart";
+import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
 import { useGetAllExpensesQuery } from "../../modules/expenses/expensesApiSlice";
-import "chart.js/auto";
+import { useGetAllIncoemsQuery } from "../../modules/incomes/incomesApiSlice";
 
 const Dashboard: React.FC = () => {
-  const { data } = useGetAllExpensesQuery();
+  const { data: expenseData } = useGetAllExpensesQuery();
+  const { data: incomeData } = useGetAllIncoemsQuery();
   return (
     <>
       <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">
@@ -22,15 +24,16 @@ const Dashboard: React.FC = () => {
             </i>
             <div className="flex justify-between">
               <div className="mt-32 ml-10 w-2/5">
-                <p>Income Chart</p>
-                {data ? (
-                  <ExpensesLineChart expensesData={data} />
-                ) : (
-                  <h2>Loading</h2>
-                )}
+                <p>Expense Chart</p>
+                {expenseData && incomeData ? (
+                <AllTransactionsChart
+                  expenses={expenseData}
+                  incomes={incomeData}
+                />
+              ) : (
+                <h2>Loading</h2>
+              )}
               </div>
-
-              <div className="mt-32 mr-10"> Latest Expenses</div>
             </div>
             <div></div>
           </div>
