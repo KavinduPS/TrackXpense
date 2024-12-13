@@ -1,9 +1,12 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-import Chart from "../../Chart/chart";
+import ExpensesLineChart from "../../components/Charts/ExpensesLineChart";
+import { useGetAllExpensesQuery } from "../../modules/expenses/expensesApiSlice";
+import "chart.js/auto";
 
 const Dashboard: React.FC = () => {
+  const { data } = useGetAllExpensesQuery();
   return (
     <>
       <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">
@@ -17,8 +20,17 @@ const Dashboard: React.FC = () => {
                 style={{ width: "380px", height: "60px" }}
               />
             </i>
-            <div className="absolute top-36 left-14 w-1/4 h-96">
-              <Chart />
+            <div className="flex justify-between">
+              <div className="mt-32 ml-10 w-2/5">
+                <p>Income Chart</p>
+                {data ? (
+                  <ExpensesLineChart expensesData={data} />
+                ) : (
+                  <h2>Loading</h2>
+                )}
+              </div>
+
+              <div className="mt-32 mr-10"> Latest Expenses</div>
             </div>
             <div></div>
           </div>
