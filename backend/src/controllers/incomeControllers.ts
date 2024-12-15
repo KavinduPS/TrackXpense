@@ -89,4 +89,34 @@ const deleteIncome = async (
   }
 };
 
-export { getIncomes, createIncome, editIncome, deleteIncome };
+const getIncomesByDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  try {
+    const incomesByDate = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%b %d", date: "$date" } },
+          originalDate: { $first: "$date" },
+          amount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { originalDate: 1 },
+      },
+    ]);
+    res.status(200).json(incomesByDate);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { getIncomes, createIncome, editIncome, deleteIncome, getIncomesByDate };

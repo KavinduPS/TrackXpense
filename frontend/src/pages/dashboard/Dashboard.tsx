@@ -1,14 +1,20 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-import Chart from "../../Chart/chart";
 import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
-import { useGetAllExpensesQuery } from "../../modules/expenses/expensesApiSlice";
-import { useGetAllIncoemsQuery } from "../../modules/incomes/incomesApiSlice";
+import {
+  useGetAllExpensesByDateQuery,
+  useGetAllExpensesQuery,
+} from "../../modules/expenses/expensesApiSlice";
+import {
+  useGetAllIncoemsQuery,
+  useGetAllIncomesByDateQuery,
+} from "../../modules/incomes/incomesApiSlice";
 
 const Dashboard: React.FC = () => {
-  const { data: expenseData } = useGetAllExpensesQuery();
-  const { data: incomeData } = useGetAllIncoemsQuery();
+  const { data: expenseData } = useGetAllExpensesByDateQuery();
+  const { data: incomeData } = useGetAllIncomesByDateQuery();
+  // dateToYYYYMMDD("2024-12-05T13:08:50.496+00:00");
   return (
     <>
       <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">
@@ -26,13 +32,13 @@ const Dashboard: React.FC = () => {
               <div className="mt-32 ml-10 w-2/5">
                 <p>Expense Chart</p>
                 {expenseData && incomeData ? (
-                <AllTransactionsChart
-                  expenses={expenseData}
-                  incomes={incomeData}
-                />
-              ) : (
-                <h2>Loading</h2>
-              )}
+                  <AllTransactionsChart
+                    expenses={expenseData}
+                    incomes={incomeData}
+                  />
+                ) : (
+                  <h2>Loading</h2>
+                )}
               </div>
             </div>
             <div></div>

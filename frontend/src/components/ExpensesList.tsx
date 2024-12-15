@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../State/store";
-import { deleteExpense, editExpense } from "../State/ExpenseSlice";
+// import { deleteExpense, editExpense } from "../State/ExpenseSlice";
 import EditExpenseModal from "../components/EditExpenseModal";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
@@ -12,18 +12,18 @@ const ExpenseList: React.FC = () => {
 
   const [editExpenseData, setEditExpenseData] = useState<any | null>(null);
 
-  const handleDelete = (id: string) => {
-    dispatch(deleteExpense(id));
-  };
+  // const handleDelete = (id: string) => {
+  //   dispatch(deleteExpense(id));
+  // };
 
   const handleEdit = (expense: any) => {
     setEditExpenseData(expense);
   };
 
-  const handleSaveChanges = (updatedData: any) => {
-    dispatch(editExpense(updatedData));
-    setEditExpenseData(null);
-  };
+  // const handleSaveChanges = (updatedData: any) => {
+  //   dispatch(editExpense(updatedData));
+  //   setEditExpenseData(null);
+  // };
 
   const handleCancel = () => {
     setEditExpenseData(null);
@@ -39,7 +39,7 @@ const ExpenseList: React.FC = () => {
       {expenses.length > 0 ? (
         expenses.map((exp) => (
           <div
-            key={exp.id}
+            // key={exp.id}
             className="flex items-center justify-between p-4 w-full bg-green-300 rounded "
           >
             <div className="text-left text-Darkgrayishviolet font-semibold">
@@ -47,7 +47,7 @@ const ExpenseList: React.FC = () => {
               <p>LKR {exp.amount}</p>
             </div>
             <div className="mt-6 text-left text-Darkgrayishviolet font-semibold">
-              <p>{exp.date}</p>
+              {/* <p>{exp.date}</p> */}
             </div>
             <div className="flex space-x-3">
               <button
@@ -57,7 +57,7 @@ const ExpenseList: React.FC = () => {
                 <AiFillEdit />
               </button>
               <button
-                onClick={() => handleDelete(exp.id)}
+                // onClick={() => handleDelete(exp.id)}
                 className="text-red-500 text-3xl"
               >
                 <MdDelete />
@@ -69,14 +69,14 @@ const ExpenseList: React.FC = () => {
         <p className="text-gray-200 ">No expenses added yet.</p>
       )}
 
-      {editExpenseData && (
+      {/* {editExpenseData && (
         <EditExpenseModal
           expenseData={editExpenseData}
           onSave={handleSaveChanges}
           onCancel={handleCancel}
           onChange={handleChange}
         />
-      )}
+      )} */}
     </div>
   );
 };

@@ -6,7 +6,7 @@ export interface IExpense {
   amount: number;
   date: Date;
   category: string;
-  description?: string;
+  reference?: string;
 }
 
 const expenseSchema: Schema<IExpense> = new Schema({
@@ -31,7 +31,7 @@ const expenseSchema: Schema<IExpense> = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  reference: {
     type: String,
   },
 });

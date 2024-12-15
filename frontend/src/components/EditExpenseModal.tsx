@@ -68,7 +68,7 @@ const EditModal: React.FC<EditModalProps> = ({
             <label className="text-sm font-medium">Reference</label>
             <input
               type="text"
-              value={expenseData.description}
+              // value={expenseData.description}
               onChange={(e) => onChange("reference", e.target.value)}
               className="w-full border rounded-lg p-2 mt-2"
             />

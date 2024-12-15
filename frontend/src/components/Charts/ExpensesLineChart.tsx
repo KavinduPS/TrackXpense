@@ -47,47 +47,6 @@ const ExpensesLineChart = ({
       },
     ],
   };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-        labels: {
-          color: "#D7D7D7",
-        },
-      },
-      title: {
-        display: true,
-        text: "Expenses Chart",
-        font: {
-          size: 20,
-          family: "Arial",
-          weight: "bold" as "bold",
-        },
-        color: "#D9D9D9",
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: "#D9D9D9",
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: "#D9D9D9",
-        },
-      },
-    },
-  };
-
   return <Line data={data}></Line>;
 };
 

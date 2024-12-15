@@ -4,6 +4,7 @@ import {
   createExpense,
   editExpense,
   deleteExpense,
+  getExpensesByDate,
 } from "../controllers/expenseControllers";
 import { protectRoute } from "../middleware/authMiddleware";
 
@@ -13,5 +14,6 @@ router.get("/", protectRoute, getExpenses);
 router.post("/", protectRoute, createExpense);
 router.put("/:id", protectRoute, editExpense);
 router.delete("/:id", protectRoute, deleteExpense);
+router.get("/by-date", protectRoute, getExpensesByDate);
 
 export default router;

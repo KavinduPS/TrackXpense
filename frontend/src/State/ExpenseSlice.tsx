@@ -1,13 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type Expense = {
-  id: string;
-  name: string;
-  amount: number;
-  date: string;
-  category: string;
-  reference?: string;
-};
+import { Expense } from "../types";
 
 type ExpenseState = {
   expenses: Expense[];
@@ -24,21 +16,21 @@ const expenseSlice = createSlice({
     addExpense(state, action: PayloadAction<Expense>) {
       state.expenses.push(action.payload);
     },
-    deleteExpense(state, action: PayloadAction<string>) {
-      state.expenses = state.expenses.filter(
-        (expense) => expense.id !== action.payload
-      );
-    },
-    editExpense(state, action: PayloadAction<Expense>) {
-      const index = state.expenses.findIndex(
-        (exp) => exp.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.expenses[index] = action.payload;
-      }
-    },
+    // deleteExpense(state, action: PayloadAction<string>) {
+    //   state.expenses = state.expenses.filter(
+    //     (expense) => expense.id !== action.payload
+    //   );
+    // },
+    // editExpense(state, action: PayloadAction<Expense>) {
+    //   const index = state.expenses.findIndex(
+    //     (exp) => exp.id === action.payload.id
+    //   );
+    //   if (index !== -1) {
+    //     state.expenses[index] = action.payload;
+    //   }
+    // },
   },
 });
 
-export const { addExpense, deleteExpense, editExpense } = expenseSlice.actions;
+export const { addExpense } = expenseSlice.actions;
 export default expenseSlice.reducer;
