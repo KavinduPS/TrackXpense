@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import logo from "../../assets/trackxpense_logo.png";
 import Sidebar from "../../components/Sidebar";
 import Spinner from "../../components/Spin";
@@ -11,21 +11,34 @@ import {
   useGetAllIncomesByDateQuery,
 } from "../../modules/incomes/incomesApiSlice";
 import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
-import { Expense } from "../../types";
+import { Expense, Income } from "../../types";
 import CategoryChart from "../../components/Charts/ReportCharts/CategoryChart";
 
 const Report: React.FC = () => {
-  const { data: expenses } = useGetAllExpensesQuery();
+  const {
+    data: expenses,
+    error: expensesError,
+    isLoading: isExpensesLoading,
+  } = useGetAllExpensesQuery();
+
+  const {
+    data: incomes,
+    error: incomesError,
+    isLoading: isIncomesLoading,
+  } = useGetAllIncoemsQuery();
+
   const { data: expenseData } = useGetAllExpensesByDateQuery();
   const { data: incomeData } = useGetAllIncomesByDateQuery();
 
-  const Totalexpenses = (expenses: Expense[]): number => {
-    let total = 0;
-    expenses.forEach((expense) => {
-      total += expense.amount;
-    });
-    return total;
-  };
+  const totalExpenses = useMemo(
+    () => expenses?.reduce((total, expense) => total + expense.amount, 0) ?? 0,
+    [expenses]
+  );
+
+  const totalIncomes = useMemo(
+    () => incomes?.reduce((total, income) => total + income.amount, 0) ?? 0,
+    [incomes]
+  );
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-900 ">
@@ -67,7 +80,7 @@ const Report: React.FC = () => {
                     Total Income
                   </p>
                   <p className="text-4xl font-semibold text-green-400">
-                    LKR: 200000
+                    LKR: {isIncomesLoading ? <Spinner /> : totalIncomes}
                   </p>
                 </div>
               </div>
@@ -77,7 +90,7 @@ const Report: React.FC = () => {
                     Total Expense
                   </p>
                   <p className="text-4xl font-semibold text-red-400">
-                    LKR: {expenses && Totalexpenses(expenses)}
+                    LKR: {isExpensesLoading ? <Spinner /> : totalExpenses}
                   </p>
                 </div>
               </div>
@@ -87,7 +100,7 @@ const Report: React.FC = () => {
                     Total Balance
                   </p>
                   <p className="text-4xl font-semibold text-yellow-400">
-                    LKR: 120000
+                    LKR: {totalIncomes - totalExpenses}
                   </p>
                 </div>
               </div>

@@ -94,9 +94,13 @@ const AddExpenseForm = ({ onAddExpense }: AddExpenseFormProps) => {
               <option value="" className="text-gray-50">
                 Category
               </option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Rent">Rent</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Dining/Restaurants">Dining/Restaurants</option>
+              <option value="Housing/Rent">Housing/Rent</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Entertainment">Entertainment</option>
               <option value="Other">Other</option>
             </Field>
             {touched.category && errors.category && (
