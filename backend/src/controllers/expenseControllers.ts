@@ -21,7 +21,7 @@ const createExpense = async (
   next: NextFunction
 ) => {
   const { _id } = req.user;
-  const { name, amount, date, category, description } = req.body;
+  const { name, amount, date, category, reference } = req.body;
   if (!name || !amount || !category) {
     res.status(400);
     throw new Error("Please enter required fields");
@@ -33,7 +33,7 @@ const createExpense = async (
       amount: amount,
       date: date,
       category: category,
-      description: description,
+      reference: reference,
     });
     res.status(201).json(newExpense);
   } catch (error) {
@@ -89,4 +89,40 @@ const deleteExpense = async (
   }
 };
 
-export { getExpenses, createExpense, editExpense, deleteExpense };
+const getExpensesByDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  try {
+    const expensesByDate = await Expense.aggregate([
+      {
+        $match: {
+          user: userId,
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%b %d", date: "$date" } },
+          originalDate: { $first: "$date" },
+          amount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { originalDate: 1 },
+      },
+    ]);
+    res.status(200).json(expensesByDate);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  getExpenses,
+  createExpense,
+  editExpense,
+  deleteExpense,
+  getExpensesByDate,
+};

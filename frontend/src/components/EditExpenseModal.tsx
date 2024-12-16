@@ -1,114 +1,98 @@
-import React, { useState, useEffect } from 'react';
+import { Expense } from "../types";
 
-interface Expense {
-  id: number;
-  name: string;
-  amount: number;
-  date: string;
-  category: string;
+interface EditModalProps {
+  expenseData: Expense;
+  initialData?: Expense; // Added initial data for comparison
+  onSave: (updatedData: Expense) => void;
+  onCancel: () => void;
+  onChange: (field: string, value: string | number) => void;
 }
 
-type EditExpenseModalProps = {
-  isOpen: boolean;
-  expense: Expense;
-  onSave: (updatedExpense: Expense) => void;
-  onCancel: () => void;
-};
-
-const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ isOpen, expense, onSave, onCancel }) => {
-  const [formData, setFormData] = useState<Expense>(expense);
-
-  useEffect(() => {
-    setFormData(expense); // Set initial data when modal opens
-  }, [expense]);
-
-  if (!isOpen) return null;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === "amount" ? Number(value) : value,
-    });
-  };
-
-  const handleSave = () => {
-    onSave(formData); // Pass updated data back to parent component
+const EditModal: React.FC<EditModalProps> = ({
+  expenseData,
+  onSave,
+  onCancel,
+  onChange,
+}) => {
+  const formatDate = (date: string | Date): string => {
+    if (typeof date === "string") return date; // Already in string format
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-lg font-semibold mb-4 text-blue-600">Edit Expense</h2>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="name" className="w-32 text-black font-medium">Expense Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Expense Name"
-            className="w-full p-2 border rounded-lg text-black"
-          />
-        </div>
-        
-        <div className="flex items-center mb-4">
-          <label htmlFor="amount" className="w-32 text-black font-medium">Expense Amount</label>
-          <input
-            type="number"
-            name="amount"
-            value={formData.amount}
-            onChange={handleChange}
-            placeholder="Expense Amount"
-            className="w-full p-2 border rounded-lg text-black"
-          />
-        </div>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="date" className="w-32 text-black font-medium">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-lg text-black"
-          />
-        </div>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="category" className="w-32 text-black font-medium">Category</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-lg text-black"
-          >
-            <option value="" disabled>Select Category</option>
-            <option value="Food">Food</option>
-            <option value="Transport">Transport</option>
-            <option value="Shopping">Shopping</option>
-            <option value="Others">Others</option>
-          </select>
-        </div>
-
-        <div className="flex justify-end space-x-2">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-800"
-          >
-            Save
-          </button>
-        </div>
+      <div className="bg-DarkIndigo p-6 rounded shadow-lg w-96">
+        <h3 className="text-lg font-bold mb-4">Edit Expense</h3>
+        <form className="space-y-4">
+          <div>
+            <label className="text-sm font-medium">Expense Name</label>
+            <input
+              type="text"
+              value={expenseData.name}
+              onChange={(e) => onChange("name", e.target.value)}
+              className="w-full border rounded-lg p-2 mt-2"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Amount</label>
+            <input
+              type="number"
+              value={expenseData.amount}
+              onChange={(e) => onChange("amount", parseFloat(e.target.value))}
+              className="w-full border rounded-lg p-2 mt-2"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Date</label>
+            <input
+              type="date"
+              value={formatDate(expenseData.date)}
+              onChange={(e) => onChange("date", e.target.value)}
+              className="w-full border rounded-lg p-2 mt-2"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Category</label>
+            <input
+              type="text"
+              value={expenseData.category}
+              onChange={(e) => onChange("category", e.target.value)}
+              className="w-full border rounded-lg p-2 mt-2"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">Reference</label>
+            <input
+              type="text"
+              // value={expenseData.description}
+              onChange={(e) => onChange("reference", e.target.value)}
+              className="w-full border rounded-lg p-2 mt-2"
+            />
+          </div>
+          <div className="flex justify-end space-x-2 pt-5">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="bg-Linen text-Darkgrayishviolet p-3 rounded-lg font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={() => onSave(expenseData)}
+              className="p-3 rounded-lg font-semibold bg-green-300"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default EditExpenseModal;
+export default EditModal;

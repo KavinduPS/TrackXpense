@@ -2,13 +2,19 @@ import React from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
-import { useGetAllExpensesQuery } from "../../modules/expenses/expensesApiSlice";
-import { useGetAllIncoemsQuery } from "../../modules/incomes/incomesApiSlice";
+import {
+  useGetAllExpensesByDateQuery,
+  useGetAllExpensesQuery,
+} from "../../modules/expenses/expensesApiSlice";
+import {
+  useGetAllIncoemsQuery,
+  useGetAllIncomesByDateQuery,
+} from "../../modules/incomes/incomesApiSlice";
 
 const Dashboard: React.FC = () => {
-  const { data: expenseData } = useGetAllExpensesQuery();
-  const { data: incomeData } = useGetAllIncoemsQuery();
-
+  const { data: expenseData } = useGetAllExpensesByDateQuery();
+  const { data: incomeData } = useGetAllIncomesByDateQuery();
+  // dateToYYYYMMDD("2024-12-05T13:08:50.496+00:00");
   return (
     <>
       <div className="flex flex-col min-h-screen bg-zinc-900 ">
@@ -21,16 +27,19 @@ const Dashboard: React.FC = () => {
                 alt="Logo"
                 style={{ width: "380px", height: "60px" }}
               />
-            </div>
-            <div className="absolute top-36 left-14 w-1/4 h-96">
-              {expenseData && incomeData ? (
-                <AllTransactionsChart
-                  expenses={expenseData}
-                  incomes={incomeData}
-                />
-              ) : (
-                <h2>Loading</h2>
-              )}
+            </i>
+            <div className="flex justify-between">
+              <div className="mt-32 ml-10 w-2/5">
+                <p>Expense Chart</p>
+                {expenseData && incomeData ? (
+                  <AllTransactionsChart
+                    expenses={expenseData}
+                    incomes={incomeData}
+                  />
+                ) : (
+                  <h2>Loading</h2>
+                )}
+              </div>
             </div>
             <div></div>
           </div>

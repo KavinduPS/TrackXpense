@@ -6,7 +6,7 @@ export interface IIncome {
   amount: number;
   date: Date;
   source: string;
-  description?: string;
+  reference?: string;
 }
 
 const incomeSchema: Schema = new Schema({
@@ -31,7 +31,7 @@ const incomeSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  reference: {
     type: String,
   },
 });
