@@ -201,11 +201,11 @@ const Incomes: React.FC = () => {
       </div>
 
       {/* Delete Confirmation Modal */}
-      <DeleteConfirmationModal
+      {/* <DeleteConfirmationModal
         isOpen={isModalOpen}
         onConfirm={confirmDelete}
         onCancel={closeDeleteModal}
-      />
+      /> */}
 
       {/* Edit Income Modal */}
       {incomeToEdit && (

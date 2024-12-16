@@ -4,6 +4,7 @@ import Admin from "../assets/admin.png";
 import { useLogoutMutation } from "../modules/users/usersApiSlice";
 import { AuthState, logoutUser } from "../modules/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { apiSlice } from "../modules/api/apiSlice";
 
 interface RootState {
   auth: AuthState;
@@ -19,6 +20,7 @@ const Sidebar: React.FC = () => {
   const handleLogout = async (): Promise<void> => {
     try {
       await logout(user).unwrap();
+      dispatch(apiSlice.util.resetApiState());
       dispatch(logoutUser({}));
       navigate("/");
     } catch (error) {

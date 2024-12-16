@@ -7,7 +7,7 @@ const getExpenses = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const expenses: IExpense[] = await Expense.find({
       user: _id,
-    });
+    }).sort({ date: -1 });
     res.status(200).json(expenses);
   } catch (error) {
     next(error);

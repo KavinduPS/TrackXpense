@@ -10,12 +10,14 @@ export const expensesApiSlice = apiSlice.injectEndpoints({
         url: `${EXPENSES_URL}`,
         method: "GET",
       }),
+      providesTags: ["Expenses"],
     }),
     getAllExpensesByDate: build.query<AggExpense[], void>({
       query: () => ({
         url: `${EXPENSES_URL}/by-date`,
         method: "GET",
       }),
+      providesTags: ["Expenses"],
     }),
     addExpense: build.mutation({
       query: (data) => ({
@@ -23,6 +25,22 @@ export const expensesApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Expenses"],
+    }),
+    updateExpense: build.mutation({
+      query: (data) => ({
+        url: `${EXPENSES_URL}/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Expenses"],
+    }),
+    deleteExpense: build.mutation({
+      query: (data) => ({
+        url: `${EXPENSES_URL}/${data._id}`,
+        method: "Delete",
+      }),
+      invalidatesTags: ["Expenses"],
     }),
   }),
 });
@@ -31,4 +49,6 @@ export const {
   useGetAllExpensesQuery,
   useGetAllExpensesByDateQuery,
   useAddExpenseMutation,
+  useUpdateExpenseMutation,
+  useDeleteExpenseMutation,
 } = expensesApiSlice;
