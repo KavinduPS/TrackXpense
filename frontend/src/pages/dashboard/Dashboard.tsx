@@ -17,11 +17,11 @@ const Dashboard: React.FC = () => {
   // dateToYYYYMMDD("2024-12-05T13:08:50.496+00:00");
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">
+      <div className="flex flex-col min-h-screen bg-zinc-900 ">
         <div className="flex">
           <Sidebar />
           <div className="flex-grow relative">
-            <i className="absolute top-0 right-0 p-6">
+            <div className="absolute top-0 right-0 p-6">
               <img
                 src={logo}
                 alt="Logo"

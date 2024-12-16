@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { FaTrashAlt, FaEdit } from 'react-icons/fa'; 
-import Sidebar from '../../components/Sidebar';
+import React, { useState } from "react";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-import DeleteConfirmationModal from '../../components/DeleteConfirmationModal';
-import EditIncomeModal from '../../components/EditIncomeModal';
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
+import EditIncomeModal from "../../components/EditIncomeModal";
 
 interface Income {
   id: number;
@@ -16,17 +16,21 @@ interface Income {
 const Incomes: React.FC = () => {
   const [income, setIncome] = useState<Income[]>([]);
   const [incomeData, setIncomeData] = useState<Partial<Income>>({
-    name: '',
+    name: "",
     amount: 0,
-    date: '',
-    category: '',
+    date: "",
+    category: "",
   });
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [incomeToDelete, setIncomeToDelete] = useState<number | null>(null);
   const [incomeToEdit, setIncomeToEdit] = useState<Income | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
     setIncomeData({
       ...incomeData,
@@ -35,7 +39,12 @@ const Incomes: React.FC = () => {
   };
 
   const addIncome = () => {
-    if (incomeData.name && incomeData.amount && incomeData.date && incomeData.category) {
+    if (
+      incomeData.name &&
+      incomeData.amount &&
+      incomeData.date &&
+      incomeData.category
+    ) {
       const newIncome: Income = {
         id: income.length + 1,
         name: incomeData.name!,
@@ -44,7 +53,7 @@ const Incomes: React.FC = () => {
         category: incomeData.category!,
       };
       setIncome([...income, newIncome]);
-      setIncomeData({ name: '', amount: 0, date: '', category: '' });
+      setIncomeData({ name: "", amount: 0, date: "", category: "" });
     }
   };
 
@@ -60,7 +69,7 @@ const Incomes: React.FC = () => {
 
   const confirmDelete = () => {
     if (incomeToDelete !== null) {
-      setIncome(income.filter(item => item.id !== incomeToDelete));
+      setIncome(income.filter((item) => item.id !== incomeToDelete));
     }
     closeDeleteModal();
   };
@@ -76,18 +85,26 @@ const Incomes: React.FC = () => {
   };
 
   const saveEdit = (updatedIncome: Income) => {
-    setIncome(income.map(item => (item.id === updatedIncome.id ? updatedIncome : item)));
+    setIncome(
+      income.map((item) =>
+        item.id === updatedIncome.id ? updatedIncome : item
+      )
+    );
     closeEditModal();
   };
 
   return (
-    <div className="flex min-h-screen bg-zinc-600 text-white">
+    <div className="flex min-h-screen bg-zinc-900 text-white">
       <Sidebar />
 
-      <div className="flex-grow p-8">
+      <div className="flex-grow ">
         <div className="relative">
-          <div className="absolute top-0 right-6 m-4">
-            <img src={logo} alt="TrackXpense Logo" style={{ width: '380px', height: '80px' }} />
+          <div className="absolute top-0 right-0 p-6">
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: "380px", height: "60px" }}
+            />
           </div>
         </div>
 
@@ -97,7 +114,7 @@ const Incomes: React.FC = () => {
             <input
               type="text"
               name="name"
-              value={incomeData.name || ''}
+              value={incomeData.name || ""}
               onChange={handleChange}
               placeholder="Income Name"
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
@@ -105,7 +122,7 @@ const Incomes: React.FC = () => {
             <input
               type="number"
               name="amount"
-              value={incomeData.amount || ''}
+              value={incomeData.amount || ""}
               onChange={handleChange}
               placeholder="Income Amount"
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
@@ -113,17 +130,19 @@ const Incomes: React.FC = () => {
             <input
               type="date"
               name="date"
-              value={incomeData.date || ''}
+              value={incomeData.date || ""}
               onChange={handleChange}
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
             />
             <select
               name="category"
-              value={incomeData.category || ''}
+              value={incomeData.category || ""}
               onChange={handleChange}
               className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
             >
-              <option value="" disabled>Category</option>
+              <option value="" disabled>
+                Category
+              </option>
               <option value="Primary Job">Primary Job</option>
               <option value="Secondary Job">Secondary Job</option>
               <option value="Sales">Sales</option>
@@ -148,7 +167,10 @@ const Incomes: React.FC = () => {
             <div className="space-y-4">
               {income.length > 0 ? (
                 income.map((income) => (
-                  <div key={income.id} className="flex justify-between items-center p-4 bg-zinc-700 rounded-lg">
+                  <div
+                    key={income.id}
+                    className="flex justify-between items-center p-4 bg-zinc-700 rounded-lg"
+                  >
                     <div>
                       <p className="font-semibold">{income.name}</p>
                       <p className="text-sm">LKR {income.amount}</p>
