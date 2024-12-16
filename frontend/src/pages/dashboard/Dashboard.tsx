@@ -20,21 +20,20 @@ const Dashboard: React.FC = () => {
                 alt="Logo"
                 style={{ width: "380px", height: "60px" }}
               />
-            </i>
-            <div className="flex justify-between">
-              <div className="mt-32 ml-10 w-2/5">
-                <p>Expense Chart</p>
-                {expenseData && incomeData ? (
-                  <AllTransactionsChart
-                    expenses={expenseData}
-                    incomes={incomeData}
-                  />
-                ) : (
-                  <h2>Loading</h2>
-                )}
+              <div className="flex justify-between">
+                <div className="mt-32 ml-10 w-2/5">
+                  <p>Expense Chart</p>
+                  {expenseData && incomeData ? (
+                    <AllTransactionsChart
+                      expenses={expenseData}
+                      incomes={incomeData}
+                    />
+                  ) : (
+                    <h2>Loading</h2>
+                  )}
+                </div>
               </div>
             </div>
-            <div></div>
           </div>
         </div>
       </div>

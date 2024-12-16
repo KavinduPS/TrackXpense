@@ -103,7 +103,7 @@ const Expense: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-Darkgrayishviolet  ">
+    <div className="flex flex-col min-h-screen bg-zinc-900  ">
       <div className="flex">
         <Sidebar />
         <div className="flex-grow">

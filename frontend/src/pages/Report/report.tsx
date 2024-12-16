@@ -2,15 +2,22 @@ import React from "react";
 import logo from "../../assets/trackxpense_logo.png";
 import Sidebar from "../../components/Sidebar";
 import Spinner from "../../components/Spin";
-import { useGetAllExpensesQuery } from "../../modules/expenses/expensesApiSlice";
-import { useGetAllIncoemsQuery } from "../../modules/incomes/incomesApiSlice";
+import {
+  useGetAllExpensesByDateQuery,
+  useGetAllExpensesQuery,
+} from "../../modules/expenses/expensesApiSlice";
+import {
+  useGetAllIncoemsQuery,
+  useGetAllIncomesByDateQuery,
+} from "../../modules/incomes/incomesApiSlice";
 import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
 import { Expense } from "../../types";
 import CategoryChart from "../../components/Charts/ReportCharts/CategoryChart";
 
 const Report: React.FC = () => {
-  const { data: expenseData } = useGetAllExpensesQuery();
-  const { data: incomeData } = useGetAllIncoemsQuery();
+  const { data: expenses } = useGetAllExpensesQuery();
+  const { data: expenseData } = useGetAllExpensesByDateQuery();
+  const { data: incomeData } = useGetAllIncomesByDateQuery();
 
   const Totalexpenses = (expenses: Expense[]): number => {
     let total = 0;
@@ -70,7 +77,7 @@ const Report: React.FC = () => {
                     Total Expense
                   </p>
                   <p className="text-4xl font-semibold text-red-400">
-                    LKR: {expenseData && Totalexpenses(expenseData)}
+                    LKR: {expenses && Totalexpenses(expenses)}
                   </p>
                 </div>
               </div>
