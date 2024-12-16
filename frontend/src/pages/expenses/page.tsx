@@ -108,16 +108,16 @@ const Expenses: React.FC = () => {
   const { data } = useGetAllExpensesQuery();
 
   return (
-    <div className="flex min-h-screen bg-zinc-600 text-white">
+    <div className="flex min-h-screen bg-zinc-900 text-white">
       <Sidebar />
 
-      <div className="flex-grow p-8">
+      <div className="flex-grow">
         <div className="relative">
-          <div className="absolute top-0 right-6 m-4">
+          <div className="absolute top-0 right-0 p-6">
             <img
               src={logo}
-              alt="TrackXpense Logo"
-              style={{ width: "380px", height: "80px" }}
+              alt="Logo"
+              style={{ width: "380px", height: "60px" }}
             />
           </div>
         </div>

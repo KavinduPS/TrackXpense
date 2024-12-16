@@ -23,7 +23,7 @@ const About: React.FC = () => {
   });
 
   return (
-    <div className="flex min-h-screen bg-Darkgrayishviolet text-white">
+    <div className="flex min-h-screen bg-zinc-900 text-white">
       <Sidebar />
       <div className="relative flex-1">
         <div className="absolute top-0 right-0 p-6 ">
@@ -45,13 +45,13 @@ const About: React.FC = () => {
               actions.setSubmitting(false);
             }}
           >
-            {({ isSubmitting, touched, errors }) => (
+            {({ touched, errors }) => (
               <Form>
                 <div>
                   <Field
                     name="name"
                     placeholder="Name"
-                    className="mt-10 w-60 h-9 rounded-lg  px-2 text-base mr-20 border border-gray-400 hover:border-gray-600 focus:outline-none bg-Darkgrayishviolet"
+                    className="mt-10 w-60 h-9 rounded-lg  px-2 text-base mr-20 border border-gray-400 hover:border-gray-600 focus:outline-none bg-zinc-900"
                   />
                 </div>
                 {touched.name && errors.name && (
@@ -65,7 +65,7 @@ const About: React.FC = () => {
                     name="email"
                     type="email"
                     placeholder="Email"
-                    className="mt-5 w-60 h-9 rounded-lg px-2 text-base mr-20 border border-gray-400 hover:border-gray-600 focus:outline-none bg-Darkgrayishviolet"
+                    className="mt-5 w-60 h-9 rounded-lg px-2 text-base mr-20 border border-gray-400 hover:border-gray-600 focus:outline-none bg-zinc-900"
                   />
                 </div>
                 {touched.email && errors.email && (
@@ -79,7 +79,7 @@ const About: React.FC = () => {
                     as="textarea"
                     name="message"
                     placeholder="Message"
-                    className="mt-5 w-60 rounded-lg px-2 text-base mr-20 h-40 border border-gray-400 hover:border-gray-600 focus:outline-none bg-Darkgrayishviolet"
+                    className="mt-5 w-60 rounded-lg px-2 text-base mr-20 h-40 border border-gray-400 hover:border-gray-600 focus:outline-none bg-zinc-900"
                   />
                 </div>
                 {touched.message && errors.message && (
@@ -91,8 +91,7 @@ const About: React.FC = () => {
                 <div className="mt-10 ">
                   <button
                     type="button"
-                    className="w-60 h-9 rounded-lg text-zinc-700 text-lg"
-                    style={{ backgroundColor: "#FDCB9E" }}
+                    className="w-60 h-9 rounded-lg text-zinc-900 text-lg bg-orange-200"
                   >
                     Submit
                   </button>

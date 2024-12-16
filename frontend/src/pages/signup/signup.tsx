@@ -62,7 +62,7 @@ const Signup: React.FC = () => {
   }, [user, navigate]);
 
   return (
-    <div className=" h-screen flex justify-center  items-center bg-Darkgrayishviolet ">
+    <div className=" h-screen flex justify-center  items-center bg-zinc-900 ">
       <div
         className="absolute inset-0 bg-signup-bg bg-cover bg-center opacity-10 bg-no-repeat "
         style={{

@@ -57,7 +57,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen  text-white bg-Darkgrayishviolet">
+    <div className="flex min-h-screen  text-white bg-zinc-900">
       <Sidebar />
 
       <div className="flex-1 relative">
@@ -103,7 +103,7 @@ const Profile: React.FC = () => {
 
         <div className="ml-20">
           <button
-            className="text-Linen text-lg mt-16 bg-DarkIndigo w-72 h-10 rounded-lg flex items-center justify-center"
+            className="text-gray-200 text-lg mt-16 border border-gray-200 w-72 h-10 rounded-lg flex items-center justify-center"
             onClick={openModal}
           >
             Change Password
@@ -113,8 +113,8 @@ const Profile: React.FC = () => {
       </div>
 
       {isEditNamemodalOpen && (
-        <div className="fixed inset-0 bg-DarkIndigo bg-opacity-50 flex justify-center items-center">
-          <div className=" p-6 rounded-lg w-96 bg-Darkgrayishviolet">
+        <div className="fixed inset-0 bg-zinc-900  bg-opacity-50 flex justify-center items-center">
+          <div className=" p-6 rounded-lg w-96 bg-zinc-700">
             <h3 className="text-lg font-semibold mb-4">Edit Name</h3>
 
             <div className="mb-4">
@@ -123,17 +123,20 @@ const Profile: React.FC = () => {
                 value={tempName}
                 placeholder="Name"
                 onChange={(e) => setTempName(e.target.value)}
-                className="mt-1 w-full px-3 py-2 text-lg bg-gray-200 rounded-md text-Darkgrayishviolet focus:outline-none"
+                className="mt-1 w-full px-3 py-2 text-lg bg-gray-200 rounded-md text-zinc-900 focus:outline-none"
               />
             </div>
 
             <div className="flex justify-end space-x-4">
-              <button onClick={closeEditNamemodal} className="text-Linen">
+              <button
+                onClick={closeEditNamemodal}
+                className="text-zinc-900 px-4 py-2 rounded-md w-20 bg-gray-200"
+              >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="bg-green-200 text-black px-4 py-2 rounded-md w-20"
+                className="bg-green-300 text-zinc-900 px-4 py-2 rounded-md w-20"
                 disabled={!tempName}
               >
                 Save
@@ -144,8 +147,8 @@ const Profile: React.FC = () => {
       )}
 
       {isEditEmailmodalOpen && (
-        <div className="fixed inset-0 bg-DarkIndigo bg-opacity-50 flex justify-center items-center">
-          <div className=" p-6 rounded-lg w-96 bg-Darkgrayishviolet">
+        <div className="fixed inset-0 bg-zinc-900  bg-opacity-50 flex justify-center items-center">
+          <div className=" p-6 rounded-lg w-96 bg-zinc-700">
             <h3 className="text-lg font-semibold mb-4">Edit Email</h3>
 
             <div className="mb-4">
@@ -154,17 +157,20 @@ const Profile: React.FC = () => {
                 value={tempEmail}
                 placeholder="Email"
                 onChange={(e) => setTempEmail(e.target.value)}
-                className="mt-1 w-full px-3 py-2 text-lg bg-gray-200 rounded-md text-Darkgrayishviolet focus:outline-none"
+                className="mt-1 w-full px-3 py-2 text-lg bg-gray-200 rounded-md text-zinc-900 focus:outline-none"
               />
             </div>
 
             <div className="flex justify-end space-x-4">
-              <button onClick={closeEditEmailmodal} className="text-Linen">
+              <button
+                onClick={closeEditEmailmodal}
+                className="text-zinc-900 px-4 py-2 rounded-md w-20 bg-gray-200"
+              >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="bg-green-200 text-black px-4 py-2 rounded-md w-20"
+                className="bg-green-300 text-zinc-900 px-4 py-2 rounded-md w-20"
                 disabled={!tempEmail}
               >
                 Save
