@@ -10,11 +10,11 @@ const Dashboard: React.FC = () => {
   const { data: incomeData } = useGetAllIncomesByDateQuery();
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">
+      <div className="flex flex-col min-h-screen bg-zinc-900 ">
         <div className="flex">
           <Sidebar />
           <div className="flex-grow relative">
-            <i className="absolute top-0 right-0 p-6">
+            <div className="absolute top-0 right-0 p-6">
               <img
                 src={logo}
                 alt="Logo"

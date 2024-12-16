@@ -52,7 +52,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-Darkgrayishviolet">
+    <div className="h-screen flex justify-center items-center bg-zinc-900 ">
       <div className="w-1/3">
         <div className="flex justify-center">
           <img src={logo} alt="TrackXpense Logo" />
