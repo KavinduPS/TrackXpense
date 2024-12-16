@@ -1,4 +1,5 @@
 export type Expense = {
+  _id?: string;
   name: string;
   amount: number;
   date: string;
@@ -7,6 +8,7 @@ export type Expense = {
 };
 
 export type Income = {
+  _id?: string;
   name: string;
   amount: number;
   date: string;

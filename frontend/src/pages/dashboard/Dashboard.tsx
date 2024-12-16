@@ -2,19 +2,12 @@ import React from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
-import {
-  useGetAllExpensesByDateQuery,
-  useGetAllExpensesQuery,
-} from "../../modules/expenses/expensesApiSlice";
-import {
-  useGetAllIncoemsQuery,
-  useGetAllIncomesByDateQuery,
-} from "../../modules/incomes/incomesApiSlice";
+import { useGetAllExpensesByDateQuery } from "../../modules/expenses/expensesApiSlice";
+import { useGetAllIncomesByDateQuery } from "../../modules/incomes/incomesApiSlice";
 
 const Dashboard: React.FC = () => {
   const { data: expenseData } = useGetAllExpensesByDateQuery();
   const { data: incomeData } = useGetAllIncomesByDateQuery();
-  // dateToYYYYMMDD("2024-12-05T13:08:50.496+00:00");
   return (
     <>
       <div className="flex flex-col min-h-screen bg-Darkgrayishviolet ">

@@ -1,98 +1,153 @@
 import { Expense } from "../types";
+import * as Yup from "yup";
+import { Field, Formik, Form } from "formik";
 
-interface EditModalProps {
-  expenseData: Expense;
-  initialData?: Expense; // Added initial data for comparison
-  onSave: (updatedData: Expense) => void;
-  onCancel: () => void;
-  onChange: (field: string, value: string | number) => void;
-}
+type EditExpenseModalProps = {
+  isVisible: boolean;
+  editingExpense: Expense;
+  onCloseModal: () => void;
+  onSaveExpense: (expense: Expense) => void;
+};
 
-const EditModal: React.FC<EditModalProps> = ({
-  expenseData,
-  onSave,
-  onCancel,
-  onChange,
-}) => {
-  const formatDate = (date: string | Date): string => {
-    if (typeof date === "string") return date; // Already in string format
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+export const EditExpenseModal = ({
+  isVisible,
+  onCloseModal,
+  editingExpense,
+  onSaveExpense,
+}: EditExpenseModalProps) => {
+  const { _id, name, amount, date, category, reference } = editingExpense;
+  const initialValues: Expense = {
+    _id: _id,
+    name: name,
+    amount: amount,
+    date: date.toString().split("T")[0],
+    category: category,
+    reference: reference,
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Add expense name"),
+    amount: Yup.number()
+      .required("Add expense amount")
+      .positive("Amount must be positive")
+      .typeError("Input only numbers"),
+    category: Yup.string().required("Select category"),
+  });
+
+  const handleSubmit = (
+    values: Expense,
+    { resetForm }: { resetForm: () => void }
+  ): void => {
+    onSaveExpense(values);
+    resetForm();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-DarkIndigo p-6 rounded shadow-lg w-96">
-        <h3 className="text-lg font-bold mb-4">Edit Expense</h3>
-        <form className="space-y-4">
-          <div>
-            <label className="text-sm font-medium">Expense Name</label>
-            <input
-              type="text"
-              value={expenseData.name}
-              onChange={(e) => onChange("name", e.target.value)}
-              className="w-full border rounded-lg p-2 mt-2"
-            />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ touched, errors }) => (
+        <Form>
+          <div
+            className={`fixed inset-0 flex justify-center items-center transition-colors flex-col border-2 border-black w-200 ${
+              isVisible ? "visible bg-black/50" : "invisible"
+            }`}
+          >
+            <div className="border-white border-2 p-10 w-1/3">
+              <div>
+                <h2 className="text-gray-200 text-xl font-semibold mb-4">
+                  Update Expense
+                </h2>
+                <Field
+                  className="w-80 h-10 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  type="text"
+                  name="name"
+                  placeholder="Expense Name"
+                />
+                {touched.name && errors.name && (
+                  <div className="text-red-600 mr-2 -ml-28">{errors.name}</div>
+                )}
+              </div>
+
+              <div>
+                <Field
+                  className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  type="text"
+                  name="amount"
+                  placeholder="Amount"
+                  pattern="[0-9]*"
+                />
+                {touched.amount && errors.amount && (
+                  <div className="text-red-600 mr-2 -ml-28">
+                    {errors.amount}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <Field
+                  type="date"
+                  name="date"
+                  className="w-80 h-10 mt-5 pl-3 pr-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                />
+                {touched.date && errors.date && (
+                  <div className="text-red-600 mr-2 -ml-28"></div>
+                )}
+              </div>
+
+              <div>
+                <Field
+                  as="select"
+                  name="category"
+                  className="w-80 h-10 mt-5 px-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                >
+                  <option value="" className="text-gray-50">
+                    Category
+                  </option>
+                  <option value="Food">Food</option>
+                  <option value="Transport">Transport</option>
+                  <option value="Rent">Rent</option>
+                  <option value="Other">Other</option>
+                </Field>
+                {touched.category && errors.category && (
+                  <div className="text-red-600 mr-2 -ml-28">
+                    {errors.category}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <Field
+                  className="w-80 h-32 mt-5 px-3 pt-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  as="textarea"
+                  name="reference"
+                  placeholder="Reference"
+                />
+                {touched.reference && errors.reference && (
+                  <div className="text-red-600 mr-2 -ml-28">
+                    {errors.reference}
+                  </div>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-Darkgrayishviolet"
+              >
+                Update Expense
+              </button>
+              <button
+                type="button"
+                className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-Darkgrayishviolet"
+                onClick={onCloseModal}
+              >
+                Close
+              </button>
+            </div>
           </div>
-          <div>
-            <label className="text-sm font-medium">Amount</label>
-            <input
-              type="number"
-              value={expenseData.amount}
-              onChange={(e) => onChange("amount", parseFloat(e.target.value))}
-              className="w-full border rounded-lg p-2 mt-2"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">Date</label>
-            <input
-              type="date"
-              value={formatDate(expenseData.date)}
-              onChange={(e) => onChange("date", e.target.value)}
-              className="w-full border rounded-lg p-2 mt-2"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">Category</label>
-            <input
-              type="text"
-              value={expenseData.category}
-              onChange={(e) => onChange("category", e.target.value)}
-              className="w-full border rounded-lg p-2 mt-2"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">Reference</label>
-            <input
-              type="text"
-              // value={expenseData.description}
-              onChange={(e) => onChange("reference", e.target.value)}
-              className="w-full border rounded-lg p-2 mt-2"
-            />
-          </div>
-          <div className="flex justify-end space-x-2 pt-5">
-            <button
-              type="button"
-              onClick={onCancel}
-              className="bg-Linen text-Darkgrayishviolet p-3 rounded-lg font-semibold"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={() => onSave(expenseData)}
-              className="p-3 rounded-lg font-semibold bg-green-300"
-            >
-              Save Changes
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
-
-export default EditModal;
