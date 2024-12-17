@@ -75,27 +75,34 @@ const deleteExpense = async (
 };
 
 //Group expenses by category
-const getExpensesGroupedByCategory = async (req: Request, res: Response, next: NextFunction) => {
+
+const getExpensesGroupedByCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const expensesByCategory = await Expense.aggregate([
+    const userId = req.user?._id;
+    if (!userId) {
+      res.status(401);
+      throw new Error("User not authorized");
+    }
+
+    const groupedExpenses = await Expense.aggregate([
+      { $match: { user: userId } },
       {
         $group: {
           _id: "$category",
           totalAmount: { $sum: "$amount" },
-          count: { $sum: 1 },
+          expenses: { $push: "$$ROOT" },
         },
       },
-      {
-        $sort: { totalAmount: -1 },
-      },
     ]);
-    
-    res.status(200).json(expensesByCategory);
+
+    res.status(200).json(groupedExpenses);
   } catch (error) {
     next(error);
   }
 };
-
-
 
 export { getExpenses, createExpense, editExpense, deleteExpense, getExpensesGroupedByCategory };
