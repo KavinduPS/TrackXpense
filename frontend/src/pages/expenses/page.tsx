@@ -106,12 +106,12 @@ const Expense: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-zinc-900  ">
       <div className="flex">
         <Sidebar />
-        <div className="flex-grow">
+        <div className="flex-grow mt-5">
           <i className="absolute top-0 right-0 p-6">
             <img
               src={logo}
               alt="Logo"
-              style={{ width: "380px", height: "60px" }}
+              style={{ width: "380px", height: "70px" }}
             />
           </i>
           <div className="flex w-full justify-between">

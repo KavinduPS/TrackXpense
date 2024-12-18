@@ -65,7 +65,7 @@ const Profile: React.FC = () => {
           <img
             src={logo}
             alt="TrackXpense Logo"
-            style={{ width: "380px", height: "60px" }}
+            style={{ width: "380px", height: "70px" }}
           />
         </div>
 

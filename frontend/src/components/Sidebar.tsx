@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Admin from "../assets/admin.png";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import Admin from "../assets/admin2.png";
 import { useLogoutMutation } from "../modules/users/usersApiSlice";
 import { AuthState, logoutUser } from "../modules/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ interface RootState {
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { user } = useSelector((state: RootState) => state.auth);
   const [logout] = useLogoutMutation();
@@ -24,9 +25,19 @@ const Sidebar: React.FC = () => {
       dispatch(logoutUser({}));
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error("Logout failed:", error);
     }
   };
+
+  const links = [
+    { path: "/dashboard", label: "Dashboard" },
+    { path: "/income", label: "Income" },
+    { path: "/expenses", label: "Expenses" },
+    { path: "/goals", label: "Goals" },
+    { path: "/reports", label: "Reports" },
+    { path: "/about", label: "About Us" },
+    { path: "/profile", label: "Settings" },
+  ];
 
   return (
     <div className=" bg-zinc-900 w-72 h-3/5 flex flex-col items-center py-5 rounded-xl border border-gray-400 mt-12 ml-12">
@@ -62,7 +73,7 @@ const Sidebar: React.FC = () => {
             onClick={handleLogout}
             className="px-12 py-5 bg-zinc-900 hover:bg-orange-200 text-xl hover:text-zinc-900"
           >
-            <Link to="">Logout</Link>
+            Logout
           </li>
         </ul>
       </nav>

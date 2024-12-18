@@ -12,6 +12,7 @@ import Report from "./pages/Report/report";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/PrivateRoute";
+import Goals from "./pages/goals/Goals";
 
 function App() {
   return (
@@ -21,13 +22,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          //Private routes
           <Route path="" element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/income" element={<Income />} />
           <Route path="/about" element={<About />} />
+          <Route path="/Goals" element={<Goals />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/report" element={<Report />} />
         </Routes>

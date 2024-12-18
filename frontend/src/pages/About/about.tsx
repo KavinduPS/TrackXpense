@@ -30,7 +30,7 @@ const About: React.FC = () => {
           <img
             src={logo}
             alt="TrackXpense Logo"
-            style={{ width: "380px", height: "60px" }}
+            style={{ width: "380px", height: "70px" }}
           />
         </div>
         <div className="text-left ml-20 mt-40 text-xl ">

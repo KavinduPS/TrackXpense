@@ -45,14 +45,15 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-lg font-semibold mb-4 text-blue-600">
+      <div className="bg-Darkgrayishviolet p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-lg font-semibold mb-4 text-white">
           Edit Income
         </h2>
+        
 
         <div className="flex items-center mb-4">
-          <label htmlFor="name" className="w-32 text-black font-medium">
-            Income Name
+          <label htmlFor="name" className="w-32 text-white font-medium">
+            Income
           </label>
           <input
             type="text"
@@ -60,13 +61,13 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
             value={formData.name}
             onChange={handleChange}
             placeholder="Income Name"
-            className="w-full p-2 border rounded-lg text-black"
+            className="w-full p-2 rounded-lg  bg-Darkgrayishviolet border border-gray-200  text-gray-200"
           />
         </div>
 
         <div className="flex items-center mb-4">
-          <label htmlFor="amount" className="w-32 text-black font-medium">
-            Income Amount
+          <label htmlFor="amount" className="w-32 text-white font-medium">
+            Amount
           </label>
           <input
             type="number"
@@ -74,12 +75,12 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
             value={formData.amount}
             onChange={handleChange}
             placeholder="Income Amount"
-            className="w-full p-2 border rounded-lg text-black"
+            className="w-full p-2 rounded-lg  bg-Darkgrayishviolet border border-gray-200  text-gray-200"
           />
         </div>
 
         <div className="flex items-center mb-4">
-          <label htmlFor="date" className="w-32 text-black font-medium">
+          <label htmlFor="date" className="w-32 text-white font-medium">
             Date
           </label>
           <input
@@ -87,19 +88,19 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
             name="date"
             value={formData.date}
             onChange={handleChange}
-            className="w-full p-2 border rounded-lg text-black"
+            className="w-full p-2 rounded-lg  bg-Darkgrayishviolet border border-gray-200  text-gray-200"
           />
         </div>
 
         <div className="flex items-center mb-4">
-          <label htmlFor="category" className="w-32 text-black font-medium">
+          <label htmlFor="category" className="w-32 text-white font-medium">
             Category
           </label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full p-2 border rounded-lg text-black"
+            className="w-full p-2 rounded-lg  bg-Darkgrayishviolet border border-gray-200  text-gray-200"
           >
             <option value="" disabled>
               Select Category
