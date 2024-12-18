@@ -118,9 +118,9 @@ const Expense: React.FC = () => {
             <div className=" ml-14 mt-32 flex  justify-center">
               <AddExpenseForm onAddExpense={handleAddExpense} />
             </div>
-            <div className="mt-32 w-full ml-28 mr-12 flex justify-center">
-              <div className="w-11/12 ">
-                <h2 className=" text-white ">Recent Expenses</h2>
+            <div className="mt-32 w-full ml-28 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-5/6">
+              <div className="w-11/12 pb-5">
+                <h2 className=" text-white text-xl pb-2">Recent Expenses</h2>
                 {renderExpenses()}
               </div>
               {isEditModalVisible && editingExpense && (

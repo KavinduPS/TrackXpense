@@ -55,27 +55,30 @@ const Report: React.FC = () => {
             />
           </i>
 
-          <div className="flex justify-between space-x-10 mr-12 mb-20">
-            <div className="w-full mt-28 ml-14 space-y-8 ">
-              <div className="shadow-2xl bg-Dark rounded-xl h-1/2">
+          <div className="flex justify-between w-full">
+            <div className="w-3/6 text-gray-200 mt-28 ml-14 bg-zinc-900 shadow-2xl">
+              <div className="w-full border border-gray-200 rounded-lg p-5 ">
+                <p className="pb-6">Expense Chart</p>
                 {expenseData && incomeData ? (
                   <AllTransactionsChart
                     expenses={expenseData}
                     incomes={incomeData}
                   />
                 ) : (
-                  <div className="flex justify-center items-center">
+                  <h2>
                     <Spinner />
-                  </div>
+                  </h2>
                 )}
               </div>
-              <div className="flex justify-center items-center shadow-2xl h-1/2 bg-Dark rounded-xl">
+
+              <div className="w-full h-2/5 border border-gray-200 rounded-lg mt-10 flex justify-center items-center ">
                 <CategoryChart />
               </div>
             </div>
-            <div className="w-full mt-28 space-y-14 flex flex-col  items-end">
-              <div className="w-10/12 h-48 flex justify-center items-center shadow-2xl rounded-xl bg-Dark ">
-                <div className=" flex flex-col  gap-1  ml-6">
+
+            <div className="text-gray-200 mt-28 mr-14 shadow-2xl rounded-lg w-2/5 ">
+              <div className="space-y-12 ">
+                <div className="  flex-col gap-1 ml-6 border border-gray-200 rounded-xl h-44 flex justify-center items-center ">
                   <p className="text-2xl font-semibold text-gray-200">
                     Total Income
                   </p>
@@ -83,9 +86,7 @@ const Report: React.FC = () => {
                     LKR: {isIncomesLoading ? <Spinner /> : totalIncomes}
                   </p>
                 </div>
-              </div>
-              <div className="w-10/12 h-48 flex justify-center items-center shadow-2xl rounded-xl bg-Dark">
-                <div className=" flex flex-col   gap-1 ml-6">
+                <div className=" flex flex-col gap-1 ml-6 border border-gray-200 rounded-xl h-44 justify-center items-center">
                   <p className="text-2xl font-semibold text-gray-200">
                     Total Expense
                   </p>
@@ -93,9 +94,8 @@ const Report: React.FC = () => {
                     LKR: {isExpensesLoading ? <Spinner /> : totalExpenses}
                   </p>
                 </div>
-              </div>
-              <div className="w-10/12 h-48 flex justify-center items-center shadow-2xl rounded-xl bg-Dark">
-                <div className=" flex flex-col gap-1  ml-6">
+
+                <div className=" flex flex-col gap-1  ml-6 border border-gray-200 rounded-xl h-44 justify-center items-center">
                   <p className="text-2xl font-semibold text-gray-200">
                     Total Balance
                   </p>

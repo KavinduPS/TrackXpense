@@ -51,47 +51,53 @@ const AddExpenseForm = ({ onAddExpense }: AddExpenseFormProps) => {
               Add Expense
             </h2>
             <Field
-              className="w-80 h-10 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+              className="w-80 h-10 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="name"
               placeholder="Expense Name"
             />
-            {touched.name && errors.name && (
-              <div className="text-red-600 mr-2 -ml-28">{errors.name}</div>
-            )}
+            <div className="flex justify-center items-center text-left rounded-lg">
+              {touched.name && errors.name && (
+                <div className="text-red-600 w-80 pl-3">{errors.name}</div>
+              )}
+            </div>
           </div>
 
           <div>
             <Field
-              className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+              className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="amount"
               placeholder="Amount"
               pattern="[0-9]*"
             />
-            {touched.amount && errors.amount && (
-              <div className="text-red-600 mr-2 -ml-28">{errors.amount}</div>
-            )}
+            <div className="flex justify-center items-center text-left rounded-lg">
+              {touched.amount && errors.amount && (
+                <div className="text-red-600 w-80 pl-3">{errors.amount}</div>
+              )}
+            </div>
           </div>
 
           <div>
             <Field
               type="date"
               name="date"
-              className="w-80 h-10 mt-5 pl-3 pr-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+              className="w-80 h-10 mt-5 pl-3 pr-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
             />
-            {touched.date && errors.date && (
-              <div className="text-red-600 mr-2 -ml-28"></div>
-            )}
+            <div className="flex justify-center items-center text-left rounded-lg">
+              {touched.date && errors.date && (
+                <div className="text-red-600 w-80 pl-3"></div>
+              )}
+            </div>
           </div>
 
           <div>
             <Field
               as="select"
               name="category"
-              className="w-80 h-10 mt-5 px-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+              className="w-80 h-10 mt-5 pl-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
             >
-              <option value="" className="text-gray-50">
+              <option value="" className="text-zinc-900">
                 Category
               </option>
               <option value="Groceries">Groceries</option>
@@ -104,26 +110,30 @@ const AddExpenseForm = ({ onAddExpense }: AddExpenseFormProps) => {
               <option value="Shopping">Shopping</option>
               <option value="Other">Other</option>
             </Field>
-            {touched.category && errors.category && (
-              <div className="text-red-600 mr-2 -ml-28">{errors.category}</div>
-            )}
+            <div className="flex justify-center items-center text-left rounded-lg">
+              {touched.category && errors.category && (
+                <div className="text-red-600 w-80 pl-4">{errors.category}</div>
+              )}
+            </div>
           </div>
 
           <div>
             <Field
-              className="w-80 h-32 mt-5 px-3 pt-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+              className="w-80 h-32 mt-5 px-3 pt-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               as="textarea"
               name="reference"
               placeholder="Reference"
             />
-            {touched.reference && errors.reference && (
-              <div className="text-red-600 mr-2 -ml-28">{errors.reference}</div>
-            )}
+            <div className="flex justify-center items-center text-left rounded-lg">
+              {touched.reference && errors.reference && (
+                <div className="text-red-600 w-80 pl-3">{errors.reference}</div>
+              )}
+            </div>
           </div>
 
           <button
             type="submit"
-            className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-Darkgrayishviolet"
+            className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-zinc-900"
           >
             Add Expense
           </button>

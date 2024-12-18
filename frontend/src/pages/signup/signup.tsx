@@ -36,7 +36,6 @@ const Signup: React.FC = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
     email: Yup.string()
       .email("Invalid email format")
@@ -72,7 +71,7 @@ const Signup: React.FC = () => {
       ></div>
 
       <div className=" relative w-1/3">
-        <div className="flex justify-center text-4xl text-orange-200 ">
+        <div className="flex justify-center text-4xl text-orange-200 pb-10">
           <p>SIGN UP</p>
         </div>
 
@@ -87,28 +86,13 @@ const Signup: React.FC = () => {
                 <Field
                   name="name"
                   placeholder="Name"
-                  className="mt-20 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
+                  className="mt-15 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
                 />
-
-                {touched.name && errors.name && (
-                  <div className="text-red-600 text-center mr-36">
-                    {errors.name}
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <Field
-                  name="username"
-                  placeholder="Username"
-                  className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
-                />
-
-                {touched.username && errors.username && (
-                  <div className="text-red-600 text-center mr-28">
-                    {errors.username}
-                  </div>
-                )}
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.name && errors.name && (
+                    <div className="text-red-600 w-3/6 pl-2">{errors.name}</div>
+                  )}
+                </div>
               </div>
 
               <div>
@@ -118,12 +102,13 @@ const Signup: React.FC = () => {
                   placeholder="Password"
                   className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
                 />
-
-                {touched.password && errors.password && (
-                  <div className="text-red-600 text-center mr-32 ml-3">
-                    {errors.password}
-                  </div>
-                )}
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.password && errors.password && (
+                    <div className="text-red-600 w-3/6 pl-2">
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div>
@@ -133,12 +118,13 @@ const Signup: React.FC = () => {
                   placeholder="E mail"
                   className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
                 />
-
-                {touched.email && errors.email && (
-                  <div className="text-red-600 text-center mr-36 ">
-                    {errors.email}
-                  </div>
-                )}
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.email && errors.email && (
+                    <div className="text-red-600 w-3/6 pl-2 ">
+                      {errors.email}
+                    </div>
+                  )}
+                </div>
               </div>
               {isLoading && <h2>Loading...</h2>}
               <div className="mt-10">

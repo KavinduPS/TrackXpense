@@ -42,7 +42,7 @@ const CategoryChart = () => {
           boxHeight: 15,
           padding: 15,
           font: {
-            size: 20,
+            size: 15,
           },
           color: "#F7F7F7",
         },
@@ -51,7 +51,7 @@ const CategoryChart = () => {
   };
 
   return (
-    <div style={{ width: "450px", height: "450px" }}>
+    <div style={{ width: "400px", height: "400px" }}>
       <Doughnut data={data} options={options} />
     </div>
   );
