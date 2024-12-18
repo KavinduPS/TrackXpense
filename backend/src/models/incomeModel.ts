@@ -1,14 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
-
 export interface IIncome {
-  title: string;
+  user: mongoose.Types.ObjectId;
+  name: string;
   amount: number;
   date: Date;
-  source: string; 
-  description?: string; // Optional
+  source: string;
+  reference?: string;
 }
-
 
 const incomeSchema: Schema = new Schema({
   user: {
@@ -16,7 +15,7 @@ const incomeSchema: Schema = new Schema({
     required: true,
     ref: "User",
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
@@ -32,10 +31,9 @@ const incomeSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  reference: {
     type: String,
   },
 });
 
-
-export default mongoose.model("Income", incomeSchema);
+export default mongoose.model<IIncome>("Income", incomeSchema);

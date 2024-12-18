@@ -1,20 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface IExpense {
-  title: string;
+  user: mongoose.Types.ObjectId;
+  name: string;
   amount: number;
   date: Date;
   category: string;
-  description: string;
+  reference?: string;
 }
 
-const expenseSchema: Schema = new Schema({
+const expenseSchema: Schema<IExpense> = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
@@ -30,9 +31,9 @@ const expenseSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  reference: {
     type: String,
   },
 });
 
-export default mongoose.model("Expense", expenseSchema);
+export default mongoose.model<IExpense>("Expense", expenseSchema);

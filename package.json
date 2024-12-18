@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"yarn --cwd backend run dev\" \"yarn --cwd frontend start\""
+  }
+}
