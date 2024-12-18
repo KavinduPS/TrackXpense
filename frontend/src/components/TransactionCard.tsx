@@ -19,7 +19,7 @@ const TransactionCard = ({
       {" "}
       <div
         // key={exp.id}
-        className="flex items-center justify-between p-4 w-full bg-green-300 rounded "
+        className="flex items-center justify-between p-4 w-full bg-Dark rounded text-gray-200"
       >
         <div className="text-left text-Darkgrayishviolet font-semibold">
           {name + " " + amount}

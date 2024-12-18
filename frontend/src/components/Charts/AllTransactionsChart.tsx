@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
   Filler,
+  Colors,
 } from "chart.js";
 
 ChartJS.register(
@@ -67,6 +68,14 @@ const AllTransactionsChart = ({
         data: dates.map((date) => expensesMap.get(date) || 0),
         fill: true,
         tension: 0.4,
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, "rgba(225, 29, 72)");
+          gradient.addColorStop(1, "rgba(224, 92, 92,0.4)");
+          return gradient;
+        },
+        borderColor: "rgb(225, 29, 72)",
       },
 
       {
@@ -74,6 +83,14 @@ const AllTransactionsChart = ({
         data: dates.map((date) => incomesMap.get(date) || 0),
         fill: true,
         tension: 0.4,
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, "rgba(103, 236, 58, 0.8)");
+          gradient.addColorStop(1, "rgba(219, 239, 212,0.4)");
+          return gradient;
+        },
+        borderColor: "rgb(103, 236, 58)",
       },
     ],
   };
