@@ -27,3 +27,8 @@ export type AggIncome = {
   originalDate: string;
   amount: number;
 };
+
+export type TimeFrame = {
+  startDate: string;
+  endDate: string;
+};

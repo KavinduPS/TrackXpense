@@ -1,4 +1,4 @@
-import { AggExpense, Expense } from "../../types";
+import { AggExpense, Expense, TimeFrame } from "../../types";
 import { apiSlice } from "../api/apiSlice";
 
 const EXPENSES_URL = "/api/expenses";
@@ -16,6 +16,14 @@ export const expensesApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${EXPENSES_URL}/by-date`,
         method: "GET",
+      }),
+      providesTags: ["Expenses"],
+    }),
+    getAllExpensesByDateRange: build.query<AggExpense[], TimeFrame>({
+      query: (timeFrame) => ({
+        url: `${EXPENSES_URL}/date-range`,
+        method: "GET",
+        params: timeFrame,
       }),
       providesTags: ["Expenses"],
     }),
@@ -48,6 +56,7 @@ export const expensesApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetAllExpensesQuery,
   useGetAllExpensesByDateQuery,
+  useLazyGetAllExpensesByDateRangeQuery,
   useAddExpenseMutation,
   useUpdateExpenseMutation,
   useDeleteExpenseMutation,

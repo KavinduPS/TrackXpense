@@ -1,17 +1,23 @@
-import React, { useMemo } from "react";
+import React, { ReactNode, useEffect, useState , useMemo} from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import AllTransactionsChart from "../../components/Charts/AllTransactionsChart";
 import {
   useGetAllExpensesByDateQuery,
-  useGetAllExpensesQuery,
+  useLazyGetAllExpensesByDateRangeQuery,
 } from "../../modules/expenses/expensesApiSlice";
-import {
+        import {
   useGetAllIncoemsQuery,
   useGetAllIncomesByDateQuery,
 } from "../../modules/incomes/incomesApiSlice";
+import AccountBalanceChart from "../../components/Charts/AccountBalanceChart";
+import { TimeFrames } from "../../utils/const";
+import { getDateRange } from "../../utils/dateUtils";
+import { toast } from "react-toastify";
 import Spinner from "../../components/Spin";
 import CategoryChart from "../../components/Charts/ReportCharts/CategoryChart";
+  useGetAllExpensesQuery,
+} from "../../modules/expenses/expensesApiSlice";
 
 const Dashboard: React.FC = () => {
   const {
@@ -29,7 +35,24 @@ const Dashboard: React.FC = () => {
   const { data: expenseData } = useGetAllExpensesByDateQuery();
   const { data: incomeData } = useGetAllIncomesByDateQuery();
 
-  const totalExpenses = useMemo(
+  const [trigger, { data: expensesByDateRange }] =
+    useLazyGetAllExpensesByDateRangeQuery();
+
+  const handleTimeFrameClick = async (timeFrameKey: string) => {
+    try {
+      const newTimeFrame = getDateRange(timeFrameKey);
+      await trigger(newTimeFrame);
+    } catch (error) {
+      toast.error("Error fetching date range data");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleTimeFrameClick(TimeFrames.THIS_MONTH);
+  }, []);
+    
+      const totalExpenses = useMemo(
     () => expenses?.reduce((total, expense) => total + expense.amount, 0) ?? 0,
     [expenses]
   );
@@ -38,19 +61,66 @@ const Dashboard: React.FC = () => {
     () => incomes?.reduce((total, income) => total + income.amount, 0) ?? 0,
     [incomes]
   );
+
   return (
-    <div className="flex flex-col min-h-screen bg-zinc-900">
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-grow">
-          <div className="absolute top-0 right-0 p-6">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "380px", height: "60px" }}
-            />
-          </div>
-          <div className="flex justify-between mt-28 ml-14 mr-14">
+    <>
+      <div className="flex flex-col min-h-screen bg-zinc-900 ">
+        <div className="flex">
+          <Sidebar />
+          <div className="flex-grow relative">
+            <div className="absolute top-0 right-0 p-6">
+              <img
+                src={logo}
+                alt="Logo"
+                style={{ width: "380px", height: "60px" }}
+              />
+            </div>
+            <div className="mt-32 ml-10 w-2/5">
+              <div className="flex space-x-2 mb-4">
+                <button
+                  onClick={() => handleTimeFrameClick(TimeFrames.THIS_MONTH)}
+                >
+                  <div className="bg-zinc-950 text-white p-1 rounded-lg">
+                    This month
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleTimeFrameClick(TimeFrames.LAST_MONTH)}
+                >
+                  <div className="bg-zinc-950 text-white p-1 rounded-lg">
+                    Last month
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleTimeFrameClick(TimeFrames.LAST_3_MONTHS)}
+                >
+                  <div className="bg-zinc-950 text-white p-1 rounded-lg">
+                    Last 3 months
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleTimeFrameClick(TimeFrames.LAST_6_MONTHS)}
+                >
+                  <div className="bg-zinc-950 text-white p-1 rounded-lg">
+                    Last 6 months
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleTimeFrameClick(TimeFrames.THIS_YEAR)}
+                >
+                  <div className="bg-zinc-950 text-white p-1 rounded-lg">
+                    This year
+                  </div>
+                </button>
+              </div>
+              {expenseData && incomeData && expensesByDateRange && (
+                <AccountBalanceChart
+                  expenses={expensesByDateRange}
+                  incomes={incomeData}
+                />
+              )}
+            </div>
+            <div className="flex justify-between mt-28 ml-14 mr-14">
             <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center">
               <div className="text-2xl font-semibold text-gray-200">
                 Total Income
@@ -76,6 +146,9 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
+            <div className="flex justify-between">
+              <div className="mt-32 ml-10 w-2/5">
+          
           <div className="flex justify-between w-full">
             <div className="w-3/6 h-96 text-gray-200 mt-14 ml-14 bg-zinc-900 shadow-2xl p-6 border rounded-lg relative">
               <p className="pb-6">Expense Chart</p>
@@ -86,6 +159,7 @@ const Dashboard: React.FC = () => {
                     incomes={incomeData}
                   />
                 ) : (
+
                   <div className="text-green-300">
                     <Spinner />
                   </div>
