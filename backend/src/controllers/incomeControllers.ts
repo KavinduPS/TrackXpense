@@ -12,15 +12,19 @@ const getIncomes = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // Create income - api/incomes
-const createIncome = async (req: Request, res: Response, next: NextFunction) => {
-  const { title, amount, date, source, description } = req.body;
-  if (!title || !amount || !date || !source) {
+const createIncome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, amount, date, source, description } = req.body;
+  if (!name || !amount || !date || !source) {
     res.status(400);
     throw new Error("Please enter required fields");
   }
   try {
     const newIncome = await Income.create({
-      title: title,
+      name: name,
       amount: amount,
       date: date,
       source: source,
@@ -51,7 +55,11 @@ const editIncome = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // Delete income - api/incomes/:id
-const deleteIncome = async (req: Request, res: Response, next: NextFunction) => {
+const deleteIncome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const income = await Income.findById(id);
