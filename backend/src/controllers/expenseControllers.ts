@@ -119,10 +119,51 @@ const getExpensesByDate = async (
   }
 };
 
+const getExpensesByDateRange = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  const { startDate, endDate } = req.query;
+  try {
+    if (!startDate && !endDate) {
+      return res.status(400).json({
+        message: "Invalid date range",
+      });
+    }
+    const expenses: IExpense[] = await Expense.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: {
+            $gte: new Date(startDate as string),
+            $lte: new Date(endDate as string),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%b %d", date: "$date" } },
+          originalDate: { $first: "$date" },
+          amount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { originalDate: 1 },
+      },
+    ]);
+    res.status(200).json(expenses);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getExpenses,
   createExpense,
   editExpense,
   deleteExpense,
   getExpensesByDate,
+  getExpensesByDateRange,
 };

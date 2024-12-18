@@ -10,12 +10,14 @@ export const incomesApiSlice = apiSlice.injectEndpoints({
         url: `${INCOMES_URL}`,
         method: "GET",
       }),
+      providesTags: ["Incomes"],
     }),
     getAllIncomesByDate: build.query<AggIncome[], void>({
       query: () => ({
         url: `${INCOMES_URL}/by-date`,
         method: "GET",
       }),
+      providesTags: ["Incomes"],
     }),
   }),
 });

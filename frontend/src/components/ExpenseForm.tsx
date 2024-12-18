@@ -101,6 +101,7 @@ const AddExpenseForm = ({ onAddExpense }: AddExpenseFormProps) => {
               <option value="Transportation">Transportation</option>
               <option value="Healthcare">Healthcare</option>
               <option value="Entertainment">Entertainment</option>
+              <option value="Shopping">Shopping</option>
               <option value="Other">Other</option>
             </Field>
             {touched.category && errors.category && (
