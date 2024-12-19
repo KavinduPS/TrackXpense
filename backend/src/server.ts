@@ -2,9 +2,10 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db";
+import userRoutes from "./routes/userRoutes";
 import incomeRoutes from "./routes/incomeRoutes";
 import expensesRoutes from "./routes/expenseRoutes";
-import userRoutes from "./routes/userRoutes";
+import goalRoutes from "./routes/goalRoutes";
 import { errorHandler, notFound } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
 
@@ -25,9 +26,10 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/api/expenses", expensesRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/expenses", expensesRoutes);
 app.use("/api/incomes", incomeRoutes);
+app.use("/api/goals", goalRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "TrackXpense API is running" });
