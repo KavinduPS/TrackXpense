@@ -1,134 +1,158 @@
-import React, { useState, useEffect } from "react";
-
-interface Income {
-  id: number;
-  name: string;
-  amount: number;
-  date: string;
-  category: string;
-}
+import { Income } from "../types";
+import * as Yup from "yup";
+import { Field, Formik, Form } from "formik";
 
 type EditIncomeModalProps = {
-  isOpen: boolean;
-  income: Income;
-  onSave: (updatedIncome: Income) => void;
-  onCancel: () => void;
+  isVisible: boolean;
+  editingIncome: Income;
+  onCloseModal: () => void;
+  onSaveIncome: (income: Income) => void;
 };
 
-const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
-  isOpen,
-  income,
-  onSave,
-  onCancel,
-}) => {
-  const [formData, setFormData] = useState<Income>(income);
-
-  useEffect(() => {
-    setFormData(income);
-  }, [income]);
-
-  if (!isOpen) return null;
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === "amount" ? Number(value) : value,
-    });
+export const EditIncomeModal = ({
+  isVisible,
+  onCloseModal,
+  editingIncome,
+  onSaveIncome,
+}: EditIncomeModalProps) => {
+  const { _id, name, amount, date, category, reference } = editingIncome;
+  const initialValues: Income = {
+    _id: _id,
+    name: name,
+    amount: amount,
+    date: date.toString().split("T")[0],
+    category: category,
+    reference: reference,
   };
 
-  const handleSave = () => {
-    onSave(formData);
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Add Income name"),
+    amount: Yup.number()
+      .required("Add Income amount")
+      .positive("Amount must be positive")
+      .typeError("Input only numbers"),
+    category: Yup.string().required("Select category"),
+  });
+
+  const handleSubmit = (
+    values: Income,
+    { resetForm }: { resetForm: () => void }
+  ): void => {
+    onSaveIncome(values);
+    resetForm();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-lg font-semibold mb-4 text-blue-600">
-          Edit Income
-        </h2>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="name" className="w-32 text-black font-medium">
-            Income Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Income Name"
-            className="w-full p-2 border rounded-lg text-black"
-          />
-        </div>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="amount" className="w-32 text-black font-medium">
-            Income Amount
-          </label>
-          <input
-            type="number"
-            name="amount"
-            value={formData.amount}
-            onChange={handleChange}
-            placeholder="Income Amount"
-            className="w-full p-2 border rounded-lg text-black"
-          />
-        </div>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="date" className="w-32 text-black font-medium">
-            Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-lg text-black"
-          />
-        </div>
-
-        <div className="flex items-center mb-4">
-          <label htmlFor="category" className="w-32 text-black font-medium">
-            Category
-          </label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-lg text-black"
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ touched, errors }) => (
+        <Form>
+          <div
+            className={`fixed inset-0 flex justify-center items-center transition-colors flex-col border-2 border-black w-200 bg-zinc-900 bg-opacity-90 ${
+              isVisible ? "visible bg-black/50" : "invisible"
+            }`}
           >
-            <option value="" disabled>
-              Select Category
-            </option>
-            <option value="Primary Job">Primary Job</option>
-            <option value="Secondary Job">Secondary Job</option>
-            <option value="Sales">Sales</option>
-            <option value="Rent">Rent</option>
-            <option value="Others">Others</option>
-          </select>
-        </div>
+            <div className=" p-10 w-1/3 bg-zinc-700 rounded-lg">
+              <div>
+                <h2 className="text-gray-200 text-xl font-semibold mb-4">
+                  Update Income
+                </h2>
+                <Field
+                  className="w-80 h-10 pl-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  type="text"
+                  name="name"
+                  placeholder="Income Name"
+                />
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.name && errors.name && (
+                    <div className="text-red-600 w-80 pl-3">{errors.name}</div>
+                  )}
+                </div>
+              </div>
 
-        <div className="flex justify-end space-x-2">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-800"
-          >
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
+              <div>
+                <Field
+                  className="w-80 h-10 mt-5 pl-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  type="text"
+                  name="amount"
+                  placeholder="Amount"
+                  pattern="[0-9]*"
+                />
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.amount && errors.amount && (
+                    <div className="text-red-600 w-80 pl-3">
+                      {errors.amount}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Field
+                  type="date"
+                  name="date"
+                  className="w-80 h-10 mt-5 pl-3 pr-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                />
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.date && errors.date && (
+                    <div className="text-red-600 w-80 pl-3"></div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Field
+                  as="select"
+                  name="category"
+                  className="w-80 h-10 mt-5 px-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                >
+                  <option value="" className="text-gray-50">
+                    Category
+                  </option>
+                  <option value="Salary">Salary</option>
+                  <option value="Secoundary Income">Secoundary Income</option>
+                  <option value="Housing/Rent">Housing/Rent</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Bank Interest">Bank Interest</option>
+                  <option value="Share market">Share market</option>
+                  <option value="Other">Other</option>
+                </Field>
+                {touched.category && errors.category && (
+                  <div className="text-red-600 text-left pl-24">
+                    {errors.category}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <Field
+                  className="w-80 h-32 mt-5 px-3 pt-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  as="textarea"
+                  name="reference"
+                  placeholder="Reference"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-80 h-10 mt-5 pl-3 bg-green-300 rounded-lg text-zinc-900"
+              >
+                Update Income
+              </button>
+              <button
+                type="button"
+                className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-zinc-900"
+                onClick={onCloseModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
-
-export default EditIncomeModal;

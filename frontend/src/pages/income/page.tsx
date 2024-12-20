@@ -1,223 +1,157 @@
-import React, { useState } from "react";
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import React, { ReactElement, ReactNode, useState } from "react";
+import AddIncomeForm from "../../components/IncomeForm";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
+// import {
+//   useAddExpenseMutation,
+//   useDeleteExpenseMutation,
+//   useGetAllExpensesQuery,
+//   useUpdateExpenseMutation,
+// } from "../../modules/expenses/expensesApiSlice";
+import { Income as IncomeType } from "../../types";
+import { toast } from "react-toastify";
+import TransactionCard from "../../components/TransactionCard";
+import { EditIncomeModal } from "../../components/EditIncomeModal";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
-import EditIncomeModal from "../../components/EditIncomeModal";
 
-interface Income {
-  id: number;
-  name: string;
-  amount: number;
-  date: string;
-  category: string;
-}
+const Income: React.FC = () => {
+  const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] =
+    useState<boolean>(false);
+  const [editingIncome, setEditingIncome] = useState<IncomeType | null>();
 
-const Incomes: React.FC = () => {
-  const [income, setIncome] = useState<Income[]>([]);
-  const [incomeData, setIncomeData] = useState<Partial<Income>>({
-    name: "",
-    amount: 0,
-    date: "",
-    category: "",
-  });
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [incomeToDelete, setIncomeToDelete] = useState<number | null>(null);
-  const [incomeToEdit, setIncomeToEdit] = useState<Income | null>(null);
+  // const [addIncome] = useAddIncomeMutation();
+  // const [updateIncome] = useUpdateIncomeMutation();
+  // const [deleteIncome] = useDeleteIncomeMutation();
+  // const { data, isFetching, refetch } = useGetAllIncomesQuery();
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setIncomeData({
-      ...incomeData,
-      [name]: value,
-    });
+  const handleEditButtonClick = (income: IncomeType): void => {
+    setEditingIncome(income);
+    setIsEditModalVisible(true);
   };
 
-  const addIncome = () => {
-    if (
-      incomeData.name &&
-      incomeData.amount &&
-      incomeData.date &&
-      incomeData.category
-    ) {
-      const newIncome: Income = {
-        id: income.length + 1,
-        name: incomeData.name!,
-        amount: Number(incomeData.amount),
-        date: incomeData.date!,
-        category: incomeData.category!,
-      };
-      setIncome([...income, newIncome]);
-      setIncomeData({ name: "", amount: 0, date: "", category: "" });
+  const handleCloseEditModal = (): void => {
+    setIsEditModalVisible(false);
+  };
+
+  const handleDeleteButtonClick = (income: IncomeType): void => {
+    setEditingIncome(income);
+    setIsDeleteModalVisible(true);
+  };
+
+  const handleCancelDelete = (): void => {
+    setIsDeleteModalVisible(false);
+  };
+
+  // Backend-related operations
+  /*
+  const handleAddIncome = async (income: IncomeType): Promise<void> => {
+    try {
+      await addIncome(income).unwrap();
+      // refetch();
+      toast.success("Income added successfully");
+    } catch (error: any) {
+      toast(error?.data?.message);
     }
   };
 
-  const openDeleteModal = (id: number) => {
-    setIncomeToDelete(id);
-    setIsModalOpen(true);
-  };
-
-  const closeDeleteModal = () => {
-    setIsModalOpen(false);
-    setIncomeToDelete(null);
-  };
-
-  const confirmDelete = () => {
-    if (incomeToDelete !== null) {
-      setIncome(income.filter((item) => item.id !== incomeToDelete));
+  const handleUpdateIncome = async (
+    editingIncome: IncomeType
+  ): Promise<void> => {
+    try {
+      console.log("save pressed", editingIncome);
+      await updateIncome(editingIncome).unwrap();
+      setIsEditModalVisible(false);
+      toast.success("Income updated successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast(error?.data?.message);
     }
-    closeDeleteModal();
   };
 
-  const openEditModal = (income: Income) => {
-    setIncomeToEdit(income);
-    setIsEditModalOpen(true);
+  const handleDeleteIncome = async (
+    editingIncome: IncomeType
+  ): Promise<void> => {
+    try {
+      console.log("save pressed", editingIncome);
+      await deleteIncome(editingIncome).unwrap();
+      setIsDeleteModalVisible(false);
+      toast.success("Income deleted successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast(error?.data?.message);
+    }
   };
+  */
 
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
-    setIncomeToEdit(null);
-  };
+  const renderIncomes = (): ReactNode => {
+    // Mock frontend implementation for rendering incomes
+    /*
+    if (isFetching) {
+      return <h2>Loading</h2>;
+    }
 
-  const saveEdit = (updatedIncome: Income) => {
-    setIncome(
-      income.map((item) =>
-        item.id === updatedIncome.id ? updatedIncome : item
-      )
-    );
-    closeEditModal();
+    if (data && data.length > 0) {
+      return data
+        .slice(0, 5)
+        .map((income) => (
+          <TransactionCard
+            key={income._id}
+            income={income}
+            onEditButtonClick={handleEditButtonClick}
+            onDeleteButtonClick={handleDeleteButtonClick}
+          />
+        ));
+    }
+    */
+
+    return <h2>No income added yet.</h2>;
   };
 
   return (
-    <div className="flex min-h-screen bg-zinc-900 text-white">
-      <Sidebar />
-
-      <div className="flex-grow ">
-        <div className="relative">
-          <div className="absolute top-0 right-0 p-6">
+    <div className="flex flex-col min-h-screen bg-zinc-900  ">
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-grow">
+          <i className="absolute top-0 right-0 p-6">
             <img
               src={logo}
               alt="Logo"
               style={{ width: "380px", height: "60px" }}
             />
-          </div>
-        </div>
-
-        <div className="flex justify-between mt-40">
-          <div className="w-full lg:w-1/3 p-4 bg-zinc-700 rounded-lg mr-8">
-            <h2 className="text-xl mb-4">Income</h2>
-            <input
-              type="text"
-              name="name"
-              value={incomeData.name || ""}
-              onChange={handleChange}
-              placeholder="Income Name"
-              className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
-            />
-            <input
-              type="number"
-              name="amount"
-              value={incomeData.amount || ""}
-              onChange={handleChange}
-              placeholder="Income Amount"
-              className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
-            />
-            <input
-              type="date"
-              name="date"
-              value={incomeData.date || ""}
-              onChange={handleChange}
-              className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
-            />
-            <select
-              name="category"
-              value={incomeData.category || ""}
-              onChange={handleChange}
-              className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
-            >
-              <option value="" disabled>
-                Category
-              </option>
-              <option value="Primary Job">Primary Job</option>
-              <option value="Secondary Job">Secondary Job</option>
-              <option value="Sales">Sales</option>
-              <option value="Rent">Rent</option>
-              <option value="Others">Others</option>
-            </select>
-            <textarea
-              name="reference"
-              placeholder="Add A Reference"
-              className="w-full p-2 mb-4 bg-zinc-600 rounded-lg"
-            ></textarea>
-            <button
-              onClick={addIncome}
-              className="w-full py-2 bg-orange-500 rounded-lg text-white font-semibold"
-            >
-              + Add Income
-            </button>
-          </div>
-
-          <div className="w-full lg:w-2/3 p-4 bg-zinc-800 rounded-lg">
-            <h2 className="text-xl mb-4">Your Income</h2>
-            <div className="space-y-4">
-              {income.length > 0 ? (
-                income.map((income) => (
-                  <div
-                    key={income.id}
-                    className="flex justify-between items-center p-4 bg-zinc-700 rounded-lg"
-                  >
-                    <div>
-                      <p className="font-semibold">{income.name}</p>
-                      <p className="text-sm">LKR {income.amount}</p>
-                      <p className="text-sm">{income.date}</p>
-                    </div>
-                    <div className="flex space-x-4">
-                      <button
-                        className="text-yellow-500"
-                        onClick={() => openEditModal(income)}
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        className="text-red-500"
-                        onClick={() => openDeleteModal(income.id)}
-                      >
-                        <FaTrashAlt />
-                      </button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No incomes added yet.</p>
+          </i>
+          <div className="flex w-full justify-between">
+            <div className=" ml-14 mt-32 flex  justify-center">
+              {/* Mock handler passed to AddIncomeForm */}
+              <AddIncomeForm onAddIncome={async (income) => Promise.resolve()} />
+            </div>
+            <div className="mt-32 w-full ml-28 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-5/6">
+              <div className="w-11/12 pb-5">
+                <h2 className=" text-white text-xl pb-2">Recent Incomes</h2>
+                {renderIncomes()}
+              </div>
+              {isEditModalVisible && editingIncome && (
+                <EditIncomeModal
+                  isVisible={isEditModalVisible}
+                  onCloseModal={handleCloseEditModal}
+                  editingIncome={editingIncome}
+                  onSaveIncome={() => {}} // Mock handler
+                />
               )}
+              {/* {isDeleteModalVisible && editingIncome && (
+                // <DeleteConfirmationModal
+                //   isVisible={isDeleteModalVisible}
+                //   // deletingIncome={editingIncome}
+                //   onCancel={handleCancelDelete}
+                //   onConfirm={() => {}} // Mock handler
+                // />
+              )} */}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Delete Confirmation Modal */}
-      {/* <DeleteConfirmationModal
-        isOpen={isModalOpen}
-        onConfirm={confirmDelete}
-        onCancel={closeDeleteModal}
-      /> */}
-
-      {/* Edit Income Modal */}
-      {incomeToEdit && (
-        <EditIncomeModal
-          isOpen={isEditModalOpen}
-          income={incomeToEdit}
-          onSave={saveEdit}
-          onCancel={closeEditModal}
-        />
-      )}
     </div>
   );
 };
 
-export default Incomes;
+export default Income;
