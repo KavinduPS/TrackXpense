@@ -1,12 +1,43 @@
-import { TimeFrame } from "../types";
-import { TimeFrames } from "./const";
+import {
+  AggExpenseByMonth,
+  AggIncomeByMonth,
+  MonthlyTransaction,
+  TimeFrame,
+} from "../types";
+import { MONTHS, TimeFrames } from "./const";
 
 export const dateToMMMDD = (date: Date): string => {
   const newDate = new Date(date).toDateString().slice(4, 10);
   return newDate;
 };
 
-export default dateToMMMDD;
+export const combineFinancialData = (
+  expenses: AggExpenseByMonth[],
+  incomes: AggIncomeByMonth[]
+): MonthlyTransaction[] => {
+  const monthlyData = MONTHS.map((month, index) => ({
+    month,
+    monthIndex: index,
+    income: 0,
+    expense: 0,
+  }));
+
+  expenses.forEach((expense) => {
+    const monthIndex = expense.month - 1;
+    if (monthIndex >= 0 && monthIndex < 12) {
+      monthlyData[monthIndex].expense = expense.totalExpenses;
+    }
+  });
+
+  incomes.forEach((income) => {
+    const monthIndex = income.month - 1;
+    if (monthIndex >= 0 && monthIndex < 12) {
+      monthlyData[monthIndex].income = income.totalIncomes;
+    }
+  });
+
+  return monthlyData;
+};
 
 export const getDateRange = (timeFrameKey: string): TimeFrame => {
   const now = new Date();

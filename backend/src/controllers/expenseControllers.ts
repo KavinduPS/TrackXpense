@@ -119,6 +119,47 @@ const getExpensesByDate = async (
   }
 };
 
+const getExpensesByMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  const currentYear = new Date().getFullYear();
+  try {
+    const expensesByMonth = await Expense.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: {
+            $gte: new Date(currentYear, 0, 1),
+            $lte: new Date(currentYear, 11, 31),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$date" } },
+          totalExpenses: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { "_id.month": 1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id.month",
+          totalExpenses: 1,
+        },
+      },
+    ]);
+    res.status(200).json(expensesByMonth);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getExpensesByDateRange = async (
   req: Request,
   res: Response,
@@ -158,6 +199,36 @@ const getExpensesByDateRange = async (
     next(error);
   }
 };
+  
+ //Group expenses by category
+const getExpensesGroupedByCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.user?._id;
+    if (!userId) {
+      res.status(401);
+      throw new Error("User not authorized");
+    }
+
+    const groupedExpenses = await Expense.aggregate([
+      { $match: { user: userId } },
+      {
+        $group: {
+          _id: "$category",
+          totalAmount: { $sum: "$amount" },
+          expenses: { $push: "$$ROOT" },
+        },
+      },
+    ]);
+
+    res.status(200).json(groupedExpenses);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export {
   getExpenses,
@@ -165,5 +236,8 @@ export {
   editExpense,
   deleteExpense,
   getExpensesByDate,
+  getExpensesByMonth,
   getExpensesByDateRange,
+  getExpensesGroupedByCategory
 };
+
