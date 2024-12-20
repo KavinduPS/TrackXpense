@@ -119,4 +119,49 @@ const getIncomesByDate = async (
   }
 };
 
-export { getIncomes, createIncome, editIncome, deleteIncome, getIncomesByDate };
+const getIncomesByMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  try {
+    const incomesByMonth = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$date" }, year: { $year: "$date" } },
+          totalIncomes: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 },
+      },
+
+      {
+        $project: {
+          _id: 0,
+          month: "$_id.month",
+          year: "$_id.year",
+          totalIncomes: 1,
+        },
+      },
+    ]);
+    res.status(200).json(incomesByMonth);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  getIncomes,
+  createIncome,
+  editIncome,
+  deleteIncome,
+  getIncomesByDate,
+  getIncomesByMonth,
+};

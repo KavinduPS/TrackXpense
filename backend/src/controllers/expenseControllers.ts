@@ -119,6 +119,43 @@ const getExpensesByDate = async (
   }
 };
 
+const getExpensesByMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  try {
+    const expensesByMonth = await Expense.aggregate([
+      {
+        $match: {
+          user: userId,
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$date" }, year: { $year: "$date" } },
+          totalExpenses: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id.month",
+          year: "$_id.year",
+          totalExpenses: 1,
+        },
+      },
+    ]);
+    res.status(200).json(expensesByMonth);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getExpensesByDateRange = async (
   req: Request,
   res: Response,
@@ -165,5 +202,6 @@ export {
   editExpense,
   deleteExpense,
   getExpensesByDate,
+  getExpensesByMonth,
   getExpensesByDateRange,
 };

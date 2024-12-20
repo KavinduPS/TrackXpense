@@ -22,10 +22,28 @@ export type AggExpense = {
   amount: number;
 };
 
+export type AggExpenseByMonth = {
+  totalExpenses: number;
+  month: number;
+  year: number;
+};
+
 export type AggIncome = {
   _id: string;
   originalDate: string;
   amount: number;
+};
+
+export type AggIncomeByMonth = {
+  totalIncomes: number;
+  month: number;
+  year: number;
+};
+
+export type MonthlyTransaction = {
+  month: string;
+  income: number;
+  expense: number;
 };
 
 export type TimeFrame = {
