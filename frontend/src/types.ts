@@ -25,7 +25,7 @@ export type AggExpense = {
 export type AggExpenseByMonth = {
   totalExpenses: number;
   month: number;
-  year: number;
+  year?: number;
 };
 
 export type AggIncome = {
@@ -37,7 +37,7 @@ export type AggIncome = {
 export type AggIncomeByMonth = {
   totalIncomes: number;
   month: number;
-  year: number;
+  year?: number;
 };
 
 export type MonthlyTransaction = {

@@ -5,3 +5,18 @@ export const TimeFrames = {
   LAST_6_MONTHS: "LAST_6_MONTHS",
   THIS_YEAR: "THIS_YEAR",
 };
+
+export const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];

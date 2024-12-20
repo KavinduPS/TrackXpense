@@ -4,7 +4,7 @@ import {
   MonthlyTransaction,
   TimeFrame,
 } from "../types";
-import { TimeFrames } from "./const";
+import { MONTHS, TimeFrames } from "./const";
 
 export const dateToMMMDD = (date: Date): string => {
   const newDate = new Date(date).toDateString().slice(4, 10);
@@ -15,51 +15,28 @@ export const combineFinancialData = (
   expenses: AggExpenseByMonth[],
   incomes: AggIncomeByMonth[]
 ): MonthlyTransaction[] => {
-  const monthlyData: { [key: string]: MonthlyTransaction } = {};
-
-  const getMonthKey = (month: number, year: number) => {
-    const date = new Date(year, month - 1); // month - 1 because months are 0-based in JS
-    const monthName = date.toLocaleString("default", { month: "short" });
-    return `${year}-${month}`; // Use this as key to maintain chronological order
-  };
+  const monthlyData = MONTHS.map((month, index) => ({
+    month,
+    monthIndex: index,
+    income: 0,
+    expense: 0,
+  }));
 
   expenses.forEach((expense) => {
-    const key = getMonthKey(expense.month, expense.year);
-    const monthName = new Date(expense.year, expense.month - 1).toLocaleString(
-      "default",
-      { month: "short" }
-    );
-
-    if (!monthlyData[key]) {
-      monthlyData[key] = {
-        month: monthName,
-        income: 0,
-        expense: 0,
-      };
+    const monthIndex = expense.month - 1;
+    if (monthIndex >= 0 && monthIndex < 12) {
+      monthlyData[monthIndex].expense = expense.totalExpenses;
     }
-    monthlyData[key].expense = expense.totalExpenses;
   });
 
   incomes.forEach((income) => {
-    const key = getMonthKey(income.month, income.year);
-    const monthName = new Date(income.year, income.month - 1).toLocaleString(
-      "default",
-      { month: "short" }
-    );
-
-    if (!monthlyData[key]) {
-      monthlyData[key] = {
-        month: monthName,
-        income: 0,
-        expense: 0,
-      };
+    const monthIndex = income.month - 1;
+    if (monthIndex >= 0 && monthIndex < 12) {
+      monthlyData[monthIndex].income = income.totalIncomes;
     }
-    monthlyData[key].income = income.totalIncomes;
   });
 
-  return Object.entries(monthlyData)
-    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-    .map(([_, data]) => data);
+  return monthlyData;
 };
 
 export const getDateRange = (timeFrameKey: string): TimeFrame => {

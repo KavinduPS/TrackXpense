@@ -22,7 +22,7 @@ const IncomeExpenseBarChart = ({
   expenses,
 }: IncomeExpenseBarChartProps) => {
   const data = combineFinancialData(expenses, incomes);
-
+  console.log(data);
   return (
     <ResponsiveContainer width="100%" height={400}>
       <BarChart

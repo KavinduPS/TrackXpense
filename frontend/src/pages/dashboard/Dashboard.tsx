@@ -36,8 +36,10 @@ const Dashboard: React.FC = () => {
     isLoading: isIncomesLoading,
   } = useGetAllIncoemsQuery();
 
-  const { data: expenseByMonth } = useGetAllExpensesByMonthQuery();
-  const { data: incomeByMonth } = useGetAllIncomesByMonthQuery();
+  const { data: expenseByMonth, isLoading: isExpensesByMonthLoading } =
+    useGetAllExpensesByMonthQuery();
+  const { data: incomeByMonth, isLoading: isIncomesByMonthLoading } =
+    useGetAllIncomesByMonthQuery();
 
   const { data: expenseData } = useGetAllExpensesByDateQuery();
   const { data: incomeData } = useGetAllIncomesByDateQuery();
@@ -194,11 +196,17 @@ const Dashboard: React.FC = () => {
           <div className="flex justify-center items-center">
             <div className="w-full h-auto mb-10 text-gray-200 mt-14  bg-Dark shadow-2xl rounded-lg relative ml-14 mr-14 py-5 ">
               <p className="mb-5 text-lg font-semibold">Transaction Chart</p>
-              {incomeByMonth && expenseByMonth && (
-                <IncomeExpenseBarChart
-                  incomes={incomeByMonth}
-                  expenses={expenseByMonth}
-                />
+
+              {isExpensesByMonthLoading && isIncomesByMonthLoading ? (
+                <Spinner />
+              ) : (
+                incomeByMonth &&
+                expenseByMonth && (
+                  <IncomeExpenseBarChart
+                    incomes={incomeByMonth}
+                    expenses={expenseByMonth}
+                  />
+                )
               )}
             </div>
           </div>

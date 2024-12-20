@@ -125,27 +125,31 @@ const getExpensesByMonth = async (
   next: NextFunction
 ) => {
   const { _id: userId } = req.user;
+  const currentYear = new Date().getFullYear();
   try {
     const expensesByMonth = await Expense.aggregate([
       {
         $match: {
           user: userId,
+          date: {
+            $gte: new Date(currentYear, 0, 1),
+            $lte: new Date(currentYear, 11, 31),
+          },
         },
       },
       {
         $group: {
-          _id: { month: { $month: "$date" }, year: { $year: "$date" } },
+          _id: { month: { $month: "$date" } },
           totalExpenses: { $sum: "$amount" },
         },
       },
       {
-        $sort: { "_id.year": 1, "_id.month": 1 },
+        $sort: { "_id.month": 1 },
       },
       {
         $project: {
           _id: 0,
           month: "$_id.month",
-          year: "$_id.year",
           totalExpenses: 1,
         },
       },
