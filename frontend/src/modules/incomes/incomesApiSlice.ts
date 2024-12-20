@@ -1,4 +1,4 @@
-import { AggIncome, Income } from "../../types";
+import { AggIncome, AggIncomeByMonth, Income } from "../../types";
 import { apiSlice } from "../api/apiSlice";
 
 const INCOMES_URL = "/api/incomes";
@@ -19,8 +19,18 @@ export const incomesApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Incomes"],
     }),
+    getAllIncomesByMonth: build.query<AggIncomeByMonth[], void>({
+      query: () => ({
+        url: `${INCOMES_URL}/by-month`,
+        method: "GET",
+      }),
+      providesTags: ["Incomes"],
+    }),
   }),
 });
 
-export const { useGetAllIncoemsQuery, useGetAllIncomesByDateQuery } =
-  incomesApiSlice;
+export const {
+  useGetAllIncoemsQuery,
+  useGetAllIncomesByDateQuery,
+  useGetAllIncomesByMonthQuery,
+} = incomesApiSlice;

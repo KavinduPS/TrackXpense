@@ -120,7 +120,48 @@ const getIncomesByDate = async (
   }
 };
 
-// getIncomeByDateRange - api/incomes/:id
+// getIncomeByMonth  api/incomes/:id
+const getIncomesByMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  const currentYear = new Date().getFullYear();
+  try {
+    const incomesByMonth = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: {
+            $gte: new Date(currentYear, 0, 1),
+            $lte: new Date(currentYear, 11, 31),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$date" } },
+          totalIncomes: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { "_id.month": 1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id.month",
+          totalIncomes: 1,
+        },
+      },
+    ]);
+    res.status(200).json(incomesByMonth);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getIncomeByDateRange = async (
   req: Request,
   res: Response,
@@ -134,15 +175,15 @@ const getIncomeByDateRange = async (
         message: "Invalid date range",
       });
     }
-    const expenses: IIncome[] = await Income.aggregate([
+    const incomes: IIncome[] = await Income.aggregate([
       {
         $match: {
           user: userId,
           date: {
-            $gte: new Date(startDate as string),
-            $lte: new Date(endDate as string),
-          },
-        },
+              $gte: new Date(startDate as string),
+              $lte: new Date(endDate as string),
+          }
+        }
       },
       {
         $group: {
@@ -155,17 +196,18 @@ const getIncomeByDateRange = async (
         $sort: { originalDate: 1 },
       },
     ]);
-    res.status(200).json(expenses);
-  } catch (error) {
+    res.status(200).json(incomes);
+   } catch (error) {
     next(error);
   }
 };
-
+  
 export { 
   getIncomes,
   createIncome,
   editIncome,
   deleteIncome,
   getIncomesByDate,
+  getIncomesByMonth,
   getIncomeByDateRange 
 };

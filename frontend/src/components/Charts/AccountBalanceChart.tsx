@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
   Filler,
+  elements,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { TimeFrames } from "../../utils/const";
@@ -85,6 +86,11 @@ const AccountBalanceChart = ({
   });
 
   const options = {
+    elements: {
+      point: {
+        radius: 0.2,
+      },
+    },
     scales: {
       x: {
         grid: {
@@ -114,12 +120,8 @@ const AccountBalanceChart = ({
   };
   console.log(data.datasets);
 
-  const handleThisMonth = () => {
-    getDateRange(TimeFrames.THIS_MONTH);
-  };
-
   return (
-    <div>
+    <div style={{ width: "465px", height: "465px" }}>
       <Line data={data} options={options}></Line>
     </div>
   );
