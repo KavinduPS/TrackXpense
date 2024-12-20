@@ -8,9 +8,10 @@ import {
   useLazyGetAllExpensesByDateRangeQuery,
 } from "../../modules/expenses/expensesApiSlice";
 import {
-  useGetAllIncoemsQuery,
+  useGetAllIncomesQuery,
   useGetAllIncomesByDateQuery,
   useGetAllIncomesByMonthQuery,
+  useLazyGetAllincomesByDateRangeQuery,
 } from "../../modules/incomes/incomesApiSlice";
 import AccountBalanceChart from "../../components/Charts/AccountBalanceChart";
 import { TimeFrames } from "../../utils/const";
@@ -34,7 +35,7 @@ const Dashboard: React.FC = () => {
     data: incomes,
     error: incomesError,
     isLoading: isIncomesLoading,
-  } = useGetAllIncoemsQuery();
+  } = useGetAllIncomesQuery();
 
   const { data: expenseByMonth, isLoading: isExpensesByMonthLoading } =
     useGetAllExpensesByMonthQuery();
@@ -44,13 +45,18 @@ const Dashboard: React.FC = () => {
   const { data: expenseData } = useGetAllExpensesByDateQuery();
   const { data: incomeData } = useGetAllIncomesByDateQuery();
 
-  const [trigger, { data: expensesByDateRange }] =
+  const [fetchExpensesByDateRange, { data: expensesByDateRange }] =
     useLazyGetAllExpensesByDateRangeQuery();
+  const [fetchIncomesByDateRange, { data: incomesByDateRange }] =
+    useLazyGetAllincomesByDateRangeQuery();
 
   const handleTimeFrameClick = async (timeFrameKey: string) => {
     try {
       const newTimeFrame = getDateRange(timeFrameKey);
-      await trigger(newTimeFrame);
+      await Promise.all([
+        fetchExpensesByDateRange(newTimeFrame),
+        fetchIncomesByDateRange(newTimeFrame),
+      ]);
       setActive(timeFrameKey);
     } catch (error) {
       toast.error("Error fetching date range data");
@@ -59,7 +65,14 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    handleTimeFrameClick(TimeFrames.THIS_MONTH);
+    const initilizeData = async () => {
+      try {
+        handleTimeFrameClick(TimeFrames.THIS_MONTH);
+      } catch (error) {
+        toast.error("Error fetching data");
+      }
+    };
+    initilizeData();
   }, []);
 
   const totalExpenses = useMemo(
@@ -173,10 +186,10 @@ const Dashboard: React.FC = () => {
                 </button>
               </div>
               <div className="w-full  h-64 pt-5 flex justify-center ">
-                {expenseData && incomeData && expensesByDateRange && (
+                {expensesByDateRange && incomesByDateRange && (
                   <AccountBalanceChart
                     expenses={expensesByDateRange}
-                    incomes={incomeData}
+                    incomes={incomesByDateRange}
                   />
                 )}
               </div>

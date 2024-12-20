@@ -15,13 +15,13 @@ export const EditIncomeModal = ({
   editingIncome,
   onSaveIncome,
 }: EditIncomeModalProps) => {
-  const { _id, name, amount, date, category, reference } = editingIncome;
+  const { _id, name, amount, date, source, reference } = editingIncome;
   const initialValues: Income = {
     _id: _id,
     name: name,
     amount: amount,
     date: date.toString().split("T")[0],
-    category: category,
+    source: source,
     reference: reference,
   };
 
@@ -31,7 +31,7 @@ export const EditIncomeModal = ({
       .required("Add Income amount")
       .positive("Amount must be positive")
       .typeError("Input only numbers"),
-    category: Yup.string().required("Select category"),
+    source: Yup.string().required("Add Income source"),
   });
 
   const handleSubmit = (
@@ -103,27 +103,15 @@ export const EditIncomeModal = ({
                 </div>
               </div>
 
-              <div>
-                <Field
-                  as="select"
-                  name="category"
-                  className="w-80 h-10 mt-5 px-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
-                >
-                  <option value="" className="text-gray-50">
-                    Category
-                  </option>
-                  <option value="Salary">Salary</option>
-                  <option value="Secoundary Income">Secoundary Income</option>
-                  <option value="Housing/Rent">Housing/Rent</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Bank Interest">Bank Interest</option>
-                  <option value="Share market">Share market</option>
-                  <option value="Other">Other</option>
-                </Field>
-                {touched.category && errors.category && (
-                  <div className="text-red-600 text-left pl-24">
-                    {errors.category}
-                  </div>
+              <Field
+                className="w-80 h-10 pl-3 mt-5 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                type="text"
+                name="source"
+                placeholder="Income source"
+              />
+              <div className="flex justify-center items-center text-left rounded-lg">
+                {touched.source && errors.source && (
+                  <div className="text-red-600 w-80 pl-3">{errors.source}</div>
                 )}
               </div>
 

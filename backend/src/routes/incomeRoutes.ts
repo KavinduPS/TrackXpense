@@ -18,6 +18,6 @@ router.put("/:id", protectRoute, editIncome);
 router.delete("/:id", protectRoute, deleteIncome);
 router.get("/by-date", protectRoute, getIncomesByDate);
 router.get("/by-month", protectRoute, getIncomesByMonth);
-router.get("/by-date-range", getIncomeByDateRange);
+router.get("/date-range", protectRoute, getIncomeByDateRange);
 
 export default router;

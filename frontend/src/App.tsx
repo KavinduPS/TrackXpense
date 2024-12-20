@@ -9,7 +9,6 @@ import Income from "./pages/income/page";
 import Goals from "./pages/Goals/Goals";
 import About from "./pages/About/about";
 import Profile from "./pages/Profile/profile";
-import Report from "./pages/Report/report";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/PrivateRoute";
@@ -33,7 +32,6 @@ function App() {
           <Route path="/goals" element={<Goals />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/report" element={<Report />} />
         </Routes>
       </div>
     </Router>

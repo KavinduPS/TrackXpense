@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import AddExpenseForm from "../../components/ExpenseForm";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
@@ -23,7 +23,7 @@ const Expense: React.FC = () => {
   const [addExpense] = useAddExpenseMutation();
   const [updateExpense] = useUpdateExpenseMutation();
   const [deleteExpense] = useDeleteExpenseMutation();
-  const { data, isFetching, refetch } = useGetAllExpensesQuery();
+  const { data, isFetching } = useGetAllExpensesQuery();
 
   const handleEditButtonClick = (expense: ExpenseType): void => {
     setEditingExpense(expense);
@@ -56,12 +56,10 @@ const Expense: React.FC = () => {
     editingExpense: ExpenseType
   ): Promise<void> => {
     try {
-      console.log("save pressed", editingExpense);
       await updateExpense(editingExpense).unwrap();
       setIsEditModalVisible(false);
       toast.success("Expense updated successfully");
     } catch (error: any) {
-      console.log(error);
       toast(error?.data?.message);
     }
   };
@@ -72,7 +70,6 @@ const Expense: React.FC = () => {
       setIsDeleteModalVisible(false);
       toast.success("Expense deleted successfully");
     } catch (error: any) {
-      console.log(error);
       toast(error?.data?.message);
     }
   };
