@@ -7,7 +7,7 @@ const getIncomes = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const incomes: IIncome[] = await Income.find({
       user: _id,
-    });
+    }).sort({ date: -1 });
     res.status(200).json(incomes);
   } catch (error) {
     next(error);
@@ -89,6 +89,7 @@ const deleteIncome = async (
   }
 };
 
+// getIncomesByDate - api/incomes/:id
 const getIncomesByDate = async (
   req: Request,
   res: Response,
@@ -119,6 +120,7 @@ const getIncomesByDate = async (
   }
 };
 
+// getIncomeByMonth  api/incomes/:id
 const getIncomesByMonth = async (
   req: Request,
   res: Response,
@@ -146,7 +148,6 @@ const getIncomesByMonth = async (
       {
         $sort: { "_id.month": 1 },
       },
-
       {
         $project: {
           _id: 0,
@@ -161,11 +162,52 @@ const getIncomesByMonth = async (
   }
 };
 
-export {
+const getIncomeByDateRange = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  const { startDate, endDate } = req.query;
+  try {
+    if (!startDate && !endDate) {
+      return res.status(400).json({
+        message: "Invalid date range",
+      });
+    }
+    const incomes: IIncome[] = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: {
+              $gte: new Date(startDate as string),
+              $lte: new Date(endDate as string),
+          }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%b %d", date: "$date" } },
+          originalDate: { $first: "$date" },
+          amount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { originalDate: 1 },
+      },
+    ]);
+    res.status(200).json(incomes);
+   } catch (error) {
+    next(error);
+  }
+};
+  
+export { 
   getIncomes,
   createIncome,
   editIncome,
   deleteIncome,
   getIncomesByDate,
   getIncomesByMonth,
+  getIncomeByDateRange 
 };

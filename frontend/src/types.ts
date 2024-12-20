@@ -16,6 +16,14 @@ export type Income = {
   description?: string;
 };
 
+export type Goal = {
+  _id?: string;
+  name: string;
+  targetAmount: number;
+  savedAmount: number;
+  deadline: string;
+};
+
 export type AggExpense = {
   _id: string;
   originalDate: string;
