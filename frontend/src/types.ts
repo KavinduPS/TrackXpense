@@ -12,8 +12,8 @@ export type Income = {
   name: string;
   amount: number;
   date: string;
-  source: string;
-  description?: string;
+  category: string;
+  reference?: string;
 };
 
 export type AggExpense = {
