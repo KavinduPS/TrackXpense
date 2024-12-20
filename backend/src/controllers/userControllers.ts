@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/userModel";
 import { generateToken } from "../utils/authUtils";
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 //Create user - api/users/register
 const registerUser = async (
@@ -100,40 +100,33 @@ const logoutUser = async (req: Request, res: Response) => {
   });
 };
 
-//change user password - - api/users/changePassword
-
+//change user password - api/users/changePassword
 const changePassword = async (req: Request, res: Response) => {
   const { currentPassword, newPassword } = req.body;
   const userId = req.user.id;
-  
+
   try {
-    
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
-  
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Current password is incorrect' });
+      return res.status(400).json({ message: "Current password is incorrect" });
     }
 
-   
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
- 
     user.password = hashedPassword;
     await user.save();
 
-   
-    res.status(200).json({ message: 'Password updated successfully' });
+    res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-
-export { registerUser, loginUser, getUser, logoutUser, changePassword  };
+export { registerUser, loginUser, getUser, logoutUser, changePassword };

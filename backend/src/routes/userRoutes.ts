@@ -6,10 +6,7 @@ import {
   logoutUser,
 } from "../controllers/userControllers";
 import { protectRoute } from "../middleware/authMiddleware";
-import { changePassword } from '../controllers/userControllers';
-import {authMiddleware} from '../middleware/authMiddleware';
-
-
+import { changePassword } from "../controllers/userControllers";
 
 const router = express.Router();
 
@@ -17,5 +14,5 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", protectRoute, getUser);
 router.post("/logout", logoutUser);
-router.put('/change-password', authMiddleware, changePassword);
+router.put("/change-password", changePassword);
 export default router;
