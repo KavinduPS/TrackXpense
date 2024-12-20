@@ -108,7 +108,9 @@ const Profile: React.FC = () => {
           >
             Change Password
           </button>
-          {isModalOpen && <ChangePasswordModal closeModal={closeModal} />}
+            {isModalOpen && <ChangePasswordModal closeModal ={closeModal} />}
+
+
         </div>
       </div>
 
