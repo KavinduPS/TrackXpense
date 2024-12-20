@@ -97,6 +97,22 @@ const Signup: React.FC = () => {
 
               <div>
                 <Field
+                  name="email"
+                  type="email"
+                  placeholder="E mail"
+                  className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
+                />
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.email && errors.email && (
+                    <div className="text-red-600 w-3/6 pl-2 ">
+                      {errors.email}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Field
                   name="password"
                   type="password"
                   placeholder="Password"
@@ -111,21 +127,6 @@ const Signup: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <Field
-                  name="email"
-                  type="email"
-                  placeholder="E mail"
-                  className="mt-5 w-3/6 h-10 rounded-lg px-2 focus:outline-none"
-                />
-                <div className="flex justify-center items-center text-left rounded-lg">
-                  {touched.email && errors.email && (
-                    <div className="text-red-600 w-3/6 pl-2 ">
-                      {errors.email}
-                    </div>
-                  )}
-                </div>
-              </div>
               {isLoading && <h2>Loading...</h2>}
               <div className="mt-10">
                 <button
