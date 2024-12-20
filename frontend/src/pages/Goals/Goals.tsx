@@ -84,7 +84,11 @@ const Goals = (props: Props) => {
 
   const renderGoals = (): ReactNode => {
     if (isFetching) {
-      return <Spinner />;
+      return (
+        <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 rounded-lg text-blue-700">
+          <Spinner />
+        </div>
+      );
     }
 
     if (data) {
@@ -104,7 +108,7 @@ const Goals = (props: Props) => {
       <div className="flex">
         <Sidebar />
         <div className="flex-grow">
-          <i className="absolute top-0 right-0 p-6">
+          <i className="absolute top-0 right-8 p-6">
             <img
               src={logo}
               alt="Logo"
@@ -115,9 +119,11 @@ const Goals = (props: Props) => {
             <div className=" ml-14 mt-32 flex  justify-center">
               <AddGoalForm onAddGoal={handleAddGoal} />
             </div>
-            <div className="mt-32 w-full ml-28 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-5/6">
-              <div className="w-11/12 pb-5">
-                <h2 className=" text-white text-xl pb-2">Your Goals</h2>
+            <div className="mt-32 w-full ml-28 mr-12 flex flex-col border border-gray-200 rounded-lg pt-5 relative h-[600px]">
+              <div className="text-center ">
+                <h2 className="text-white text-xl">Your Goals</h2>
+              </div>
+              <div className="w-11/12 mx-auto pb-5 h-[550px] overflow-y-auto">
                 {renderGoals()}
               </div>
               {isAddSavingModalVisible && editingGoal && (

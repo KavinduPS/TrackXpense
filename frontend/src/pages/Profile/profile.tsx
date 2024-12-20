@@ -61,7 +61,7 @@ const Profile: React.FC = () => {
       <Sidebar />
 
       <div className="flex-1 relative">
-        <div className="absolute top-0 right-0 p-6 ">
+        <div className="absolute top-0 right-8 p-6 ">
           <img
             src={logo}
             alt="TrackXpense Logo"
@@ -113,7 +113,7 @@ const Profile: React.FC = () => {
       </div>
 
       {isEditNamemodalOpen && (
-        <div className="fixed inset-0 bg-zinc-900  bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-zinc-900  bg-opacity-90 flex justify-center items-center">
           <div className=" p-6 rounded-lg w-96 bg-zinc-700">
             <h3 className="text-lg font-semibold mb-4">Edit Name</h3>
 
@@ -147,7 +147,7 @@ const Profile: React.FC = () => {
       )}
 
       {isEditEmailmodalOpen && (
-        <div className="fixed inset-0 bg-zinc-900  bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-zinc-900  bg-opacity-90 flex justify-center items-center">
           <div className=" p-6 rounded-lg w-96 bg-zinc-700">
             <h3 className="text-lg font-semibold mb-4">Edit Email</h3>
 

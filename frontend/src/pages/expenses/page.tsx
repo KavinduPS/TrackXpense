@@ -103,7 +103,7 @@ const Expense: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <div className="flex-grow">
-          <i className="absolute top-0 right-0 p-6">
+          <i className="absolute top-0 right-8 p-6">
             <img
               src={logo}
               alt="Logo"

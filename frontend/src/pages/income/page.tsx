@@ -113,7 +113,7 @@ const Income: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <div className="flex-grow">
-          <i className="absolute top-0 right-0 p-6">
+          <i className="absolute top-0 right-8 p-6">
             <img
               src={logo}
               alt="Logo"
@@ -123,7 +123,9 @@ const Income: React.FC = () => {
           <div className="flex w-full justify-between">
             <div className=" ml-14 mt-32 flex  justify-center">
               {/* Mock handler passed to AddIncomeForm */}
-              <AddIncomeForm onAddIncome={async (income) => Promise.resolve()} />
+              <AddIncomeForm
+                onAddIncome={async (income) => Promise.resolve()}
+              />
             </div>
             <div className="mt-32 w-full ml-28 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-5/6">
               <div className="w-11/12 pb-5">
