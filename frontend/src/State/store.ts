@@ -3,6 +3,7 @@ import authReducer from "../modules/auth/authSlice";
 import useReducer from "../modules/users/usersSlice";
 import incomeReducer from "./incomSlice";
 import { apiSlice } from "../modules/api/apiSlice";
+import ExpenseReduser from "../State/ExpenseSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     user: useReducer,
     income: incomeReducer,
+    expense: ExpenseReduser,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

@@ -3,8 +3,11 @@ import Income, { IIncome } from "../models/incomeModel";
 
 // Get all incomes - api/incomes
 const getIncomes = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id } = req.user;
   try {
-    const incomes: IIncome[] = await Income.find();
+    const incomes: IIncome[] = await Income.find({
+      user: _id,
+    }).sort({ date: -1 });
     res.status(200).json(incomes);
   } catch (error) {
     next(error);
@@ -17,13 +20,15 @@ const createIncome = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { _id } = req.user;
   const { name, amount, date, source, description } = req.body;
-  if (!name || !amount || !date || !source) {
+  if (!name || !amount || !source) {
     res.status(400);
     throw new Error("Please enter required fields");
   }
   try {
     const newIncome = await Income.create({
+      user: _id,
       name: name,
       amount: amount,
       date: date,
@@ -38,12 +43,17 @@ const createIncome = async (
 
 // Edit income - api/incomes/:id
 const editIncome = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id } = req.user;
   const { id } = req.params;
   try {
     const income = await Income.findById(id);
     if (!income) {
       res.status(404);
       throw new Error("Income not found");
+    }
+    if (income.user.toString() !== _id.toString()) {
+      res.status(403);
+      throw new Error("Not authorized");
     }
     const updatedIncome = await Income.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -60,12 +70,17 @@ const deleteIncome = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { _id } = req.user;
   const { id } = req.params;
   try {
     const income = await Income.findById(id);
     if (!income) {
       res.status(404);
       throw new Error("Income not found");
+    }
+    if (income.user.toString() !== _id.toString()) {
+      res.status(403);
+      throw new Error("Not authorized");
     }
     const deletedIncome = await Income.findByIdAndDelete(id);
     res.status(200).json(deletedIncome?._id);
@@ -74,4 +89,125 @@ const deleteIncome = async (
   }
 };
 
-export { getIncomes, createIncome, editIncome, deleteIncome };
+// getIncomesByDate - api/incomes/:id
+const getIncomesByDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  try {
+    const incomesByDate = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%b %d", date: "$date" } },
+          originalDate: { $first: "$date" },
+          amount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { originalDate: 1 },
+      },
+    ]);
+    res.status(200).json(incomesByDate);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// getIncomeByMonth  api/incomes/:id
+const getIncomesByMonth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  const currentYear = new Date().getFullYear();
+  try {
+    const incomesByMonth = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: {
+            $gte: new Date(currentYear, 0, 1),
+            $lte: new Date(currentYear, 11, 31),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { month: { $month: "$date" } },
+          totalIncomes: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { "_id.month": 1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id.month",
+          totalIncomes: 1,
+        },
+      },
+    ]);
+    res.status(200).json(incomesByMonth);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getIncomeByDateRange = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id: userId } = req.user;
+  const { startDate, endDate } = req.query;
+  try {
+    if (!startDate && !endDate) {
+      return res.status(400).json({
+        message: "Invalid date range",
+      });
+    }
+    const incomes: IIncome[] = await Income.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: {
+              $gte: new Date(startDate as string),
+              $lte: new Date(endDate as string),
+          }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%b %d", date: "$date" } },
+          originalDate: { $first: "$date" },
+          amount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { originalDate: 1 },
+      },
+    ]);
+    res.status(200).json(incomes);
+   } catch (error) {
+    next(error);
+  }
+};
+  
+export { 
+  getIncomes,
+  createIncome,
+  editIncome,
+  deleteIncome,
+  getIncomesByDate,
+  getIncomesByMonth,
+  getIncomeByDateRange 
+};

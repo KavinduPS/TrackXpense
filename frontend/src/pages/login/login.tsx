@@ -9,6 +9,7 @@ import { useLoginMutation } from "../../modules/users/usersApiSlice";
 import { AuthState, setCredentials } from "../../modules/auth/authSlice";
 import { toast } from "react-toastify";
 import "../../index.css";
+import Spinner from "../../components/Spin";
 
 interface loginForm {
   email: string;
@@ -52,10 +53,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div
-      className="h-screen flex justify-center items-center "
-      style={{ backgroundColor: "#352F44" }}
-    >
+    <div className="h-screen flex justify-center items-center bg-zinc-900 ">
       <div className="w-1/3">
         <div className="flex justify-center">
           <img src={logo} alt="TrackXpense Logo" />
@@ -74,14 +72,13 @@ const Login: React.FC = () => {
                   placeholder="Email"
                   className="mt-20 w-72 h-10 rounded-lg px-2 focus:outline-none"
                 />
-
-                {touched.email && errors.email && (
-                  <div className="text-red-600 mr-2 -ml-28">{errors.email}</div>
-                )}
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.email && errors.email && (
+                    <div className="text-red-600 w-72 pl-2">{errors.email}</div>
+                  )}
+                </div>
               </div>
-              {touched.email && errors.email && (
-                <div className="text-red-600 pr-20 mr-2">{errors.email}</div>
-              )}
+
               <div>
                 <Field
                   name="password"
@@ -89,12 +86,13 @@ const Login: React.FC = () => {
                   placeholder="Password"
                   className="mt-5 w-72 h-10 rounded-lg px-2 focus:outline-none"
                 />
-
-                {touched.password && errors.password && (
-                  <div className="text-red-600  mr-3 -ml-28">
-                    {errors.password}
-                  </div>
-                )}
+                <div className="flex justify-center items-center text-left rounded-lg">
+                  {touched.password && errors.password && (
+                    <div className="text-red-600  w-72 pl-2">
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="my-5">
@@ -103,7 +101,8 @@ const Login: React.FC = () => {
                 </a>
               </div>
               <div className="my-5">
-                {isLoading && <h2>Loading...</h2>}
+                <div className="text-blue-700">{isLoading && <Spinner />}</div>
+
                 <button
                   type="submit"
                   disabled={isSubmitting}

@@ -10,7 +10,8 @@
     "strict": true,
     "skipLibCheck": true
   },
+  "files": ["./src/types/express/index.d.ts"],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "client"],
-  "typeRoots": ["./node_modules/@types", "./src/types"]
+  "typeRoots": ["./src/types", "./node_modules/@types"]
 }
