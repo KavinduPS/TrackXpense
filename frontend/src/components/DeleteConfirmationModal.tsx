@@ -3,19 +3,17 @@ import { Expense } from "../types";
 
 type ModalProps = {
   isVisible: boolean;
-  deletingExpense: Expense;
-  onConfirm: (expense: Expense) => void;
+  onConfirm: () => void;
   onCancel: () => void;
 };
 
 const DeleteConfirmationModal: React.FC<ModalProps> = ({
   isVisible,
-  deletingExpense,
   onConfirm,
   onCancel,
 }) => {
   const handleConfirm = (): void => {
-    onConfirm(deletingExpense);
+    onConfirm();
   };
   return (
     <div

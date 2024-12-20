@@ -46,7 +46,6 @@ const Expense: React.FC = () => {
   const handleAddExpense = async (expense: ExpenseType): Promise<void> => {
     try {
       await addExpense(expense).unwrap();
-      // refetch();
       toast.success("Expense added successfully");
     } catch (error: any) {
       toast(error?.data?.message);
@@ -67,11 +66,8 @@ const Expense: React.FC = () => {
     }
   };
 
-  const handleDeleteExpense = async (
-    editingExpense: ExpenseType
-  ): Promise<void> => {
+  const handleDeleteExpense = async (): Promise<void> => {
     try {
-      console.log("save pressed", editingExpense);
       await deleteExpense(editingExpense).unwrap();
       setIsDeleteModalVisible(false);
       toast.success("Expense deleted successfully");
@@ -134,9 +130,8 @@ const Expense: React.FC = () => {
               {isDeleteModalVisible && editingExpense && (
                 <DeleteConfirmationModal
                   isVisible={isDeleteModalVisible}
-                  deletingExpense={editingExpense}
-                  onCancel={handleCancelDelete}
                   onConfirm={handleDeleteExpense}
+                  onCancel={handleCancelDelete}
                 />
               )}
             </div>
