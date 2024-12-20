@@ -199,6 +199,36 @@ const getExpensesByDateRange = async (
     next(error);
   }
 };
+  
+ //Group expenses by category
+const getExpensesGroupedByCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.user?._id;
+    if (!userId) {
+      res.status(401);
+      throw new Error("User not authorized");
+    }
+
+    const groupedExpenses = await Expense.aggregate([
+      { $match: { user: userId } },
+      {
+        $group: {
+          _id: "$category",
+          totalAmount: { $sum: "$amount" },
+          expenses: { $push: "$$ROOT" },
+        },
+      },
+    ]);
+
+    res.status(200).json(groupedExpenses);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export {
   getExpenses,
@@ -208,4 +238,6 @@ export {
   getExpensesByDate,
   getExpensesByMonth,
   getExpensesByDateRange,
+  getExpensesGroupedByCategory
 };
+
