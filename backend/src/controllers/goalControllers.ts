@@ -52,7 +52,11 @@ const addSavings = async (req: Request, res: Response, next: NextFunction) => {
       throw new Error("Not authorized");
     }
 
-    goal.savedAmount += amount;
+    goal.savedAmount += Number(amount);
+
+    if (goal.savedAmount > goal.targetAmount) {
+      goal.savedAmount = goal.targetAmount;
+    }
 
     if (goal.savedAmount >= goal.targetAmount) {
       res.status(200).json({ message: "Goal achieved!" });
