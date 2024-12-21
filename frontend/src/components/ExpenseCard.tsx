@@ -1,23 +1,21 @@
-import React from "react";
-import { Income } from "../types";
+import { Expense } from "../types";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 
-type IncomeCardProps = {
-  income: Income;
-  onEditButtonClick: (item: Income) => void;
-  onDeleteButtonClick: (item: Income) => void;
+type ExpenseCardProps = {
+  expense: Expense;
+  onEditButtonClick: (item: Expense) => void;
+  onDeleteButtonClick: (item: Expense) => void;
 };
 
-const IncomeCard = ({
-  income,
+const ExpenseCard = ({
+  expense,
   onEditButtonClick,
   onDeleteButtonClick,
-}: IncomeCardProps) => {
-  const { name, amount, date, source } = income;
+}: ExpenseCardProps) => {
+  const { name, amount, date, category } = expense;
   return (
     <div className="py-2">
-      {" "}
       <div className="flex items-center justify-between p-4 w-full bg-Dark rounded text-gray-200">
         <div className="text-left text-gray-200 font-semibold w-1/5">
           {date.toString().split("T")[0]}
@@ -29,18 +27,18 @@ const IncomeCard = ({
           {amount}
         </div>
         <div className="text-left text-gray-200 font-semibold w-1/5">
-          {source}
+          {category}
         </div>
         <div>
           <div className="flex flex-row justify-around space-x-4 w-1/5">
             <button
               className="text-blue-700 text-3xl"
-              onClick={() => onEditButtonClick(income)}
+              onClick={() => onEditButtonClick(expense)}
             >
               <AiFillEdit />
             </button>
             <button
-              onClick={() => onDeleteButtonClick(income)}
+              onClick={() => onDeleteButtonClick(expense)}
               className="text-red-500 text-3xl"
             >
               <MdDelete />
@@ -52,4 +50,4 @@ const IncomeCard = ({
   );
 };
 
-export default IncomeCard;
+export default ExpenseCard;

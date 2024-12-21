@@ -5,7 +5,6 @@ import logo from "../../assets/trackxpense_logo.png";
 
 import { Income as IncomeType } from "../../types";
 import { toast } from "react-toastify";
-import TransactionCard from "../../components/TransactionCard";
 import { EditIncomeModal } from "../../components/EditIncomeModal";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import {
@@ -99,19 +98,23 @@ const Income: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <div className="flex flex-col flex-grow">
-          <div className="flex justify-end mt-5 mr-5">
+          <div className="absolute top-0 right-0 p-6">
             <img
               src={logo}
               alt="Logo"
               style={{ width: "380px", height: "60px" }}
             />
           </div>
-          <div className="flex w-full justify-between">
-            <div className=" ml-14 mt-20 flex  justify-center">
+
+          <div className="flex w-full justify-between mt-28">
+            <div className=" ml-14  flex  justify-center">
               <AddIncomeForm onAddIncome={handleAddIncome} />
             </div>
-            {/* <div>*Incomes chart*</div> */}
+            <div className="border border-white mr-14  w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
+              <h2>Incomes chart</h2>
+            </div>
           </div>
+
           <div className="flex w-full">
             <div className="mt-10 w-full pb-10 ml-14 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-5/6">
               <div className="w-11/12 pb-5">
