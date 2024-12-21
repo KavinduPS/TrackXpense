@@ -80,16 +80,14 @@ const Expense: React.FC = () => {
     }
 
     if (data && data.length > 0) {
-      return data
-        .slice(0, 5)
-        .map((expense) => (
-          <ExpenseCard
-            key={expense._id}
-            expense={expense}
-            onEditButtonClick={handleEditButtonClick}
-            onDeleteButtonClick={handleDeleteButtonClick}
-          />
-        ));
+      return data.map((expense) => (
+        <ExpenseCard
+          key={expense._id}
+          expense={expense}
+          onEditButtonClick={handleEditButtonClick}
+          onDeleteButtonClick={handleDeleteButtonClick}
+        />
+      ));
     }
 
     return <h2>No expenses added yet.</h2>;

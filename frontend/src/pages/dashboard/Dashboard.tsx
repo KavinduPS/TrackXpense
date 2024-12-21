@@ -226,14 +226,14 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                {expensesByDateRange && incomesByDateRange && (
-                  <AccountBalanceChart
-                    expenses={expensesByDateRange}
-                    incomes={incomesByDateRange}
-                  />
+                  expensesByDateRange &&
+                  incomesByDateRange && (
+                    <AccountBalanceChart
+                      expenses={expensesByDateRange}
+                      incomes={incomesByDateRange}
+                    />
                   )
-                }
-                }
+                )}
               </div>
             </div>
 
