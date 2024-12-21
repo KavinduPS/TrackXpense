@@ -2,7 +2,6 @@ import React, { ReactElement, ReactNode, useState } from "react";
 import AddIncomeForm from "../../components/IncomeForm";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-
 import { Income as IncomeType } from "../../types";
 import { toast } from "react-toastify";
 import { EditIncomeModal } from "../../components/EditIncomeModal";
@@ -122,11 +121,12 @@ const Income: React.FC = () => {
               <h2>Incomes chart</h2>
             </div>
           </div>
-
           <div className="flex w-full relative mb-12">
             <div className="mt-10 w-full pb-10 ml-14 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-1/2  ">
               <div className="w-11/12 pb-6">
-                <h2 className=" text-gray-200 text-xl pb-8">Recent Incomes</h2>
+                <h2 className=" text-gray-200 text-xl pb-8">
+                  Income transactions
+                </h2>
                 <div className="h-96 overflow-y-auto">{renderIncomes()}</div>
               </div>
             </div>
@@ -136,15 +136,14 @@ const Income: React.FC = () => {
               isVisible={isEditModalVisible}
               onCloseModal={handleCloseEditModal}
               editingIncome={editingIncome}
-              onSaveIncome={() => {}} // Mock handler
+              onSaveIncome={() => {}}
             />
           )}
           {isDeleteModalVisible && editingIncome && (
             <DeleteConfirmationModal
               isVisible={isDeleteModalVisible}
-              // deletingIncome={editingIncome}
+              onConfirm={handleDeleteIncome}
               onCancel={handleCancelDelete}
-              onConfirm={() => {}} // Mock handler
             />
           )}
         </div>
