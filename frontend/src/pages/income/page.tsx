@@ -14,6 +14,7 @@ import {
   useUpdateIncomeMutation,
 } from "../../modules/incomes/incomesApiSlice";
 import IncomeCard from "../../components/IncomeCard";
+import Spinner from "../../components/Spin";
 
 const Income: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
@@ -77,7 +78,11 @@ const Income: React.FC = () => {
 
   const renderIncomes = (): ReactNode => {
     if (isFetching) {
-      return <h2>Loading</h2>;
+      return (
+        <div className="text-blue-700">
+          <Spinner />
+        </div>
+      );
     }
 
     if (data && data.length > 0) {

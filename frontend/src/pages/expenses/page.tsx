@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { EditExpenseModal } from "../../components/EditExpenseModal";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import ExpenseCard from "../../components/ExpenseCard";
+import Spinner from "../../components/Spin";
 
 const Expense: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
@@ -76,7 +77,11 @@ const Expense: React.FC = () => {
 
   const renderExpenses = (): ReactNode => {
     if (isFetching) {
-      return <h2>Loading</h2>;
+      return (
+        <div className="text-blue-700">
+          <Spinner />
+        </div>
+      );
     }
 
     if (data && data.length > 0) {
