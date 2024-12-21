@@ -2,7 +2,6 @@ import React, { ReactElement, ReactNode, useState } from "react";
 import AddIncomeForm from "../../components/IncomeForm";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
-
 import { Income as IncomeType } from "../../types";
 import { toast } from "react-toastify";
 import { EditIncomeModal } from "../../components/EditIncomeModal";
@@ -96,9 +95,12 @@ const Income: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-900 ">
       <div className="flex">
-        <Sidebar />
-        <div className="flex flex-col flex-grow">
-          <div className="absolute top-0 right-0 p-6">
+        <div className="flex fixed">
+          <Sidebar />
+        </div>
+
+        <div className=" flex-grow pl-80">
+          <div className="absolute top-0 right-8 p-6">
             <img
               src={logo}
               alt="Logo"
@@ -110,16 +112,17 @@ const Income: React.FC = () => {
             <div className=" ml-14  flex  justify-center">
               <AddIncomeForm onAddIncome={handleAddIncome} />
             </div>
-            <div className="border border-white mr-14  w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
+            <div className="border border-gray-200 mr-14  w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
               <h2>Incomes chart</h2>
             </div>
           </div>
-
-          <div className="flex w-full">
-            <div className="mt-10 w-full pb-10 ml-14 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-5/6">
-              <div className="w-11/12 pb-5">
-                <h2 className=" text-white text-xl pb-2">Recent Incomes</h2>
-                {renderIncomes()}
+          <div className="flex w-full relative mb-12">
+            <div className="mt-10 w-full pb-10 ml-14 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-1/2  ">
+              <div className="w-11/12 pb-6">
+                <h2 className=" text-gray-200 text-xl pb-8">
+                  Income transactions
+                </h2>
+                <div className="h-96 overflow-y-auto">{renderIncomes()}</div>
               </div>
             </div>
           </div>
@@ -128,17 +131,16 @@ const Income: React.FC = () => {
               isVisible={isEditModalVisible}
               onCloseModal={handleCloseEditModal}
               editingIncome={editingIncome}
-              onSaveIncome={() => {}} // Mock handler
+              onSaveIncome={() => {}}
             />
           )}
-          {/* {isDeleteModalVisible && editingIncome && (
-                // <DeleteConfirmationModal
-                //   isVisible={isDeleteModalVisible}
-                //   // deletingIncome={editingIncome}
-                //   onCancel={handleCancelDelete}
-                //   onConfirm={() => {}} // Mock handler
-                // />
-              )} */}
+          {isDeleteModalVisible && editingIncome && (
+            <DeleteConfirmationModal
+              isVisible={isDeleteModalVisible}
+              onConfirm={handleDeleteIncome}
+              onCancel={handleCancelDelete}
+            />
+          )}
         </div>
       </div>
     </div>
