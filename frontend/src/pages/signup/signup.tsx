@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import "../../index.css";
 import { AuthState, setCredentials } from "../../modules/auth/authSlice";
 import { toast } from "react-toastify";
+import Spinner from "../../components/Spin";
 
 interface signForm {
   name: "";
@@ -127,12 +128,16 @@ const Signup: React.FC = () => {
                 </div>
               </div>
 
-              {isLoading && <h2>Loading...</h2>}
+              {isLoading && (
+                <div className="text-blue-700">
+                  <Spinner />
+                </div>
+              )}
               <div className="mt-10">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-3/6 bg-green-200 h-10 rounded-lg text-zinc-700"
+                  className="w-3/6 bg-green-200 h-10 rounded-lg text-zinc-900"
                 >
                   Sign Up
                 </button>

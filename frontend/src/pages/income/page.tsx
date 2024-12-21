@@ -17,6 +17,7 @@ import IncomeCard from "../../components/IncomeCard";
 import Spinner from "../../components/Spin";
 import IncomesChart from "../../components/Charts/IncomesChart";
 
+
 const Income: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
@@ -82,7 +83,11 @@ const Income: React.FC = () => {
 
   const renderIncomes = (): ReactNode => {
     if (isFetching) {
-      return <h2>Loading</h2>;
+      return (
+        <div className="text-blue-700">
+          <Spinner />
+        </div>
+      );
     }
 
     if (data && data.length > 0) {

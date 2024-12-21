@@ -17,6 +17,7 @@ import ExpenseCard from "../../components/ExpenseCard";
 import Spinner from "../../components/Spin";
 import ExpensesChart from "../../components/Charts/ExpensesChart";
 
+
 const Expense: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
@@ -81,7 +82,11 @@ const Expense: React.FC = () => {
 
   const renderExpenses = (): ReactNode => {
     if (isFetching) {
-      return <h2>Loading</h2>;
+      return (
+        <div className="text-blue-700">
+          <Spinner />
+        </div>
+      );
     }
 
     if (data && data.length > 0) {
