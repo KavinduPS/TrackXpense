@@ -116,14 +116,14 @@ const Expense: React.FC = () => {
               Expenses chart
             </div>
           </div>
-
           <div className="flex w-full relative mb-12">
             <div className="mt-10 w-full pb-10 ml-14 mr-14 flex justify-center border border-gray-200 rounded-lg pt-5 h-1/2">
               <div className="w-11/12 pb-6">
-                <h2 className=" text-gray-200 text-xl pb-8">Recent Expenses</h2>
+                <h2 className=" text-gray-200 text-xl pb-8">
+                  Expense transactions
+                </h2>
                 <div className="h-96 overflow-y-auto">{renderExpenses()}</div>
               </div>
-
               {isEditModalVisible && editingExpense && (
                 <EditExpenseModal
                   isVisible={isEditModalVisible}
