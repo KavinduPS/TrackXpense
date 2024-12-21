@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import {
+  useGetAllExpensesByCategoryQuery,
   useGetAllExpensesByDateQuery,
   useGetAllExpensesByMonthQuery,
   useGetAllExpensesQuery,
@@ -46,6 +47,9 @@ const Dashboard: React.FC = () => {
 
   const [trigger, { data: expensesByDateRange }] =
     useLazyGetAllExpensesByDateRangeQuery();
+
+  const { data: expensesByCategory, isLoading: isExpensesByCategoryLoading } =
+    useGetAllExpensesByCategoryQuery();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -114,7 +118,7 @@ const Dashboard: React.FC = () => {
                 Total Expense
               </div>
               <div className="text-4xl font-semibold text-red-400">
-                LKR:
+                LKR:{" "}
                 {isExpensesLoading ? (
                   <div className="text-red-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
@@ -129,7 +133,7 @@ const Dashboard: React.FC = () => {
                 Total Balance
               </div>
               <div className="text-4xl font-semibold text-yellow-400">
-                LKR:
+                LKR:{" "}
                 {isIncomesLoading && isExpensesLoading ? (
                   <div className="text-yellow-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
@@ -144,6 +148,9 @@ const Dashboard: React.FC = () => {
           {/* Balance chart  */}
           <div className="flex justify-center items-center">
             <div className="mt-16 ml-14 w-3/6 h-96 rounded-lg bg-Dark p-2 text-sm">
+              <div className="text-center text-lg font-semibold mt-5  text-gray-200">
+                Account balance
+              </div>
               <div className="flex  mb-4  space-x-1 items-center justify-center pt-7">
                 <button
                   onClick={() => handleTimeFrameClick(TimeFrames.THIS_MONTH)}
@@ -200,7 +207,7 @@ const Dashboard: React.FC = () => {
                   </div>
                 </button>
               </div>
-              <div className="w-full  h-64 pt-5 flex justify-center relative">
+              <div className="w-full h-64 pt-5 flex justify-center relative">
                 {isLoading ? (
                   <div className="w-full h-64 pt-5 flex justify-center text-blue-700 absolute bg-Dark bg-opacity-80">
                     <Spinner />
@@ -221,10 +228,18 @@ const Dashboard: React.FC = () => {
             {/* Doughnut Chart */}
             <div className="mt-16 ml-10 w-3/6 h-96 rounded-lg bg-Dark p-2 mr-14">
               <div className="text-center text-lg font-semibold mb-2 mt-5  text-gray-200">
-                Category
+                Expenses by Category
               </div>
-              <div className="flex justify-center items-center ">
-                <CategoryChart />
+              <div className="flex justify-center items-center">
+                {isExpensesByCategoryLoading ? (
+                  <div className="absolute w-3/6 h-96 flex justify-center items-center">
+                    <Spinner />
+                  </div>
+                ) : (
+                  expensesByCategory && (
+                    <CategoryChart expenses={expensesByCategory} />
+                  )
+                )}
               </div>
             </div>
           </div>

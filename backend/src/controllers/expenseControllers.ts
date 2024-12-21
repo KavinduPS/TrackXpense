@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Expense, { IExpense } from "../models/expenseModel";
+import { EXPENSE_CATEGORIES } from "../utils/const";
 
 //Get all expenses - api/expenses
 const getExpenses = async (req: Request, res: Response, next: NextFunction) => {
@@ -199,22 +200,18 @@ const getExpensesByDateRange = async (
     next(error);
   }
 };
-  
- //Group expenses by category
+
+//Group expenses by category
 const getExpensesGroupedByCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const userId = req.user?._id;
-    if (!userId) {
-      res.status(401);
-      throw new Error("User not authorized");
-    }
-
+    const { _id: userId } = req.user;
+    const categories = Object.values(EXPENSE_CATEGORIES);
     const groupedExpenses = await Expense.aggregate([
-      { $match: { user: userId } },
+      { $match: { user: userId, category: { $in: categories } } },
       {
         $group: {
           _id: "$category",
@@ -238,6 +235,5 @@ export {
   getExpensesByDate,
   getExpensesByMonth,
   getExpensesByDateRange,
-  getExpensesGroupedByCategory
+  getExpensesGroupedByCategory,
 };
-

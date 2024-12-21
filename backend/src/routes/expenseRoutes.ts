@@ -20,6 +20,6 @@ router.delete("/:id", protectRoute, deleteExpense);
 router.get("/by-date", protectRoute, getExpensesByDate);
 router.get("/by-month", protectRoute, getExpensesByMonth);
 router.get("/date-range", protectRoute, getExpensesByDateRange);
-router.get("/grouped-by-category", getExpensesGroupedByCategory);
+router.get("/by-category", protectRoute, getExpensesGroupedByCategory);
 
 export default router;

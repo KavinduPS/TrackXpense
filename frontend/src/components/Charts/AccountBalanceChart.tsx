@@ -35,7 +35,6 @@ const AccountBalanceChart = ({
   expenses,
   incomes,
 }: AccountBalanceChartProps) => {
-  const [timeFrame, setTimeFrame] = useState<string>(TimeFrames.THIS_MONTH);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>();
 
   const getDateRange = (timeFrame: string): void => {
