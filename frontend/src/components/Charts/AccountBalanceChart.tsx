@@ -1,5 +1,4 @@
-import React, { ReactNode, useState } from "react";
-import { AggExpense, AggIncome, TimeFrame } from "../../types";
+import { AggExpense, AggIncome } from "../../types";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,10 +9,8 @@ import {
   Tooltip,
   Legend,
   Filler,
-  elements,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { TimeFrames } from "../../utils/const";
 
 ChartJS.register(
   CategoryScale,
@@ -35,23 +32,6 @@ const AccountBalanceChart = ({
   expenses,
   incomes,
 }: AccountBalanceChartProps) => {
-  const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>();
-
-  const getDateRange = (timeFrame: string): void => {
-    const now = new Date();
-    switch (timeFrame) {
-      case TimeFrames.THIS_MONTH:
-        setSelectedTimeFrame({
-          startDate: new Date(now.getFullYear(), now.getMonth(), 1).toString(),
-          endDate: new Date(
-            now.getFullYear(),
-            now.getMonth() + 1,
-            0
-          ).toString(),
-        });
-    }
-  };
-
   const dates = Array.from(
     new Set(
       [

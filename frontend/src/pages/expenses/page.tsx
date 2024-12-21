@@ -5,6 +5,7 @@ import logo from "../../assets/trackxpense_logo.png";
 import {
   useAddExpenseMutation,
   useDeleteExpenseMutation,
+  useGetAllExpensesByDateQuery,
   useGetAllExpensesQuery,
   useUpdateExpenseMutation,
 } from "../../modules/expenses/expensesApiSlice";
@@ -13,6 +14,8 @@ import { toast } from "react-toastify";
 import { EditExpenseModal } from "../../components/EditExpenseModal";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import ExpenseCard from "../../components/ExpenseCard";
+import Spinner from "../../components/Spin";
+import ExpensesChart from "../../components/Charts/ExpensesChart";
 
 const Expense: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
@@ -24,6 +27,8 @@ const Expense: React.FC = () => {
   const [updateExpense] = useUpdateExpenseMutation();
   const [deleteExpense] = useDeleteExpenseMutation();
   const { data, isFetching } = useGetAllExpensesQuery();
+  const { data: expensesByDate, isLoading: isExpensesByDateLoading } =
+    useGetAllExpensesByDateQuery();
 
   const handleEditButtonClick = (expense: ExpenseType): void => {
     setEditingExpense(expense);
@@ -114,6 +119,13 @@ const Expense: React.FC = () => {
             </div>
             <div className="border border-gray-200 mr-14 w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
               Expenses chart
+              <div className="flex flex-row items-center justify-center">
+                {isExpensesByDateLoading ? (
+                  <Spinner />
+                ) : (
+                  expensesByDate && <ExpensesChart expenses={expensesByDate} />
+                )}
+              </div>
             </div>
           </div>
           <div className="flex w-full relative mb-12">

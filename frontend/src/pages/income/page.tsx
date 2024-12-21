@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import AddIncomeForm from "../../components/IncomeForm";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
@@ -9,10 +9,13 @@ import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import {
   useAddIncomeMutation,
   useDeleteIncomeMutation,
+  useGetAllIncomesByDateQuery,
   useGetAllIncomesQuery,
   useUpdateIncomeMutation,
 } from "../../modules/incomes/incomesApiSlice";
 import IncomeCard from "../../components/IncomeCard";
+import Spinner from "../../components/Spin";
+import IncomesChart from "../../components/Charts/IncomesChart";
 
 const Income: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
@@ -23,7 +26,10 @@ const Income: React.FC = () => {
   const [addIncome] = useAddIncomeMutation();
   const [updateIncome] = useUpdateIncomeMutation();
   const [deleteIncome] = useDeleteIncomeMutation();
-  const { data, isFetching, refetch } = useGetAllIncomesQuery();
+  const { data, isFetching } = useGetAllIncomesQuery();
+  const { data: incomesByDate, isLoading: isIncomesByDateLoading } =
+    useGetAllIncomesByDateQuery();
+  console.log(incomesByDate);
 
   const handleEditButtonClick = (income: IncomeType): void => {
     setEditingIncome(income);
@@ -112,8 +118,15 @@ const Income: React.FC = () => {
             <div className=" ml-14  flex  justify-center">
               <AddIncomeForm onAddIncome={handleAddIncome} />
             </div>
-            <div className="border border-gray-200 mr-14  w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
+            <div className="flex flex-col items-center border border-gray-200 mr-14  w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
               <h2>Incomes chart</h2>
+              <div className="flex flex-row items-center justify-center">
+                {isIncomesByDateLoading ? (
+                  <Spinner />
+                ) : (
+                  incomesByDate && <IncomesChart incomes={incomesByDate} />
+                )}
+              </div>
             </div>
           </div>
           <div className="flex w-full relative mb-12">
@@ -131,7 +144,7 @@ const Income: React.FC = () => {
               isVisible={isEditModalVisible}
               onCloseModal={handleCloseEditModal}
               editingIncome={editingIncome}
-              onSaveIncome={() => {}}
+              onSaveIncome={handleUpdateIncome}
             />
           )}
           {isDeleteModalVisible && editingIncome && (
