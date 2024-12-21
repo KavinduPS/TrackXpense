@@ -6,11 +6,16 @@ import { AiFillEdit } from "react-icons/ai";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";
 import Sidebar from "../../components/Sidebar";
-import ChangePasswordModal from "../../components/ChangepasswordModal";
+import ChangePasswordModal, {
+  ChangePasswordForm,
+} from "../../components/ChangepasswordModal";
+import { useChangePasswordMutation } from "../../modules/users/usersApiSlice";
+import { toast } from "react-toastify";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  const [changePassword] = useChangePasswordMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,6 +59,21 @@ const Profile: React.FC = () => {
 
   const closeEditEmailmodal = () => {
     setIsEditEmailmodalOpen(false);
+  };
+
+  const handlePasswordChange = async (values: ChangePasswordForm) => {
+    const { currentPassword, newPassword } = values;
+    try {
+      console.log(values);
+      const res = await changePassword({
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      }).unwrap();
+      console.log(res);
+      toast.success("Password updated successfully");
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -108,9 +128,12 @@ const Profile: React.FC = () => {
           >
             Change Password
           </button>
-            {isModalOpen && <ChangePasswordModal closeModal ={closeModal} />}
-
-
+          {isModalOpen && (
+            <ChangePasswordModal
+              onSubmit={handlePasswordChange}
+              closeModal={closeModal}
+            />
+          )}
         </div>
       </div>
 

@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/userModel";
 import { generateToken } from "../utils/authUtils";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 //Create user - api/users/register
 const registerUser = async (
@@ -77,7 +76,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!user) {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("Not ");
     }
     res.status(200).json({
       id: user._id,
@@ -101,12 +100,16 @@ const logoutUser = async (req: Request, res: Response) => {
 };
 
 //change user password - api/users/changePassword
-const changePassword = async (req: Request, res: Response) => {
+const changePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id } = req.user;
   const { currentPassword, newPassword } = req.body;
-  const userId = req.user.id;
-
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(_id);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -124,8 +127,7 @@ const changePassword = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 

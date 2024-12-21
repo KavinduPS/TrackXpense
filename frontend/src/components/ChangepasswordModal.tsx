@@ -4,14 +4,24 @@ import { setPassword } from "../modules/users/usersSlice";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+export type ChangePasswordForm = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
 interface ChangePasswordModalProps {
+  onSubmit: (passwordData: ChangePasswordForm) => Promise<void>;
   closeModal: () => void;
 }
 
-const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ closeModal }) => {
+const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
+  onSubmit,
+  closeModal,
+}) => {
   const dispatch = useDispatch();
 
-  const initialValues = {
+  const initialValues: ChangePasswordForm = {
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -21,15 +31,15 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ closeModal })
     currentPassword: Yup.string().required("Current password is required"),
     newPassword: Yup.string()
       .required("New password is required")
-      .min(8, "Password must be at least 8 characters long"),
+      .min(4, "Password must be at least 8 characters long"),
     confirmPassword: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("newPassword")], "Passwords must match"),
   });
 
-  const handleSubmit = async (values: typeof initialValues) => {
+  const handleSubmit = async (values: ChangePasswordForm) => {
     dispatch(setPassword(values.newPassword));
-
+    await onSubmit(values);
     closeModal();
   };
 
