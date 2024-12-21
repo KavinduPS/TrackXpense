@@ -32,26 +32,25 @@ const Sidebar: React.FC = () => {
     { path: "/income", label: "Income" },
     { path: "/expenses", label: "Expenses" },
     { path: "/goals", label: "Goals" },
-    { path: "/reports", label: "Reports" },
     { path: "/about", label: "About Us" },
     { path: "/profile", label: "Settings" },
   ];
 
   return (
-    <div className="bg-Darkgrayishviolet w-72 h-5/6 flex flex-col items-center py-5 rounded-xl border border-gray-400 mt-14 ml-12">
-      <div className="h-32 w-32 flex items-center justify-center mb-5">
-        <img src={Admin} alt="Admin Logo" className="h-32 w-32" />
+    <div className="bg-Darkgrayishviolet w-[260px] h-[635px] flex flex-col items-center py-5 rounded-xl border border-gray-400 mt-14 ml-12">
+      <div className="flex items-center justify-center mt-4">
+        <img src={Admin} alt="Admin Logo" className="h-28 w-28" />
       </div>
 
-      <nav className="text-gray-200 w-full">
+      <nav className="text-gray-200 w-full mt-5">
         <ul>
           {links.map((link) => (
             <li
               key={link.path}
-              className={`px-12 py-6 text-xl cursor-pointer ${
+              className={`px-12 py-6 text-xl cursor-pointer h-16 flex justify-center items-center ${
                 location.pathname === link.path
-                  ? "bg-orange-200 text-Darkgrayishviolet"
-                  : "bg-Darkgrayishviolet hover:bg-orange-200 hover:text-Darkgrayishviolet"
+                  ? "bg-orange-200 text-zinc-900"
+                  : "bg-zinc-900 hover:bg-orange-200 hover:text-zinc-900"
               }`}
             >
               <Link to={link.path}>{link.label}</Link>
@@ -59,7 +58,7 @@ const Sidebar: React.FC = () => {
           ))}
           <li
             onClick={handleLogout}
-            className="px-12 py-6 bg-Darkgrayishviolet hover:bg-orange-200 text-xl hover:text-Darkgrayishviolet cursor-pointer"
+            className="px-12 py-6 bg-zinc-900 hover:bg-orange-200 text-xl hover:text-zinc-900 cursor-pointer"
           >
             Logout
           </li>

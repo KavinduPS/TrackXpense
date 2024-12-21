@@ -48,6 +48,11 @@ export type AggIncomeByMonth = {
   year?: number;
 };
 
+export type CategoryExpenses = {
+  _id: string;
+  totalAmount: number;
+};
+
 export type MonthlyTransaction = {
   month: string;
   income: number;

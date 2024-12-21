@@ -26,7 +26,7 @@ const About: React.FC = () => {
     <div className="flex min-h-screen bg-zinc-900 text-white">
       <Sidebar />
       <div className="relative flex-1">
-        <div className="absolute top-0 right-0 p-6 ">
+        <div className="absolute top-0 right-8 p-6 ">
           <img
             src={logo}
             alt="TrackXpense Logo"

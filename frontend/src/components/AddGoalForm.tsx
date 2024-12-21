@@ -77,7 +77,7 @@ const AddGoalForm = ({ onAddGoal }: AddGoalFormProps) => {
               className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="savedAmount"
-              placeholder="Current savins"
+              placeholder="Current savings"
               pattern="[0-9]*"
             />
             <div className="flex justify-center items-center text-left rounded-lg">

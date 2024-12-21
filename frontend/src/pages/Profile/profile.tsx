@@ -6,11 +6,16 @@ import { AiFillEdit } from "react-icons/ai";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";
 import Sidebar from "../../components/Sidebar";
-import ChangePasswordModal from "../../components/ChangepasswordModal";
+import ChangePasswordModal, {
+  ChangePasswordForm,
+} from "../../components/ChangepasswordModal";
+import { useChangePasswordMutation } from "../../modules/users/usersApiSlice";
+import { toast } from "react-toastify";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  const [changePassword] = useChangePasswordMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -56,12 +61,27 @@ const Profile: React.FC = () => {
     setIsEditEmailmodalOpen(false);
   };
 
+  const handlePasswordChange = async (values: ChangePasswordForm) => {
+    const { currentPassword, newPassword } = values;
+    try {
+      console.log(values);
+      const res = await changePassword({
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      }).unwrap();
+      console.log(res);
+      toast.success("Password updated successfully");
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
+  };
+
   return (
     <div className="flex min-h-screen  text-white bg-zinc-900">
       <Sidebar />
 
       <div className="flex-1 relative">
-        <div className="absolute top-0 right-0 p-6 ">
+        <div className="absolute top-0 right-8 p-6 ">
           <img
             src={logo}
             alt="TrackXpense Logo"
@@ -108,12 +128,17 @@ const Profile: React.FC = () => {
           >
             Change Password
           </button>
-          {isModalOpen && <ChangePasswordModal closeModal={closeModal} />}
+          {isModalOpen && (
+            <ChangePasswordModal
+              onSubmit={handlePasswordChange}
+              closeModal={closeModal}
+            />
+          )}
         </div>
       </div>
 
       {isEditNamemodalOpen && (
-        <div className="fixed inset-0 bg-zinc-900  bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-zinc-900  bg-opacity-90 flex justify-center items-center">
           <div className=" p-6 rounded-lg w-96 bg-zinc-700">
             <h3 className="text-lg font-semibold mb-4">Edit Name</h3>
 
@@ -147,7 +172,7 @@ const Profile: React.FC = () => {
       )}
 
       {isEditEmailmodalOpen && (
-        <div className="fixed inset-0 bg-zinc-900  bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-zinc-900  bg-opacity-90 flex justify-center items-center">
           <div className=" p-6 rounded-lg w-96 bg-zinc-700">
             <h3 className="text-lg font-semibold mb-4">Edit Email</h3>
 

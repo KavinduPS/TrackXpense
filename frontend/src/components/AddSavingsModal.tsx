@@ -45,8 +45,8 @@ const AddSavingsModal = ({
       {({ touched, errors }) => (
         <Form>
           <div
-            className={`fixed inset-0 flex justify-center items-center transition-colors flex-col border-2 border-black w-200 bg-zinc-900 bg-opacity-90 ${
-              isVisible ? "visible bg-black/50" : "invisible"
+            className={`fixed inset-0 flex justify-center items-center flex-col  w-200 bg-zinc-900 bg-opacity-90 ${
+              isVisible ? "visible " : "invisible"
             }`}
           >
             <div className=" p-10 w-1/3 bg-zinc-700 rounded-lg">

@@ -1,7 +1,8 @@
-import React, { ReactNode, useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import {
+  useGetAllExpensesByCategoryQuery,
   useGetAllExpensesByDateQuery,
   useGetAllExpensesByMonthQuery,
   useGetAllExpensesQuery,
@@ -50,8 +51,14 @@ const Dashboard: React.FC = () => {
   const [fetchIncomesByDateRange, { data: incomesByDateRange }] =
     useLazyGetAllincomesByDateRangeQuery();
 
+  const { data: expensesByCategory, isLoading: isExpensesByCategoryLoading } =
+    useGetAllExpensesByCategoryQuery();
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleTimeFrameClick = async (timeFrameKey: string) => {
     try {
+      setIsLoading(true);
       const newTimeFrame = getDateRange(timeFrameKey);
       await Promise.all([
         fetchExpensesByDateRange(newTimeFrame),
@@ -61,6 +68,8 @@ const Dashboard: React.FC = () => {
     } catch (error) {
       toast.error("Error fetching date range data");
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,9 +97,11 @@ const Dashboard: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-900 ">
       <div className="flex">
-        <Sidebar />
-        <div className="flex-grow relative">
-          <div className="absolute top-0 right-0 p-6">
+        <div className="flex fixed">
+          <Sidebar />
+        </div>
+        <div className="flex-grow pl-80">
+          <div className="absolute top-0 right-8 p-6">
             <img
               src={logo}
               alt="Logo"
@@ -100,35 +111,59 @@ const Dashboard: React.FC = () => {
 
           {/* Income, Expence, Balance Cards */}
           <div className="flex justify-between mt-28 ml-14 mr-14">
-            <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center">
+            <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center relative">
               <div className="text-2xl font-semibold text-gray-200">
                 Total Income
               </div>
               <div className="text-4xl font-semibold text-green-400">
-                LKR: {isIncomesLoading ? <Spinner /> : totalIncomes}
+                LKR:{" "}
+                {isIncomesLoading ? (
+                  <div className="text-green-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
+                    <Spinner />
+                  </div>
+                ) : (
+                  totalIncomes
+                )}
               </div>
             </div>
-            <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center">
+            <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center relative">
               <div className="text-2xl font-semibold text-gray-200">
                 Total Expense
               </div>
               <div className="text-4xl font-semibold text-red-400">
-                LKR: {isExpensesLoading ? <Spinner /> : totalExpenses}
+                LKR:{" "}
+                {isExpensesLoading ? (
+                  <div className="text-red-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
+                    <Spinner />
+                  </div>
+                ) : (
+                  totalExpenses
+                )}
               </div>
             </div>
-            <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center">
+            <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center relative">
               <div className="text-2xl font-semibold text-gray-200">
                 Total Balance
               </div>
               <div className="text-4xl font-semibold text-yellow-400">
-                LKR: {totalIncomes - totalExpenses}
+                LKR:{" "}
+                {isIncomesLoading && isExpensesLoading ? (
+                  <div className="text-yellow-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
+                    <Spinner />
+                  </div>
+                ) : (
+                  totalIncomes - totalExpenses
+                )}
               </div>
             </div>
           </div>
 
-          {/* Balance chart & Expenses(bar chart) */}
+          {/* Balance chart  */}
           <div className="flex justify-center items-center">
             <div className="mt-16 ml-14 w-3/6 h-96 rounded-lg bg-Dark p-2 text-sm">
+              <div className="text-center text-lg font-semibold mt-5  text-gray-200">
+                Account balance
+              </div>
               <div className="flex  mb-4  space-x-1 items-center justify-center pt-7">
                 <button
                   onClick={() => handleTimeFrameClick(TimeFrames.THIS_MONTH)}
@@ -185,33 +220,51 @@ const Dashboard: React.FC = () => {
                   </div>
                 </button>
               </div>
-              <div className="w-full  h-64 pt-5 flex justify-center ">
+              <div className="w-full h-64 pt-5 flex justify-center relative">
+                {isLoading ? (
+                  <div className="w-full h-64 pt-5 flex justify-center text-blue-700 absolute bg-Dark bg-opacity-80">
+                    <Spinner />
+                  </div>
+                ) : (
                 {expensesByDateRange && incomesByDateRange && (
                   <AccountBalanceChart
                     expenses={expensesByDateRange}
                     incomes={incomesByDateRange}
                   />
-                )}
+                  )
+                }
+                }
               </div>
             </div>
+
             {/* Doughnut Chart */}
             <div className="mt-16 ml-10 w-3/6 h-96 rounded-lg bg-Dark p-2 mr-14">
               <div className="text-center text-lg font-semibold mb-2 mt-5  text-gray-200">
-                Category
+                Expenses by Category
               </div>
               <div className="flex justify-center items-center">
-                <CategoryChart />
+                {isExpensesByCategoryLoading ? (
+                  <div className="absolute w-3/6 h-96 flex justify-center items-center">
+                    <Spinner />
+                  </div>
+                ) : (
+                  expensesByCategory && (
+                    <CategoryChart expenses={expensesByCategory} />
+                  )
+                )}
               </div>
             </div>
           </div>
 
           {/* Bar Chart Income/Expense */}
           <div className="flex justify-center items-center">
-            <div className="w-full h-auto mb-10 text-gray-200 mt-14  bg-Dark shadow-2xl rounded-lg relative ml-14 mr-14 py-5 ">
+            <div className="w-full h-[500px] mb-10 text-gray-200 mt-14  bg-Dark shadow-2xl rounded-lg relative ml-14 mr-14 py-5 ">
               <p className="mb-5 text-lg font-semibold">Transaction Chart</p>
 
               {isExpensesByMonthLoading && isIncomesByMonthLoading ? (
-                <Spinner />
+                <div className="w-full h-[500px]  rounded-lg relative  ">
+                  <Spinner />
+                </div>
               ) : (
                 incomeByMonth &&
                 expenseByMonth && (
