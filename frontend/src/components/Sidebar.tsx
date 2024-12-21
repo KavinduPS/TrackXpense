@@ -37,7 +37,7 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <div className="bg-Darkgrayishviolet w-[260px] h-[635px] flex flex-col items-center py-5 rounded-xl border border-gray-400 mt-14 ml-12">
+    <div className="bg-Darkgrayishviolet w-[260px] h-[635px] flex flex-col items-center py-5 rounded-xl border border-gray-200 mt-14 ml-12">
       <div className="flex items-center justify-center mt-4">
         <img src={Admin} alt="Admin Logo" className="h-28 w-28" />
       </div>

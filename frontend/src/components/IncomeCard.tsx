@@ -16,8 +16,7 @@ const IncomeCard = ({
 }: IncomeCardProps) => {
   const { name, amount, date, source } = income;
   return (
-    <div className="py-2">
-      {" "}
+    <div className="py-2 ">
       <div className="flex items-center justify-between p-4 w-full bg-Dark rounded text-gray-200">
         <div className="text-left text-gray-200 font-semibold w-1/5">
           {date.toString().split("T")[0]}

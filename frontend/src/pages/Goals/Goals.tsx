@@ -121,7 +121,7 @@ const Goals = (props: Props) => {
             </div>
             <div className="mt-32 w-full ml-28 mr-12 flex flex-col border border-gray-200 rounded-lg pt-5 relative h-[600px]">
               <div className="text-center ">
-                <h2 className="text-white text-xl">Your Goals</h2>
+                <h2 className="text-gray-200 text-xl">Your Goals</h2>
               </div>
               <div className="w-11/12 mx-auto pb-5 h-[550px] overflow-y-auto">
                 {renderGoals()}

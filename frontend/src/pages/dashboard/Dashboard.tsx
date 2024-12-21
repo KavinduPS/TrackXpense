@@ -220,9 +220,9 @@ const Dashboard: React.FC = () => {
                   </div>
                 </button>
               </div>
-              <div className="w-full h-64 pt-5 flex justify-center relative">
+              <div className="w-full h-64 pt-1 flex justify-center relative">
                 {isLoading ? (
-                  <div className="w-full h-64 pt-5 flex justify-center text-blue-700 absolute bg-Dark bg-opacity-80">
+                  <div className="w-full h-40 flex items-center text-blue-700 absolute bg-Dark bg-opacity-80">
                     <Spinner />
                   </div>
                 ) : (
@@ -238,13 +238,13 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Doughnut Chart */}
-            <div className="mt-16 ml-10 w-3/6 h-96 rounded-lg bg-Dark p-2 mr-14">
+            <div className="mt-16 ml-10 w-3/6 h-96 rounded-lg bg-Dark p-2 mr-14 relative">
               <div className="text-center text-lg font-semibold mb-2 mt-5  text-gray-200">
                 Expenses by Category
               </div>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center relative">
                 {isExpensesByCategoryLoading ? (
-                  <div className="absolute w-3/6 h-96 flex justify-center items-center">
+                  <div className="w-full h-72 rounded-lg bg-Dark p-2 mr-14 absolute inset-0 bg-opacity-80 text-blue-700">
                     <Spinner />
                   </div>
                 ) : (
@@ -258,7 +258,7 @@ const Dashboard: React.FC = () => {
 
           {/* Bar Chart Income/Expense */}
           <div className="flex justify-center items-center">
-            <div className="w-full h-[500px] mb-10 text-gray-200 mt-14  bg-Dark shadow-2xl rounded-lg relative ml-14 mr-14 py-5 ">
+            <div className="w-full h-[500px] mb-12 text-gray-200 mt-14  bg-Dark shadow-2xl rounded-lg relative ml-14 mr-14 py-5 ">
               <p className="mb-5 text-lg font-semibold">Transaction Chart</p>
 
               {isExpensesByMonthLoading && isIncomesByMonthLoading ? (
