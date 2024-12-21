@@ -53,7 +53,7 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
               className="w-80 h-10 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="name"
-              placeholder="Expense Name"
+              placeholder="Income Name"
             />
             <div className="flex justify-center items-center text-left rounded-lg">
               {touched.name && errors.name && (

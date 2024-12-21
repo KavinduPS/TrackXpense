@@ -20,7 +20,6 @@ import { getDateRange } from "../../utils/dateUtils";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spin";
 import CategoryChart from "../../components/Charts/ReportCharts/CategoryChart";
-import { Label } from "recharts";
 import IncomeExpenseBarChart from "../../components/Charts/IncomeExpenseBarChart";
 
 const Dashboard: React.FC = () => {
@@ -122,7 +121,7 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                  totalIncomes
+                  totalIncomes.toLocaleString()
                 )}
               </div>
             </div>
@@ -137,7 +136,7 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                  totalExpenses
+                  totalExpenses.toLocaleString()
                 )}
               </div>
             </div>
@@ -152,7 +151,7 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                  totalIncomes - totalExpenses
+                  (totalIncomes - totalExpenses).toLocaleString()
                 )}
               </div>
             </div>
