@@ -12,7 +12,7 @@ export type Income = {
   name: string;
   amount: number;
   date: string;
-  category: string;
+  source: string;
   reference?: string;
 };
 

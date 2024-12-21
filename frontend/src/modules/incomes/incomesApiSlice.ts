@@ -1,11 +1,11 @@
-import { AggIncome, AggIncomeByMonth, Income } from "../../types";
+import { AggIncome, AggIncomeByMonth, Income, TimeFrame } from "../../types";
 import { apiSlice } from "../api/apiSlice";
 
 const INCOMES_URL = "/api/incomes";
 
 export const incomesApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getAllIncoems: build.query<Income[], void>({
+    getAllIncomes: build.query<Income[], void>({
       query: () => ({
         url: `${INCOMES_URL}`,
         method: "GET",
@@ -26,11 +26,46 @@ export const incomesApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Incomes"],
     }),
+    getAllincomesByDateRange: build.query<AggIncome[], TimeFrame>({
+      query: (timeFrame) => ({
+        url: `${INCOMES_URL}/date-range`,
+        method: "GET",
+        params: timeFrame,
+      }),
+      providesTags: ["Incomes"],
+    }),
+    addIncome: build.mutation({
+      query: (data) => ({
+        url: `${INCOMES_URL}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Incomes"],
+    }),
+    updateIncome: build.mutation({
+      query: (data) => ({
+        url: `${INCOMES_URL}/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Incomes"],
+    }),
+    deleteIncome: build.mutation({
+      query: (data) => ({
+        url: `${INCOMES_URL}/${data._id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Incomes"],
+    }),
   }),
 });
 
 export const {
-  useGetAllIncoemsQuery,
+  useGetAllIncomesQuery,
   useGetAllIncomesByDateQuery,
   useGetAllIncomesByMonthQuery,
+  useLazyGetAllincomesByDateRangeQuery,
+  useAddIncomeMutation,
+  useUpdateIncomeMutation,
+  useDeleteIncomeMutation,
 } = incomesApiSlice;

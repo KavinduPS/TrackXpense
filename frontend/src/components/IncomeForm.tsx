@@ -16,18 +16,17 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
     name: "",
     amount: 0,
     date: new Date(Date.now()).toISOString().split("T")[0],
-    category: "",
+    source: "",
     reference: "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Add Income name"),
+    name: Yup.string().required("Add income name"),
     amount: Yup.number()
       .required("Add Income amount")
       .positive("Amount must be positive")
       .typeError("Input only numbers"),
-    category: Yup.string().required("Select category"),
-    reference: Yup.string().required("Add reference"),
+    source: Yup.string().required("Add income source"),
   });
 
   const handleSubmit = (
@@ -91,28 +90,16 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
             </div>
           </div>
 
-          <div>
-            <Field
-              as="select"
-              name="category"
-              className="w-80 h-10 mt-5 pl-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
-            >
-              <option value="" className="text-zinc-900">
-                Category
-              </option>
-              <option value="Salary">Salary</option>
-                  <option value="Secoundary Income">Secoundary Income</option>
-                  <option value="Housing/Rent">Housing/Rent</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Bank Interest">Bank Interest</option>
-                  <option value="Share market">Share market</option>
-                  <option value="Other">Other</option>
-            </Field>
-            <div className="flex justify-center items-center text-left rounded-lg">
-              {touched.category && errors.category && (
-                <div className="text-red-600 w-80 pl-4">{errors.category}</div>
-              )}
-            </div>
+          <Field
+            className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+            type="text"
+            name="source"
+            placeholder="Income source"
+          />
+          <div className="flex justify-center items-center text-left rounded-lg">
+            {touched.source && errors.source && (
+              <div className="text-red-600 w-80 pl-3">{errors.source}</div>
+            )}
           </div>
 
           <div>

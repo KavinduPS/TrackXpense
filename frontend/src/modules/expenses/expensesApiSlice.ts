@@ -66,7 +66,7 @@ export const expensesApiSlice = apiSlice.injectEndpoints({
     deleteExpense: build.mutation({
       query: (data) => ({
         url: `${EXPENSES_URL}/${data._id}`,
-        method: "Delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Expenses"],
     }),
