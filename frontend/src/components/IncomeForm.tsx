@@ -50,7 +50,7 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
               Add Income
             </h2>
             <Field
-              className="w-80 h-10 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-10 pl-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="name"
               placeholder="Income Name"
@@ -64,7 +64,7 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
 
           <div>
             <Field
-              className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-10 mt-5 pl-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="amount"
               placeholder="Amount"
@@ -81,7 +81,7 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
             <Field
               type="date"
               name="date"
-              className="w-80 h-10 mt-5 pl-3 pr-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-10 mt-5 pl-3 pr-3  border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
             />
             <div className="flex justify-center items-center text-left rounded-lg">
               {touched.date && errors.date && (
@@ -91,7 +91,7 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
           </div>
 
           <Field
-            className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+            className="w-80 h-10 mt-5 pl-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
             type="text"
             name="source"
             placeholder="Income source"
@@ -104,7 +104,7 @@ const AddIncomeForm = ({ onAddIncome }: AddIncomeFormProps) => {
 
           <div>
             <Field
-              className="w-80 h-32 mt-5 px-3 pt-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-32 mt-5 px-3 pt-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               as="textarea"
               name="reference"
               placeholder="Reference"

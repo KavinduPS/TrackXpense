@@ -17,7 +17,6 @@ import IncomeCard from "../../components/IncomeCard";
 import Spinner from "../../components/Spin";
 import IncomesChart from "../../components/Charts/IncomesChart";
 
-
 const Income: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
@@ -120,12 +119,15 @@ const Income: React.FC = () => {
           </div>
 
           <div className="flex w-full justify-between mt-28">
-            <div className=" ml-14  flex  justify-center">
+            {/* Add Income Form */}
+            <div className="ml-14 flex justify-center flex-shrink-0 p-8 bg-Dark rounded-lg">
               <AddIncomeForm onAddIncome={handleAddIncome} />
             </div>
-            <div className="flex flex-col items-center border border-gray-200 mr-14  w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
-              <h2>Incomes chart</h2>
-              <div className="flex flex-row items-center justify-center">
+
+            {/* Incomes Chart */}
+            <div className="flex flex-col items-center bg-Dark mr-14 w-full ml-7 rounded-lg pt-5 text-gray-200 text-lg min-h-[550px] max-h-[550px] relative">
+              <h2 className="pt-14">Incomes chart</h2>
+              <div className="flex flex-row items-center justify-center w-full h-full  pt-5 absolute text-green-500">
                 {isIncomesByDateLoading ? (
                   <Spinner />
                 ) : (
@@ -134,8 +136,10 @@ const Income: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Incomes transaction chart */}
           <div className="flex w-full relative mb-12">
-            <div className="mt-10 w-full pb-10 ml-14 mr-12 flex justify-center border border-gray-200 rounded-lg pt-5 h-1/2  ">
+            <div className="mt-10 w-full pb-10 ml-14 mr-14 flex justify-center bg-Dark rounded-lg pt-5 h-1/2  ">
               <div className="w-11/12 pb-6">
                 <h2 className=" text-gray-200 text-xl pb-8">
                   Income transactions

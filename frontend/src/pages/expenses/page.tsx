@@ -17,7 +17,6 @@ import ExpenseCard from "../../components/ExpenseCard";
 import Spinner from "../../components/Spin";
 import ExpensesChart from "../../components/Charts/ExpensesChart";
 
-
 const Expense: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
@@ -119,12 +118,15 @@ const Expense: React.FC = () => {
             />
           </i>
           <div className="flex w-full justify-between mt-28">
-            <div className=" ml-14 flex  justify-center">
+            {/* Add Income Form */}
+            <div className="ml-14 flex justify-center flex-shrink-0 p-8 bg-Dark rounded-lg">
               <AddExpenseForm onAddExpense={handleAddExpense} />
             </div>
-            <div className="border border-gray-200 mr-14 w-full ml-14 rounded-lg pt-5 text-gray-200 text-lg">
-              Expenses chart
-              <div className="flex flex-row items-center justify-center">
+
+            {/* Incomes Chart */}
+            <div className="flex flex-col items-center bg-Dark mr-14 w-full ml-7 rounded-lg pt-5 text-gray-200 text-lg min-h-[550px] max-h-[550px] relative">
+              <h2 className="pt-14">Expenses chart</h2>
+              <div className="flex flex-row items-center justify-center w-full h-full pt-5 absolute text-yellow-500">
                 {isExpensesByDateLoading ? (
                   <Spinner />
                 ) : (
@@ -133,8 +135,10 @@ const Expense: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Expenses transaction chart */}
           <div className="flex w-full relative mb-12">
-            <div className="mt-10 w-full pb-10 ml-14 mr-14 flex justify-center border border-gray-200 rounded-lg pt-5 h-1/2">
+            <div className="mt-10 w-full pb-10 ml-14 mr-14 flex justify-center bg-Dark rounded-lg pt-5 h-1/2">
               <div className="w-11/12 pb-6">
                 <h2 className=" text-gray-200 text-xl pb-8">
                   Expense transactions

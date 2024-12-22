@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../State/store";
 import { setUser } from "../../modules/users/usersSlice";
-import { AiFillEdit } from "react-icons/ai";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";
 import Sidebar from "../../components/Sidebar";
@@ -12,7 +11,7 @@ import ChangePasswordModal, {
 import { useChangePasswordMutation } from "../../modules/users/usersApiSlice";
 import { toast } from "react-toastify";
 
-const Profile: React.FC = () => {
+const Settings: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const [changePassword] = useChangePasswordMutation();
@@ -89,45 +88,54 @@ const Profile: React.FC = () => {
           />
         </div>
 
-        <div className="mt-40">
-          <div className="ml-20">
-            <p className="font-semibold text-Linen text-left">Name</p>
+        <div className="p-5 bg-Dark w-2/5 h-72 mt-28 ml-14 rounded-lg flex justify-center items-center flex-col">
+          <div>
+            <div>
+              <p className="font-semibold text-Linen text-left">Name</p>
+            </div>
+
+            <div className=" flex flex-row">
+              <div className="flex justify-between items-center mt-3 w-72 h-10 rounded-lg border border-gray-600  focus:outline-none">
+                <p className=" text-gray-200 text-lg">{name}</p>
+              </div>
+
+              <button
+                className="text-zinc-900 text-xl bg-gray-200 h-10 w-20 mt-3 ml-6 rounded-lg"
+                onClick={openEditNamemodal}
+              >
+                Edit
+              </button>
+            </div>
           </div>
 
-          <div className="flex justify-between items-center ml-20 mt-3 w-72 h-10 rounded-lg border border-gray-400 hover:border-gray-600 focus:outline-none">
-            <p className=" text-Linen ml-4 text-lg">{name}</p>
-            <button
-              className="text-Lightgray mr-4 text-xl"
-              onClick={openEditNamemodal}
-            >
-              <AiFillEdit />
-            </button>
+          <div className="mt-6">
+            <div>
+              <p className="font-semibold text-Linen text-left">Name</p>
+            </div>
+
+            <div className=" flex flex-row">
+              <div className="flex justify-between items-center mt-3 w-72 h-10 rounded-lg border border-gray-600 focus:outline-none">
+                <p className=" text-gray-200 ml-2 text-lg">{email}</p>
+              </div>
+
+              <button
+                className="text-zinc-900 text-xl bg-gray-200 h-10 w-20 mt-3 ml-6 rounded-lg"
+                onClick={openEditEmailmodal}
+              >
+                Edit
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="mt-6">
-          <div className="ml-20">
-            <p className="font-semibold text-Linen text-left">Email</p>
-          </div>
-
-          <div className="flex justify-between items-center ml-20 mt-3 w-72 h-10 rounded-lg border border-gray-400 hover:border-gray-600 focus:outline-none">
-            <p className="text-lg text-Linen ml-4">{email}</p>
-            <button
-              className="text-Lightgray mr-4 text-xl"
-              onClick={openEditEmailmodal}
-            >
-              <AiFillEdit />
-            </button>
-          </div>
-        </div>
-
-        <div className="ml-20">
+        <div className="p-5 bg-Dark w-2/5 h-36 ml-14 mt-10 flex justify-center items-center rounded-lg">
           <button
-            className="text-gray-200 text-lg mt-16 border border-gray-200 w-72 h-10 rounded-lg flex items-center justify-center"
+            className="text-gray-200 text-lg  border border-gray-600 w-96 h-10 rounded-lg flex items-center justify-center hover:bg-gray-200 hover:text-zinc-900"
             onClick={openModal}
           >
             Change Password
           </button>
+
           {isModalOpen && (
             <ChangePasswordModal
               onSubmit={handlePasswordChange}
@@ -208,4 +216,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default Settings;
