@@ -41,8 +41,9 @@ const AddGoalForm = ({ onAddGoal }: AddGoalFormProps) => {
         <Form>
           <div>
             <h2 className="text-gray-200 text-xl font-semibold mb-4">
-              Add Goal
+              Add Saving Goal
             </h2>
+            <h2 className="text-gray-200 text-left pb-2">Goal name</h2>
             <Field
               className="w-80 h-10 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
@@ -57,8 +58,9 @@ const AddGoalForm = ({ onAddGoal }: AddGoalFormProps) => {
           </div>
 
           <div>
+            <h2 className="text-gray-200 text-left pt-5">Goal target</h2>
             <Field
-              className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-10 mt-2 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="targetAmount"
               placeholder="Goal target"
@@ -73,8 +75,9 @@ const AddGoalForm = ({ onAddGoal }: AddGoalFormProps) => {
             </div>
           </div>
           <div>
+            <h2 className="text-gray-200 text-left pt-5">Current saving</h2>
             <Field
-              className="w-80 h-10 mt-5 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-10 mt-2 pl-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
               type="text"
               name="savedAmount"
               placeholder="Current savings"
@@ -90,10 +93,11 @@ const AddGoalForm = ({ onAddGoal }: AddGoalFormProps) => {
           </div>
 
           <div>
+            <h2 className="text-gray-200 text-left pt-5">Due date</h2>
             <Field
               type="date"
               name="deadline"
-              className="w-80 h-10 mt-5 pl-3 pr-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
+              className="w-80 h-10 mt-2 pl-3 pr-3 bg-Darkgrayishviolet border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
             />
             <div className="flex justify-center items-center text-left rounded-lg">
               {touched.deadline && errors.deadline && (

@@ -20,7 +20,6 @@ import { getDateRange } from "../../utils/dateUtils";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spin";
 import CategoryChart from "../../components/Charts/ReportCharts/CategoryChart";
-import { Label } from "recharts";
 import IncomeExpenseBarChart from "../../components/Charts/IncomeExpenseBarChart";
 
 const Dashboard: React.FC = () => {
@@ -122,7 +121,7 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                  totalIncomes
+                  totalIncomes.toLocaleString()
                 )}
               </div>
             </div>
@@ -137,7 +136,7 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                  totalExpenses
+                  totalExpenses.toLocaleString()
                 )}
               </div>
             </div>
@@ -152,7 +151,7 @@ const Dashboard: React.FC = () => {
                     <Spinner />
                   </div>
                 ) : (
-                  totalIncomes - totalExpenses
+                  (totalIncomes - totalExpenses).toLocaleString()
                 )}
               </div>
             </div>
@@ -160,7 +159,7 @@ const Dashboard: React.FC = () => {
 
           {/* Balance chart  */}
           <div className="flex justify-center items-center">
-            <div className="mt-16 ml-14 w-3/6 h-96 rounded-lg bg-Dark p-2 text-sm">
+            <div className="mt-12 ml-14 w-3/6 h-96 rounded-lg bg-Dark p-2 text-sm">
               <div className="text-center text-lg font-semibold mt-5  text-gray-200">
                 Account balance
               </div>
@@ -238,7 +237,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Doughnut Chart */}
-            <div className="mt-16 ml-10 w-3/6 h-96 rounded-lg bg-Dark p-2 mr-14 relative">
+            <div className="mt-12 ml-10 w-3/6 h-96 rounded-lg bg-Dark p-2 mr-14 relative">
               <div className="text-center text-lg font-semibold mb-2 mt-5  text-gray-200">
                 Expenses by Category
               </div>

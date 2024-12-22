@@ -85,7 +85,7 @@ const Goals = (props: Props) => {
   const renderGoals = (): ReactNode => {
     if (isFetching) {
       return (
-        <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 rounded-lg text-blue-700">
+        <div className="absolute inset-0 flex justify-center items-center bg-Dark bg-opacity-50 rounded-lg text-blue-700">
           <Spinner />
         </div>
       );
@@ -106,8 +106,10 @@ const Goals = (props: Props) => {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-900  ">
       <div className="flex">
-        <Sidebar />
-        <div className="flex-grow">
+        <div className="flex fixed">
+          <Sidebar />
+        </div>
+        <div className="flex-grow pl-80">
           <i className="absolute top-0 right-8 p-6">
             <img
               src={logo}
@@ -115,15 +117,15 @@ const Goals = (props: Props) => {
               style={{ width: "380px", height: "60px" }}
             />
           </i>
-          <div className="flex w-full justify-between">
-            <div className=" ml-14 mt-32 flex  justify-center">
+          <div className="flex w-full justify-between mt-28">
+            <div className="flex justify-center flex-shrink-0 p-8 ml-14 bg-Dark rounded-lg h-auto">
               <AddGoalForm onAddGoal={handleAddGoal} />
             </div>
-            <div className="mt-32 w-full ml-28 mr-12 flex flex-col border border-gray-200 rounded-lg pt-5 relative h-[600px]">
-              <div className="text-center ">
-                <h2 className="text-gray-200 text-xl">Your Goals</h2>
-              </div>
-              <div className="w-11/12 mx-auto pb-5 h-[550px] overflow-y-auto">
+
+            <div className="w-full ml-7 mr-12 flex flex-col bg-Dark rounded-lg pt-5 relative max-h-1/2 pb-3">
+              <h2 className="text-gray-200 text-xl pb-5">Your Goals</h2>
+
+              <div className="w-11/12 mx-auto h-[500px] overflow-y-auto">
                 {renderGoals()}
               </div>
               {isAddSavingModalVisible && editingGoal && (

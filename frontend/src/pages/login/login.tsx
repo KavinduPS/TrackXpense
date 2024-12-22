@@ -30,7 +30,9 @@ const Login: React.FC = () => {
   const initialValues: loginForm = { email: "", password: "" };
 
   const validationSchema = Yup.object({
-    email: Yup.string().required("Email is required"),
+    email: Yup.string()
+      .email("Please enter a valid email address")
+      .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
 
@@ -106,7 +108,7 @@ const Login: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-72 bg-orange-200 h-10 rounded-lg text-zinc-700"
+                  className="w-72 bg-orange-200 h-10 rounded-lg text-zinc-900"
                 >
                   Login
                 </button>
@@ -118,7 +120,7 @@ const Login: React.FC = () => {
                 <Link to="/signup">
                   <button
                     type="button"
-                    className="w-72 bg-green-200 h-10 rounded-lg text-zinc-700"
+                    className="w-72 bg-green-200 h-10 rounded-lg text-zinc-900"
                   >
                     Sign Up
                   </button>
