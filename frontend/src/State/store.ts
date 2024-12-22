@@ -1,17 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../modules/auth/authSlice";
-import useReducer from "../modules/users/usersSlice";
 import incomeReducer from "./incomSlice";
 import { apiSlice } from "../modules/api/apiSlice";
-import ExpenseReduser from "../State/ExpenseSlice";
+import ExpenseReducer from "../State/ExpenseSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
-    user: useReducer,
     income: incomeReducer,
-    expense: ExpenseReduser,
+    expense: ExpenseReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

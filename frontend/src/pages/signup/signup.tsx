@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../modules/users/usersSlice";
-import { useRegisterMutation } from "../../modules/users/usersApiSlice";
+import { useRegisterMutation } from "../../modules/auth/authApiSlice";
 import * as Yup from "yup";
 import "../../index.css";
-import { AuthState, setCredentials } from "../../modules/auth/authSlice";
+import { setUser } from "../../modules/auth/authSlice";
 import { toast } from "react-toastify";
+import { RootState } from "../../State/store";
 import Spinner from "../../components/Spin";
 
 interface signForm {
@@ -17,16 +17,12 @@ interface signForm {
   email: "";
 }
 
-interface RootState {
-  auth: AuthState;
-}
-
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.auth);
 
   const initialValues: signForm = {
     name: "",
@@ -47,7 +43,7 @@ const Signup: React.FC = () => {
     try {
       const { name, email, password } = values;
       const response = await register({ name, email, password }).unwrap();
-      dispatch(setCredentials({ ...response }));
+      dispatch(setUser({ ...response }));
       navigate("/dashboard");
     } catch (error: any) {
       console.log(error);
