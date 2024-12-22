@@ -5,15 +5,22 @@ import { Link } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../../modules/users/usersApiSlice";
-import { AuthState, setCredentials } from "../../modules/auth/authSlice";
+import {
+  useForgotPasswordMutation,
+  useLoginMutation,
+} from "../../modules/auth/authApiSlice";
+import { AuthState, setUser } from "../../modules/auth/authSlice";
 import { toast } from "react-toastify";
 import "../../index.css";
 import Spinner from "../../components/Spin";
 
-interface loginForm {
+interface LoginForm {
   email: string;
   password: string;
+}
+
+interface RequestPasswordResetForm {
+  email: string;
 }
 
 interface RootState {
@@ -26,8 +33,9 @@ const Login: React.FC = () => {
 
   const [login, { isLoading }] = useLoginMutation();
   const { user } = useSelector((state: RootState) => state.auth);
+  const [forgotPassword] = useForgotPasswordMutation();
 
-  const initialValues: loginForm = { email: "", password: "" };
+  const initialValues: LoginForm = { email: "", password: "" };
 
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is required"),
@@ -40,14 +48,24 @@ const Login: React.FC = () => {
     }
   }, [user, navigate]);
 
-  const handleLogin = async (values: loginForm): Promise<void> => {
+  const handleLogin = async (values: LoginForm): Promise<void> => {
     try {
       const { email, password } = values;
       const response = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...response }));
+      console.log(response);
+      dispatch(setUser({ ...response }));
       navigate("/dashboard");
     } catch (error: any) {
-      console.log(error);
+      toast(error?.data?.message);
+    }
+  };
+
+  const handlePasswordResetRequest = async (
+    data: RequestPasswordResetForm
+  ): Promise<void> => {
+    try {
+      await forgotPassword(data).unwrap();
+    } catch (error: any) {
       toast(error?.data?.message);
     }
   };

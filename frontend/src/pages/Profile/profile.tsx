@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../State/store";
-import { setUser } from "../../modules/users/usersSlice";
+import { setUser } from "../../modules/auth/authSlice";
 import { AiFillEdit } from "react-icons/ai";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";
@@ -9,12 +9,12 @@ import Sidebar from "../../components/Sidebar";
 import ChangePasswordModal, {
   ChangePasswordForm,
 } from "../../components/ChangepasswordModal";
-import { useChangePasswordMutation } from "../../modules/users/usersApiSlice";
+import { useChangePasswordMutation } from "../../modules/auth/authApiSlice";
 import { toast } from "react-toastify";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const { user } = useSelector((state: RootState) => state.auth);
   const [changePassword] = useChangePasswordMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,12 +22,12 @@ const Profile: React.FC = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
 
   useEffect(() => {
-    setTempName(user.name);
-    setTempEmail(user.email);
+    setTempName(user?.name);
+    setTempEmail(user?.email);
   }, [user]);
 
   const handleSave = () => {
@@ -39,12 +39,12 @@ const Profile: React.FC = () => {
   };
 
   const [isEditNamemodalOpen, setIsEditNamemodalOpen] = useState(false);
-  const [tempName, setTempName] = useState(user.name);
+  const [tempName, setTempName] = useState(user?.name);
   const [isEditEmailmodalOpen, setIsEditEmailmodalOpen] = useState(false);
-  const [tempEmail, setTempEmail] = useState(user.email);
+  const [tempEmail, setTempEmail] = useState(user?.email);
 
   const openEditNamemodal = () => {
-    setTempName(user.name);
+    setTempName(user?.name);
     setIsEditNamemodalOpen(true);
   };
 
@@ -53,7 +53,7 @@ const Profile: React.FC = () => {
   };
 
   const openEditEmailmodal = () => {
-    setTempEmail(user.email);
+    setTempEmail(user?.email);
     setIsEditEmailmodalOpen(true);
   };
 
