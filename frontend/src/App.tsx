@@ -11,6 +11,7 @@ import Settings from "./pages/Settting/setting";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/PrivateRoute";
+import ForgotPassword from "./pages/ForgotPassword/forgotpassword";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/income" element={<Income />} />
           <Route path="/goals" element={<Goals />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>

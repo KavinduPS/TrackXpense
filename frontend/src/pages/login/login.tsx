@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/trackxpense_logo.png";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { AuthState, setCredentials } from "../../modules/auth/authSlice";
 import { toast } from "react-toastify";
 import "../../index.css";
 import Spinner from "../../components/Spin";
+import ForgotModal from "../../components/ForgotPasswordModal";
 
 interface loginForm {
   email: string;
@@ -52,6 +53,15 @@ const Login: React.FC = () => {
       console.log(error);
       toast(error?.data?.message);
     }
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleSubmit = (email: string) => {
+    console.log("Email:", email);
   };
 
   return (
@@ -98,8 +108,14 @@ const Login: React.FC = () => {
               </div>
 
               <div className="my-5">
-                <a href="#" className="text-neutral-100 ">
-                  Forgot password ?
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleOpenModal();
+                  }}
+                  className="text-neutral-100 cursor-pointer"
+                >
+                  Forgot password?
                 </a>
               </div>
               <div className="my-5">
@@ -130,6 +146,16 @@ const Login: React.FC = () => {
           )}
         </Formik>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-zinc-900 bg-opacity-100 flex justify-center items-center">
+          <ForgotModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={handleSubmit}
+          />
+        </div>
+      )}
     </div>
   );
 };
