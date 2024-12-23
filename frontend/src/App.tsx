@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/ForgotPassword/forgotpassword";
 import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CheckEmail from "./pages/ForgotPassword/Checkemail";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             path="/reset-password/:token/:user"
             element={<ForgotPassword />}
           />
+          <Route path="/checkemail" element={<CheckEmail />} />
         </Routes>
       </div>
     </Router>

@@ -22,7 +22,7 @@ const Signup: React.FC = () => {
   const dispatch = useDispatch();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const user = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const initialValues: signForm = {
     name: "",

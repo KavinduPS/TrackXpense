@@ -25,7 +25,7 @@ export const ForgotModal = ({
 
   const handleSubmit = (values: ForgotPasswordForm) => {
     onSubmit(values.email);
-    navigate("/forgotpassword");
+    navigate("/Checkemail");
   };
 
   return (
