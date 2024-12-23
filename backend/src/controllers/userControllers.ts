@@ -91,6 +91,24 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const editUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id } = req.user;
+  console.log(req.user);
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+    const updatedUser = await User.findByIdAndUpdate(_id, req.body, {
+      new: true,
+    }).select("-password");
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
 //Logout user - api/users/logout
 const logoutUser = async (req: Request, res: Response) => {
   res.cookie("jwt", "", {
@@ -262,6 +280,7 @@ export {
   registerUser,
   loginUser,
   getUser,
+  editUser,
   logoutUser,
   changePassword,
   forgotPassword,

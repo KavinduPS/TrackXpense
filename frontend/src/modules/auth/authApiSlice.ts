@@ -2,49 +2,56 @@ import { apiSlice } from "../api/apiSlice";
 const USERS_URL = "/api/users";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    login: builder.mutation({
+  endpoints: (build) => ({
+    login: build.mutation({
       query: (data) => ({
         url: `${USERS_URL}/login`,
         method: "POST",
         body: data,
       }),
     }),
-    register: builder.mutation({
+    register: build.mutation({
       query: (data) => ({
         url: `${USERS_URL}/register`,
         method: "POST",
         body: data,
       }),
     }),
-    logout: builder.mutation({
+    updateUser: build.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    logout: build.mutation({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
     }),
-    changePassword: builder.mutation({
+    changePassword: build.mutation({
       query: (data) => ({
         url: `${USERS_URL}/change-password`,
         method: "PUT",
         body: data,
       }),
     }),
-    forgotPassword: builder.mutation({
+    forgotPassword: build.mutation({
       query: (data) => ({
         url: `${USERS_URL}/forgot-password`,
         method: "POST",
         body: data,
       }),
     }),
-    resetPassword: builder.mutation({
+    resetPassword: build.mutation({
       query: (data) => ({
         url: `${USERS_URL}/reset-password`,
         method: "POST",
         body: data,
       }),
     }),
-    verifyResetToken: builder.mutation({
+    verifyResetToken: build.mutation({
       query: (data) => ({
         url: `${USERS_URL}/verify-reset-token`,
         method: "POST",
