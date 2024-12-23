@@ -5,19 +5,18 @@ import { setUser } from "../modules/users/usersSlice";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-export interface ProfileForm {
-  name: string;
-  email: string;
+export interface ProfileFormData {
+  _id: string | undefined;
+  name: string | undefined;
+  email: string | undefined;
 }
+
 type ProfileFormProps = {
-  userData: ProfileForm;
-  onConfirm: () => void;
+  userData: ProfileFormData;
+  onConfirm: (data: ProfileFormData) => Promise<void>;
 };
 
 const Profile = ({ userData, onConfirm }: ProfileFormProps) => {
-  const { name, email } = userData;
-  const initialValues: ProfileForm = { name: name, email: email };
-
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Please enter a valid email address")
@@ -28,7 +27,7 @@ const Profile = ({ userData, onConfirm }: ProfileFormProps) => {
     <div className="p-8 bg-Dark w-[470px] h-96 rounded-lg flex justify-center items-center flex-col">
       <h2 className="text-gray-200 text-xl font-semibold mb-4">Profile</h2>
       <Formik
-        initialValues={initialValues}
+        initialValues={userData}
         validationSchema={validationSchema}
         enableReinitialize={true}
         onSubmit={onConfirm}

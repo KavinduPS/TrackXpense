@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../State/store";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";
@@ -7,23 +7,48 @@ import Sidebar from "../../components/Sidebar";
 import ChangePasswordModal, {
   ChangePasswordForm,
 } from "../../components/ChangepasswordModal";
-import { useChangePasswordMutation } from "../../modules/auth/authApiSlice";
+import {
+  useChangePasswordMutation,
+  useUpdateUserMutation,
+} from "../../modules/auth/authApiSlice";
 import { toast } from "react-toastify";
-import ProfileForm from "../../components/ProfileForm";
+import ProfileForm, { ProfileFormData } from "../../components/ProfileForm";
+import { updateUserDetails } from "../../modules/auth/authSlice";
 
 const Settings: React.FC = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const { user } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
 
-  const name = user?.name || "Default Name";
-  const email = user?.email || "Default Email";
-
-  const userData = { name, email };
   const [changePassword] = useChangePasswordMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const userData = {
+    _id: user?.id,
+    name: user?.name,
+    email: user?.email,
+  };
+
+  const handleUpdateUserDetails = async (
+    data: ProfileFormData
+  ): Promise<void> => {
+    try {
+      console.log(data);
+      const res = await updateUser({
+        ...data,
+        _id: user?.id,
+      });
+      dispatch(updateUserDetails(data));
+      console.log(res);
+      toast.success("User details updated successfully");
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
+  };
 
   const handlePasswordChange = async (values: ChangePasswordForm) => {
     const { currentPassword, newPassword } = values;
@@ -56,9 +81,7 @@ const Settings: React.FC = () => {
         <div className="ml-14 mt-28">
           <ProfileForm
             userData={userData}
-            onConfirm={() => {
-              console.log("");
-            }}
+            onConfirm={handleUpdateUserDetails}
           />
         </div>
 

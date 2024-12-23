@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Admin from "../assets/admin.png";
 import { useLogoutMutation } from "../modules/auth/authApiSlice";
-import { AuthState, clearUser } from "../modules/auth/authSlice";
+import { clearUser } from "../modules/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../State/store";
+import { apiSlice } from "../modules/api/apiSlice";
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Sidebar: React.FC = () => {
     try {
       await logout(user).unwrap();
       dispatch(clearUser());
+      dispatch(apiSlice.util.resetApiState());
       navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -37,7 +38,7 @@ const Sidebar: React.FC = () => {
       <div className="flex items-center justify-center mt-4 w-28 h-28 text-gray-200 bg-zinc-900 rounded-full text-5xl font-bold bg-gradient-to-r from-pink-500 to-orange-500">
         {user?.name.slice(0, 1)}
       </div>
-      <h2 className="mt-4 text-xl text-gray-200">{user?.name}</h2>
+      <h2 className="mt-4 text-xl text-gray-200">{user?.name.split(" ")[0]}</h2>
 
       <nav className="text-gray-200 w-full mt-8 space-y-2">
         <ul>

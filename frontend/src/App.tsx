@@ -25,17 +25,9 @@ function App() {
           //Private routes
           <Route path="" element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
-          <Route path="" element={<PrivateRoute />}>
             <Route path="/expenses" element={<Expenses />} />
-          </Route>
-          <Route path="" element={<PrivateRoute />}>
             <Route path="/incomes" element={<Income />} />
-          </Route>
-          <Route path="" element={<PrivateRoute />}>
             <Route path="/goals" element={<Goals />} />
-          </Route>
-          <Route path="" element={<PrivateRoute />}>
             <Route path="/settings" element={<Settings />} />
           </Route>
           <Route
