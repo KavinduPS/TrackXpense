@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Admin from "../assets/admin.png";
-import { useLogoutMutation } from "../modules/users/usersApiSlice";
-import { AuthState, logoutUser } from "../modules/auth/authSlice";
+import { useLogoutMutation } from "../modules/auth/authApiSlice";
+import { AuthState, clearUser } from "../modules/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 interface RootState {
@@ -20,7 +20,7 @@ const Sidebar: React.FC = () => {
   const handleLogout = async (): Promise<void> => {
     try {
       await logout(user).unwrap();
-      dispatch(logoutUser({}));
+      dispatch(clearUser());
       navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
