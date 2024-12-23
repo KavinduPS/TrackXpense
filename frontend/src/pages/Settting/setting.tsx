@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../State/store";
-import { setUser } from "../../modules/auth/authSlice";
-import { AiFillEdit } from "react-icons/ai";
 import logo from "../../assets/trackxpense_logo.png";
 import "../../index.css";
 import Sidebar from "../../components/Sidebar";
@@ -11,55 +9,21 @@ import ChangePasswordModal, {
 } from "../../components/ChangepasswordModal";
 import { useChangePasswordMutation } from "../../modules/auth/authApiSlice";
 import { toast } from "react-toastify";
+import ProfileForm from "../../components/ProfileForm";
 
 const Settings: React.FC = () => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const name = user?.name || "Default Name";
+  const email = user?.email || "Default Email";
+
+  const userData = { name, email };
   const [changePassword] = useChangePasswordMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  const [name, setName] = useState(user?.name);
-  const [email, setEmail] = useState(user?.email);
-
-  useEffect(() => {
-    setTempName(user?.name);
-    setTempEmail(user?.email);
-  }, [user]);
-
-  const handleSave = () => {
-    setName(tempName);
-    setEmail(tempEmail);
-    dispatch(setUser({ name: tempName, email: tempEmail }));
-    setIsEditNamemodalOpen(false);
-    setIsEditEmailmodalOpen(false);
-  };
-
-  const [isEditNamemodalOpen, setIsEditNamemodalOpen] = useState(false);
-  const [tempName, setTempName] = useState(user?.name);
-  const [isEditEmailmodalOpen, setIsEditEmailmodalOpen] = useState(false);
-  const [tempEmail, setTempEmail] = useState(user?.email);
-
-  const openEditNamemodal = () => {
-    setTempName(user?.name);
-    setIsEditNamemodalOpen(true);
-  };
-
-  const closeEditNamemodal = () => {
-    setIsEditNamemodalOpen(false);
-  };
-
-  const openEditEmailmodal = () => {
-    setTempEmail(user?.email);
-    setIsEditEmailmodalOpen(true);
-  };
-
-  const closeEditEmailmodal = () => {
-    setIsEditEmailmodalOpen(false);
-  };
 
   const handlePasswordChange = async (values: ChangePasswordForm) => {
     const { currentPassword, newPassword } = values;
@@ -89,47 +53,16 @@ const Settings: React.FC = () => {
           />
         </div>
 
-        <div className="p-5 bg-Dark w-2/5 h-72 mt-28 ml-14 rounded-lg flex justify-center items-center flex-col">
-          <div>
-            <div>
-              <p className="font-semibold text-Linen text-left">Name</p>
-            </div>
-
-            <div className=" flex flex-row">
-              <div className="flex justify-between items-center mt-3 w-72 h-10 rounded-lg border border-gray-600  focus:outline-none">
-                <p className=" text-gray-200 text-lg">{name}</p>
-              </div>
-
-              <button
-                className="text-zinc-900 text-xl bg-gray-200 h-10 w-20 mt-3 ml-6 rounded-lg"
-                onClick={openEditNamemodal}
-              >
-                Edit
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <div>
-              <p className="font-semibold text-Linen text-left">Name</p>
-            </div>
-
-            <div className=" flex flex-row">
-              <div className="flex justify-between items-center mt-3 w-72 h-10 rounded-lg border border-gray-600 focus:outline-none">
-                <p className=" text-gray-200 ml-2 text-lg">{email}</p>
-              </div>
-
-              <button
-                className="text-zinc-900 text-xl bg-gray-200 h-10 w-20 mt-3 ml-6 rounded-lg"
-                onClick={openEditEmailmodal}
-              >
-                Edit
-              </button>
-            </div>
-          </div>
+        <div className="ml-14 mt-28">
+          <ProfileForm
+            userData={userData}
+            onConfirm={() => {
+              console.log("");
+            }}
+          />
         </div>
 
-        <div className="p-5 bg-Dark w-2/5 h-36 ml-14 mt-10 flex justify-center items-center rounded-lg">
+        <div className="p-5 bg-Dark w-[470px] h-36 ml-14 mt-12 flex justify-center items-center rounded-lg">
           <button
             className="text-gray-200 text-lg  border border-gray-600 w-96 h-10 rounded-lg flex items-center justify-center hover:bg-gray-200 hover:text-zinc-900"
             onClick={openModal}
@@ -145,74 +78,6 @@ const Settings: React.FC = () => {
           )}
         </div>
       </div>
-
-      {isEditNamemodalOpen && (
-        <div className="fixed inset-0 bg-zinc-900  bg-opacity-90 flex justify-center items-center">
-          <div className=" p-6 rounded-lg w-96 bg-zinc-700">
-            <h3 className="text-lg font-semibold mb-4">Edit Name</h3>
-
-            <div className="mb-4">
-              <input
-                type="text"
-                value={tempName}
-                placeholder="Name"
-                onChange={(e) => setTempName(e.target.value)}
-                className="mt-1 w-full px-3 py-2 text-lg bg-gray-200 rounded-md text-zinc-900 focus:outline-none"
-              />
-            </div>
-
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={closeEditNamemodal}
-                className="text-zinc-900 px-4 py-2 rounded-md w-20 bg-gray-200"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="bg-green-300 text-zinc-900 px-4 py-2 rounded-md w-20"
-                disabled={!tempName}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isEditEmailmodalOpen && (
-        <div className="fixed inset-0 bg-zinc-900  bg-opacity-90 flex justify-center items-center">
-          <div className=" p-6 rounded-lg w-96 bg-zinc-700">
-            <h3 className="text-lg font-semibold mb-4">Edit Email</h3>
-
-            <div className="mb-4">
-              <input
-                type="email"
-                value={tempEmail}
-                placeholder="Email"
-                onChange={(e) => setTempEmail(e.target.value)}
-                className="mt-1 w-full px-3 py-2 text-lg bg-gray-200 rounded-md text-zinc-900 focus:outline-none"
-              />
-            </div>
-
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={closeEditEmailmodal}
-                className="text-zinc-900 px-4 py-2 rounded-md w-20 bg-gray-200"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="bg-green-300 text-zinc-900 px-4 py-2 rounded-md w-20"
-                disabled={!tempEmail}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
