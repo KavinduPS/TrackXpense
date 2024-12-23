@@ -20,10 +20,6 @@ interface LoginForm {
   password: string;
 }
 
-interface RequestPasswordResetForm {
-  email: string;
-}
-
 interface RootState {
   auth: AuthState;
 }
@@ -59,15 +55,15 @@ const Login: React.FC = () => {
       dispatch(setUser({ ...response }));
       navigate("/dashboard");
     } catch (error: any) {
-      toast(error?.data?.message);
+      toast.error(error?.data?.message);
     }
   };
 
-  const handlePasswordResetRequest = async (
-    data: RequestPasswordResetForm
-  ): Promise<void> => {
+  const handlePasswordResetRequest = async (email: string): Promise<void> => {
     try {
-      await forgotPassword(data).unwrap();
+      console.log(email);
+      await forgotPassword({ email }).unwrap();
+      navigate("/");
     } catch (error: any) {
       toast(error?.data?.message);
     }
@@ -78,9 +74,9 @@ const Login: React.FC = () => {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleSubmit = (email: string) => {
-    console.log("Email:", email);
-  };
+  // const handleSubmit = (email: string) => {
+  //   console.log("Email:", email);
+  // };
 
   return (
     <div className="h-screen flex justify-center items-center bg-zinc-900 ">
@@ -170,7 +166,7 @@ const Login: React.FC = () => {
           <ForgotModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
-            onSubmit={handleSubmit}
+            onSubmit={handlePasswordResetRequest}
           />
         </div>
       )}

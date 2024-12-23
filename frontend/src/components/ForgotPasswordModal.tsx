@@ -10,7 +10,7 @@ interface ForgotPasswordForm {
 interface ForgotPasswordModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (email: string) => void;
+  onSubmit: (email: string) => Promise<void>;
 }
 export const ForgotModal = ({
   onClose,

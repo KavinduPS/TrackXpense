@@ -141,8 +141,9 @@ const forgotPassword = async (
 ) => {
   try {
     const { email } = req.body;
+    console.log(email);
     const user = await User.findOne({ email });
-
+    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -191,6 +192,7 @@ const resetPassword = async (
 ) => {
   try {
     const { token, user, newPassword } = req.body;
+    console.log(req.body);
 
     const resetToken = await Token.findOne({ user });
 
@@ -200,19 +202,57 @@ const resetPassword = async (
     }
 
     const isValid = await bcrypt.compare(token, resetToken.token);
-
+    console.log("Valid: ", isValid);
     if (!isValid) {
       res.status(400);
       throw new Error("Invalid or expired reset token");
     }
 
     const salt = await bcrypt.genSalt(10);
+    console.log(salt);
+    console.log("beofre passeng", newPassword);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-
+    console.log(salt, newPassword);
     await User.findByIdAndUpdate(user, { password: hashedPassword });
     await Token.findByIdAndDelete(resetToken._id);
 
     res.status(200).json({ message: "Password successfully reset" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const verifyResetToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { token, user } = req.body;
+    console.log(req.body);
+
+    if (!token || !user) {
+      return res.status(400).json({ message: "Invalid link" });
+    }
+
+    const resetToken = await Token.findOne({ user: user });
+    console.log("Token", resetToken);
+
+    if (!resetToken) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired reset token" });
+    }
+
+    const isValidToken = await bcrypt.compare(token, resetToken.token);
+
+    if (!isValidToken) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired reset token" });
+    }
+
+    res.status(200).json({ isValidToken });
   } catch (error) {
     next(error);
   }
@@ -226,4 +266,5 @@ export {
   changePassword,
   forgotPassword,
   resetPassword,
+  verifyResetToken,
 };

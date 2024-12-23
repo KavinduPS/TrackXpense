@@ -8,10 +8,10 @@ import Expenses from "./pages/expenses/page";
 import Income from "./pages/income/page";
 import Goals from "./pages/Goals/Goals";
 import Settings from "./pages/Settting/setting";
+import ForgotPassword from "./pages/ForgotPassword/forgotpassword";
+import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PrivateRoute from "./components/PrivateRoute";
-import ForgotPassword from "./pages/ForgotPassword/forgotpassword";
 
 function App() {
   return (
@@ -28,10 +28,19 @@ function App() {
           <Route path="" element={<PrivateRoute />}>
             <Route path="/expenses" element={<Expenses />} />
           </Route>
-          <Route path="/income" element={<Income />} />
-          <Route path="/goals" element={<Goals />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="/incomes" element={<Income />} />
+          </Route>
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="/goals" element={<Goals />} />
+          </Route>
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+          <Route
+            path="/reset-password/:token/:user"
+            element={<ForgotPassword />}
+          />
         </Routes>
       </div>
     </Router>
