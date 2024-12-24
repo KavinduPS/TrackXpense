@@ -37,13 +37,11 @@ const Settings: React.FC = () => {
     data: ProfileFormData
   ): Promise<void> => {
     try {
-      console.log(data);
       const res = await updateUser({
         ...data,
         _id: user?.id,
       });
       dispatch(updateUserDetails(data));
-      console.log(res);
       toast.success("User details updated successfully");
     } catch (error: any) {
       toast.error(error.data.message);
@@ -53,12 +51,10 @@ const Settings: React.FC = () => {
   const handlePasswordChange = async (values: ChangePasswordForm) => {
     const { currentPassword, newPassword } = values;
     try {
-      console.log(values);
-      const res = await changePassword({
+      await changePassword({
         currentPassword: currentPassword,
         newPassword: newPassword,
       }).unwrap();
-      console.log(res);
       toast.success("Password updated successfully");
     } catch (error: any) {
       toast.error(error?.data?.message);

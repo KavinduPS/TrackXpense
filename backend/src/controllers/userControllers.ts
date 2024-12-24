@@ -93,7 +93,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const editUser = async (req: Request, res: Response, next: NextFunction) => {
   const { _id } = req.user;
-  console.log(req.user);
+
   try {
     const user = await User.findById(_id);
     if (!user) {
@@ -120,7 +120,7 @@ const logoutUser = async (req: Request, res: Response) => {
   });
 };
 
-//change user password - api/users/changePassword
+//change user password - api/users/change--password
 const changePassword = async (
   req: Request,
   res: Response,
@@ -128,6 +128,7 @@ const changePassword = async (
 ) => {
   const { _id } = req.user;
   const { currentPassword, newPassword } = req.body;
+
   try {
     const user = await User.findById(_id);
 
@@ -159,9 +160,8 @@ const forgotPassword = async (
 ) => {
   try {
     const { email } = req.body;
-    console.log(email);
+
     const user = await User.findOne({ email });
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -210,7 +210,6 @@ const resetPassword = async (
 ) => {
   try {
     const { token, user, newPassword } = req.body;
-    console.log(req.body);
 
     const resetToken = await Token.findOne({ user });
 
@@ -220,17 +219,15 @@ const resetPassword = async (
     }
 
     const isValid = await bcrypt.compare(token, resetToken.token);
-    console.log("Valid: ", isValid);
+
     if (!isValid) {
       res.status(400);
       throw new Error("Invalid or expired reset token");
     }
 
     const salt = await bcrypt.genSalt(10);
-    console.log(salt);
-    console.log("beofre passeng", newPassword);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-    console.log(salt, newPassword);
+
     await User.findByIdAndUpdate(user, { password: hashedPassword });
     await Token.findByIdAndDelete(resetToken._id);
 
@@ -247,14 +244,12 @@ const verifyResetToken = async (
 ) => {
   try {
     const { token, user } = req.body;
-    console.log(req.body);
 
     if (!token || !user) {
       return res.status(400).json({ message: "Invalid link" });
     }
 
     const resetToken = await Token.findOne({ user: user });
-    console.log("Token", resetToken);
 
     if (!resetToken) {
       return res

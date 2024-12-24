@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setPassword } from "../modules/users/usersSlice";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -38,8 +37,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   });
 
   const handleSubmit = async (values: ChangePasswordForm) => {
-    dispatch(setPassword(values.newPassword));
-    await onSubmit(values);
+    onSubmit(values);
     closeModal();
   };
 
