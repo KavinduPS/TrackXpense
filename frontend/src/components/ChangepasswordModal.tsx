@@ -42,8 +42,8 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-zinc-900 bg-opacity-50">
-      <div className="bg-zinc-700 p-6 rounded-lg w-96">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+      <div className="bg-Dark p-8 rounded-lg w-96">
         <h2 className="text-xl mb-4">Change Password</h2>
 
         <Formik
@@ -54,6 +54,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
           {() => (
             <Form>
               <div className="mb-4">
+                <h2 className="mb-2 text-left">Current password</h2>
                 <Field
                   type="password"
                   name="currentPassword"
@@ -68,6 +69,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
               </div>
 
               <div className="mb-4">
+                <h2 className="mb-2 text-left">New password</h2>
                 <Field
                   type="password"
                   name="newPassword"
@@ -82,6 +84,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
               </div>
 
               <div className="mb-4">
+                <h2 className="mb-2 text-left">Confirm new password</h2>
                 <Field
                   type="password"
                   name="confirmPassword"

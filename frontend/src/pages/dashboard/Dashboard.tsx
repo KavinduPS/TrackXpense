@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, ReactNode } from "react";
 import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import {
@@ -93,6 +93,132 @@ const Dashboard: React.FC = () => {
     [incomes]
   );
 
+  const renderTimeFrameButtons = (): ReactNode => {
+    return (
+      <div className="flex  mb-4  space-x-1 items-center justify-center pt-7">
+        <button onClick={() => handleTimeFrameClick(TimeFrames.THIS_MONTH)}>
+          <div
+            className={` w-28 py-1 rounded-lg ${
+              active === TimeFrames.THIS_MONTH
+                ? "bg-green-300 text-zinc-900"
+                : "bg-zinc-950 text-gray-300"
+            }`}
+          >
+            This month
+          </div>
+        </button>
+
+        <button onClick={() => handleTimeFrameClick(TimeFrames.LAST_MONTH)}>
+          <div
+            className={`py-1 rounded-lg w-28 ${
+              active === TimeFrames.LAST_MONTH
+                ? "bg-green-300 text-zinc-900"
+                : "bg-zinc-950 text-gray-300"
+            }`}
+          >
+            Last month
+          </div>
+        </button>
+        <button onClick={() => handleTimeFrameClick(TimeFrames.LAST_3_MONTHS)}>
+          <div
+            className={`w-28 py-1 rounded-lg ${
+              active === TimeFrames.LAST_3_MONTHS
+                ? "bg-green-300 text-zinc-900"
+                : "bg-zinc-950 text-gray-300"
+            }`}
+          >
+            Last 3 months
+          </div>
+        </button>
+
+        <button onClick={() => handleTimeFrameClick(TimeFrames.THIS_YEAR)}>
+          <div
+            className={`w-28 py-1 rounded-lg ${
+              active === TimeFrames.THIS_YEAR
+                ? "bg-green-300 text-zinc-900"
+                : "bg-zinc-950 text-gray-300"
+            }`}
+          >
+            This year
+          </div>
+        </button>
+      </div>
+    );
+  };
+
+  // Render Account Balance chart
+
+  const renderAccountBalanceChart = (): ReactNode => {
+    if (isLoading) {
+      return (
+        <div className="w-96 h-36 ml-16 mt-16 flex items-center text-blue-700 absolute bg-Dark bg-opacity-80">
+          <Spinner />
+        </div>
+      );
+    }
+
+    if (expensesByDateRange?.length === 0 && incomesByDateRange?.length === 0) {
+      return <h2 className="text-gray-200 mt-2">No data</h2>;
+    }
+
+    return (
+      expensesByDateRange &&
+      incomesByDateRange && (
+        <div>
+          {renderTimeFrameButtons()}
+          <div className="w-full h-64 pt-1 flex justify-center relative  ">
+            <AccountBalanceChart
+              expenses={expensesByDateRange}
+              incomes={incomesByDateRange}
+            />
+          </div>
+        </div>
+      )
+    );
+  };
+  // Render Category chart
+
+  const renderCategoryChart = (): ReactNode => {
+    if (isLoading) {
+      return (
+        <div className="text-blue-700">
+          <Spinner />
+        </div>
+      );
+    }
+    if (expensesByCategory?.length === 0) {
+      return <h2 className="text-gray-200 text-sm">No data</h2>;
+    }
+
+    return (
+      expensesByCategory && <CategoryChart expenses={expensesByCategory} />
+    );
+  };
+
+  // Render Income/Expense Bar chart
+  const renderIncomeExpenseBarChart = (): ReactNode => {
+    if (isLoading) {
+      return (
+        <div className="text-blue-700">
+          <Spinner />
+        </div>
+      );
+    }
+    if (incomeByMonth?.length === 0 && expenseByMonth?.length === 0) {
+      return <h2 className="text-gray-200 text-sm">No data</h2>;
+    }
+    return (
+      incomeByMonth &&
+      expenseByMonth && (
+        <div>
+          <IncomeExpenseBarChart
+            incomes={incomeByMonth}
+            expenses={expenseByMonth}
+          />
+        </div>
+      )
+    );
+  };
   return (
     <div className="flex flex-col min-h-screen bg-zinc-900 ">
       <div className="flex">
@@ -111,13 +237,20 @@ const Dashboard: React.FC = () => {
                 Total Income
               </div>
               <div className="text-4xl font-semibold text-green-400">
-                LKR:{" "}
+                LKR:
                 {isIncomesLoading ? (
                   <div className="text-green-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
                   </div>
-                ) : (
+                ) : totalIncomes > 0 ? (
                   totalIncomes.toLocaleString()
+                ) : (
+                  <div className="w-80 h-36 flex flex-col  justify-center items-center rounded-lg text-gray-400 text-xl inset-0 bg-Dark bg-opacity-100 absolute">
+                    <div className="text-2xl font-semibold text-gray-200">
+                      Total Income
+                    </div>
+                    <div>No data added yet</div>
+                  </div>
                 )}
               </div>
             </div>
@@ -126,13 +259,20 @@ const Dashboard: React.FC = () => {
                 Total Expense
               </div>
               <div className="text-4xl font-semibold text-red-400">
-                LKR:{" "}
+                LKR:
                 {isExpensesLoading ? (
                   <div className="text-red-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
                   </div>
-                ) : (
+                ) : totalExpenses > 0 ? (
                   totalExpenses.toLocaleString()
+                ) : (
+                  <div className="w-80 h-36 flex flex-col  justify-center items-center rounded-lg text-gray-400 text-xl inset-0 bg-Dark bg-opacity-100 absolute">
+                    <div className="text-2xl font-semibold text-gray-200">
+                      Total Expense
+                    </div>
+                    <div>No data added yet</div>
+                  </div>
                 )}
               </div>
             </div>
@@ -141,13 +281,20 @@ const Dashboard: React.FC = () => {
                 Total Balance
               </div>
               <div className="text-4xl font-semibold text-yellow-400">
-                LKR:{" "}
+                LKR:
                 {isIncomesLoading && isExpensesLoading ? (
                   <div className="text-yellow-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
                   </div>
-                ) : (
+                ) : totalIncomes > 0 || totalExpenses > 0 ? (
                   (totalIncomes - totalExpenses).toLocaleString()
+                ) : (
+                  <div className="w-80 h-36 flex flex-col  justify-center items-center rounded-lg text-gray-400 text-xl inset-0 bg-Dark bg-opacity-100 absolute">
+                    <div className="text-2xl font-semibold text-gray-200">
+                      Total Expense
+                    </div>
+                    <div>No data added yet</div>
+                  </div>
                 )}
               </div>
             </div>
@@ -159,77 +306,8 @@ const Dashboard: React.FC = () => {
               <div className="text-center text-lg font-semibold mt-5  text-gray-200">
                 Account balance
               </div>
-              <div className="flex  mb-4  space-x-1 items-center justify-center pt-7">
-                <button
-                  onClick={() => handleTimeFrameClick(TimeFrames.THIS_MONTH)}
-                >
-                  <div
-                    className={` w-28 py-1 rounded-lg ${
-                      active === TimeFrames.THIS_MONTH
-                        ? "bg-green-300 text-zinc-900"
-                        : "bg-zinc-950 text-gray-300"
-                    }`}
-                  >
-                    This month
-                  </div>
-                </button>
 
-                <button
-                  onClick={() => handleTimeFrameClick(TimeFrames.LAST_MONTH)}
-                >
-                  <div
-                    className={`py-1 rounded-lg w-28 ${
-                      active === TimeFrames.LAST_MONTH
-                        ? "bg-green-300 text-zinc-900"
-                        : "bg-zinc-950 text-gray-300"
-                    }`}
-                  >
-                    Last month
-                  </div>
-                </button>
-                <button
-                  onClick={() => handleTimeFrameClick(TimeFrames.LAST_3_MONTHS)}
-                >
-                  <div
-                    className={`w-28 py-1 rounded-lg ${
-                      active === TimeFrames.LAST_3_MONTHS
-                        ? "bg-green-300 text-zinc-900"
-                        : "bg-zinc-950 text-gray-300"
-                    }`}
-                  >
-                    Last 3 months
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleTimeFrameClick(TimeFrames.THIS_YEAR)}
-                >
-                  <div
-                    className={`w-28 py-1 rounded-lg ${
-                      active === TimeFrames.THIS_YEAR
-                        ? "bg-green-300 text-zinc-900"
-                        : "bg-zinc-950 text-gray-300"
-                    }`}
-                  >
-                    This year
-                  </div>
-                </button>
-              </div>
-              <div className="w-full h-64 pt-1 flex justify-center relative">
-                {isLoading ? (
-                  <div className="w-full h-40 flex items-center text-blue-700 absolute bg-Dark bg-opacity-80">
-                    <Spinner />
-                  </div>
-                ) : (
-                  expensesByDateRange &&
-                  incomesByDateRange && (
-                    <AccountBalanceChart
-                      expenses={expensesByDateRange}
-                      incomes={incomesByDateRange}
-                    />
-                  )
-                )}
-              </div>
+              {renderAccountBalanceChart()}
             </div>
 
             {/* Doughnut Chart */}
@@ -237,17 +315,8 @@ const Dashboard: React.FC = () => {
               <div className="text-center text-lg font-semibold mb-2 mt-5  text-gray-200">
                 Expenses by Category
               </div>
-              <div className="flex justify-center items-center relative">
-                {isExpensesByCategoryLoading ? (
-                  <div className="w-full h-72 rounded-lg bg-Dark p-2 mr-14 absolute inset-0 bg-opacity-80 text-blue-700">
-                    <Spinner />
-                  </div>
-                ) : (
-                  expensesByCategory && (
-                    <CategoryChart expenses={expensesByCategory} />
-                  )
-                )}
-              </div>
+
+              {renderCategoryChart()}
             </div>
           </div>
 
@@ -258,19 +327,7 @@ const Dashboard: React.FC = () => {
                 Monthly Transaction Breakdown
               </p>
 
-              {isExpensesByMonthLoading && isIncomesByMonthLoading ? (
-                <div className="w-full h-[500px]  rounded-lg relative  ">
-                  <Spinner />
-                </div>
-              ) : (
-                incomeByMonth &&
-                expenseByMonth && (
-                  <IncomeExpenseBarChart
-                    incomes={incomeByMonth}
-                    expenses={expenseByMonth}
-                  />
-                )
-              )}
+              {renderIncomeExpenseBarChart()}
             </div>
           </div>
         </div>

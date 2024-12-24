@@ -99,7 +99,23 @@ const Income: React.FC = () => {
         />
       ));
     }
-    return <h2>No income added yet.</h2>;
+    return <h2 className="text-gray-200">No income added yet.</h2>;
+  };
+
+  const renderIncomeChart = (): ReactNode => {
+    if (isIncomesByDateLoading) {
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
+    }
+
+    if (incomesByDate?.length === 0) {
+      return <h2 className="text-gray-200 text-sm">No data</h2>;
+    }
+
+    return incomesByDate && <IncomesChart incomes={incomesByDate} />;
   };
 
   return (
@@ -122,14 +138,8 @@ const Income: React.FC = () => {
 
             {/* Incomes Chart */}
             <div className="flex flex-col items-center bg-Dark mr-14 w-full ml-7 rounded-lg pt-5 text-gray-200 text-lg min-h-[550px] max-h-[550px] relative">
-              <h2 className="pt-14">Incomes</h2>
-              <div className="flex flex-row items-center justify-center w-full h-full  pt-5 absolute text-green-500">
-                {isIncomesByDateLoading ? (
-                  <Spinner />
-                ) : (
-                  incomesByDate && <IncomesChart incomes={incomesByDate} />
-                )}
-              </div>
+              <h2 className="pt-14">Incomes chart</h2>
+              {renderIncomeChart()}
             </div>
           </div>
 
