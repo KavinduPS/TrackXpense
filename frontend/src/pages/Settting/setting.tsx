@@ -67,32 +67,30 @@ const Settings: React.FC = () => {
 
   return (
     <div className="flex min-h-screen  text-white bg-zinc-900">
-      <Sidebar />
+      <div className="fixed">
+        <Sidebar />
+      </div>
 
-      <div className="flex-1 relative">
-        <div className="absolute top-0 right-8 p-6 ">
-          <img
-            src={logo}
-            alt="TrackXpense Logo"
-            style={{ width: "380px", height: "60px" }}
-          />
+      <div className="flex pl-80">
+        <div className="absolute top-0 right-8 p-6 w-1/4">
+          <img src={logo} alt="TrackXpense Logo" />
         </div>
+        <div>
+          <div className="ml-14 mt-28">
+            <ProfileForm
+              userData={userData}
+              onConfirm={handleUpdateUserDetails}
+            />
+          </div>
 
-        <div className="ml-14 mt-28">
-          <ProfileForm
-            userData={userData}
-            onConfirm={handleUpdateUserDetails}
-          />
-        </div>
-
-        <div className="p-5 bg-Dark w-[470px] h-36 ml-14 mt-12 flex justify-center items-center rounded-lg">
-          <button
-            className="text-gray-200 text-lg  border border-gray-600 w-96 h-10 rounded-lg flex items-center justify-center hover:bg-gray-200 hover:text-zinc-900"
-            onClick={openModal}
-          >
-            Change Password
-          </button>
-
+          <div className="p-5 bg-Dark w-[470px] h-36 ml-14 mt-12 flex justify-center items-center rounded-lg">
+            <button
+              className="text-gray-200 text-lg  border border-gray-600 w-96 h-10 rounded-lg flex items-center justify-center hover:bg-gray-200 hover:text-zinc-900"
+              onClick={openModal}
+            >
+              Change Password
+            </button>
+          </div>
           {isModalOpen && (
             <ChangePasswordModal
               onSubmit={handlePasswordChange}

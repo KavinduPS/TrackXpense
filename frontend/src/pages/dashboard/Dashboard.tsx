@@ -100,12 +100,8 @@ const Dashboard: React.FC = () => {
           <Sidebar />
         </div>
         <div className="flex-grow pl-80">
-          <div className="absolute top-0 right-8 p-6">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "380px", height: "60px" }}
-            />
+          <div className="absolute top-0 right-8 p-6 w-1/4">
+            <img src={logo} alt="Logo" />
           </div>
 
           {/* Income, Expence, Balance Cards */}
@@ -258,7 +254,9 @@ const Dashboard: React.FC = () => {
           {/* Bar Chart Income/Expense */}
           <div className="flex justify-center items-center">
             <div className="w-full h-[500px] mb-12 text-gray-200 mt-14  bg-Dark shadow-2xl rounded-lg relative ml-14 mr-14 py-5 ">
-              <p className="mb-5 text-lg font-semibold">Transaction Chart</p>
+              <p className="mb-5 text-lg font-semibold">
+                Monthly Transaction Breakdown
+              </p>
 
               {isExpensesByMonthLoading && isIncomesByMonthLoading ? (
                 <div className="w-full h-[500px]  rounded-lg relative  ">

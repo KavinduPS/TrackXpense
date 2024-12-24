@@ -110,12 +110,8 @@ const Expense: React.FC = () => {
         </div>
 
         <div className="flex-grow pl-80">
-          <i className="absolute top-0 right-8 p-6">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "380px", height: "60px" }}
-            />
+          <i className="absolute top-0 right-8 p-6 w-1/4">
+            <img src={logo} alt="Logo" />
           </i>
           <div className="flex w-full justify-between mt-28">
             {/* Add Income Form */}
@@ -125,7 +121,7 @@ const Expense: React.FC = () => {
 
             {/* Incomes Chart */}
             <div className="flex flex-col items-center bg-Dark mr-14 w-full ml-7 rounded-lg pt-5 text-gray-200 text-lg min-h-[550px] max-h-[550px] relative">
-              <h2 className="pt-14">Expenses chart</h2>
+              <h2 className="pt-14">Expenses</h2>
               <div className="flex flex-row items-center justify-center w-full h-full pt-5 absolute text-yellow-500">
                 {isExpensesByDateLoading ? (
                   <Spinner />

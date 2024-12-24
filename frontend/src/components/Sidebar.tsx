@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <div className="bg-Dark w-[260px] h-[635px] flex flex-col items-center py-5 rounded-xl mt-14 ml-12">
+    <div className="fixed top-1/2 -translate-y-1/2 bg-Dark w-[260px] h-[635px] flex flex-col items-center py-5 rounded-xl ml-12">
       <div className="flex items-center justify-center mt-4 w-28 h-28 text-gray-200 bg-zinc-900 rounded-full text-5xl font-bold bg-gradient-to-r from-pink-500 to-orange-500">
         {user?.name.slice(0, 1)}
       </div>

@@ -110,12 +110,8 @@ const Goals = (props: Props) => {
           <Sidebar />
         </div>
         <div className="flex-grow pl-80">
-          <i className="absolute top-0 right-8 p-6">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "380px", height: "60px" }}
-            />
+          <i className="absolute top-0 right-8 p-6 w-1/4">
+            <img src={logo} alt="Logo" />
           </i>
           <div className="flex w-full justify-between mt-28">
             <div className="flex justify-center flex-shrink-0 p-8 ml-14 bg-Dark rounded-lg h-auto">
