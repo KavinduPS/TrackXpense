@@ -19,15 +19,19 @@ const IncomeCard = ({
     <div className="py-2 ">
       <div className="flex items-center justify-between p-4 w-full bg-zinc-900 rounded text-gray-200">
         <div className="text-left text-gray-200 font-semibold w-1/5">
+          <p className="text-sm text-gray-600">Date</p>
           {date.toString().split("T")[0]}
         </div>
         <div className="text-left text-gray-200 font-semibold w-1/5">
+          <p className="text-sm text-gray-600">Name</p>
           {name}
         </div>
         <div className="text-left text-gray-200 font-semibold w-1/5">
+          <p className="text-sm text-gray-600">Amount</p>
           {amount}
         </div>
         <div className="text-left text-gray-200 font-semibold w-1/5">
+          <p className="text-sm text-gray-600">Source</p>
           {source}
         </div>
         <div>

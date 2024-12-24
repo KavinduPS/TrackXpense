@@ -51,17 +51,17 @@ export const EditExpenseModal = ({
       {({ touched, errors }) => (
         <Form>
           <div
-            className={`fixed inset-0 flex justify-center items-center transition-colors flex-col border-2 border-black w-200 bg-zinc-900 bg-opacity-90 ${
+            className={`fixed inset-0 flex justify-center items-center transition-colors flex-col  w-full bg-black bg-opacity-90 ${
               isVisible ? "visible bg-black/50" : "invisible"
             }`}
           >
-            <div className=" p-10 w-1/3 bg-zinc-700 rounded-lg">
+            <div className="py-8 px-12 w-auto bg-Dark rounded-lg">
               <div>
                 <h2 className="text-gray-200 text-xl font-semibold mb-4">
                   Update Expense
                 </h2>
                 <Field
-                  className="w-80 h-10 pl-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  className="w-80 h-10 pl-3  border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
                   type="text"
                   name="name"
                   placeholder="Expense Name"
@@ -75,7 +75,7 @@ export const EditExpenseModal = ({
 
               <div>
                 <Field
-                  className="w-80 h-10 mt-5 pl-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  className="w-80 h-10 mt-5 pl-3  border border-gray-200 rounded-lg  focus:outline-none"
                   type="text"
                   name="amount"
                   placeholder="Amount"
@@ -94,7 +94,7 @@ export const EditExpenseModal = ({
                 <Field
                   type="date"
                   name="date"
-                  className="w-80 h-10 mt-5 pl-3 pr-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  className="w-80 h-10 mt-5 pl-3 pr-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
                 />
                 <div className="flex justify-center items-center text-left rounded-lg">
                   {touched.date && errors.date && (
@@ -107,7 +107,7 @@ export const EditExpenseModal = ({
                 <Field
                   as="select"
                   name="category"
-                  className="w-80 h-10 mt-5 px-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  className="w-80 h-10 mt-5 px-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
                 >
                   <option value="" className="text-gray-50">
                     Category
@@ -130,26 +130,27 @@ export const EditExpenseModal = ({
 
               <div>
                 <Field
-                  className="w-80 h-32 mt-5 px-3 pt-3 bg-zinc-700 border border-gray-200 rounded-lg text-gray-200 focus:outline-none"
+                  className="w-80 h-32 mt-5 px-3 pt-3 border border-gray-200 rounded-lg text-zinc-900 focus:outline-none"
                   as="textarea"
                   name="reference"
                   placeholder="Reference"
                 />
               </div>
-
-              <button
-                type="submit"
-                className="w-80 h-10 mt-5 pl-3 bg-green-300 rounded-lg text-zinc-900"
-              >
-                Update Expense
-              </button>
-              <button
-                type="button"
-                className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-zinc-900"
-                onClick={onCloseModal}
-              >
-                Close
-              </button>
+              <div className="flex flex-col">
+                <button
+                  type="submit"
+                  className="w-80 h-10 mt-5 pl-3 bg-green-300 rounded-lg text-zinc-900"
+                >
+                  Update Expense
+                </button>
+                <button
+                  type="button"
+                  className="w-80 h-10 mt-5 pl-3 bg-orange-200 rounded-lg text-zinc-900"
+                  onClick={onCloseModal}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </Form>

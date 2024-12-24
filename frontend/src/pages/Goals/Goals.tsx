@@ -91,6 +91,10 @@ const Goals = (props: Props) => {
       );
     }
 
+    if (data?.length === 0) {
+      return <h2 className="text-gray-200 text-sm">No goals added yet</h2>;
+    }
+
     if (data) {
       return data.map((goal) => (
         <GoalCard
