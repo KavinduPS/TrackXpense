@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "../../modules/auth/authApiSlice";
@@ -68,7 +68,7 @@ const Signup: React.FC = () => {
       ></div>
 
       <div className=" relative w-1/3">
-        <div className="flex justify-center text-4xl text-orange-200 pb-10">
+        <div className="flex justify-center text-4xl text-green-200 pb-10">
           <p>SIGN UP</p>
         </div>
 
@@ -129,14 +129,20 @@ const Signup: React.FC = () => {
                   <Spinner />
                 </div>
               )}
-              <div className="mt-10">
+              <div className="mt-10 flex flex-col justify-center items-center space-y-5">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-3/6 bg-green-200 h-10 rounded-lg text-zinc-900"
+                  className="w-3/6 bg-green-300 h-10 rounded-lg text-zinc-900"
                 >
                   Sign Up
                 </button>
+
+                <Link to="/">
+                  <p className="text-green-300 flex justify-center items-center">
+                    Back to login
+                  </p>
+                </Link>
               </div>
             </Form>
           )}

@@ -67,19 +67,20 @@ const Settings: React.FC = () => {
         <Sidebar />
       </div>
 
-      <div className="flex pl-80">
+      <div className="flex pl-80 ">
         <div className="absolute top-0 right-8 p-6 w-1/4">
           <img src={logo} alt="TrackXpense Logo" />
         </div>
+
         <div>
-          <div className="ml-14 mt-28">
+          <div className=" mt-28 ml-14">
             <ProfileForm
               userData={userData}
               onConfirm={handleUpdateUserDetails}
             />
           </div>
 
-          <div className="p-5 bg-Dark w-[470px] h-36 ml-14 mt-12 flex justify-center items-center rounded-lg">
+          <div className="p-5 bg-Dark w-[470px] h-36 mt-12 ml-14 flex justify-center items-center rounded-lg">
             <button
               className="text-gray-200 text-lg  border border-gray-600 w-96 h-10 rounded-lg flex items-center justify-center hover:bg-gray-200 hover:text-zinc-900"
               onClick={openModal}
