@@ -42,9 +42,6 @@ const Dashboard: React.FC = () => {
   const { data: incomeByMonth, isLoading: isIncomesByMonthLoading } =
     useGetAllIncomesByMonthQuery();
 
-  const { data: expenseData } = useGetAllExpensesByDateQuery();
-  const { data: incomeData } = useGetAllIncomesByDateQuery();
-
   const [fetchExpensesByDateRange, { data: expensesByDateRange }] =
     useLazyGetAllExpensesByDateRangeQuery();
   const [fetchIncomesByDateRange, { data: incomesByDateRange }] =
@@ -179,7 +176,7 @@ const Dashboard: React.FC = () => {
   // Render Category chart
 
   const renderCategoryChart = (): ReactNode => {
-    if (isLoading) {
+    if (isExpensesByCategoryLoading) {
       return (
         <div className="text-blue-700">
           <Spinner />
@@ -197,7 +194,7 @@ const Dashboard: React.FC = () => {
 
   // Render Income/Expense Bar chart
   const renderIncomeExpenseBarChart = (): ReactNode => {
-    if (isLoading) {
+    if (isExpensesByMonthLoading) {
       return (
         <div className="text-blue-700">
           <Spinner />
@@ -237,7 +234,7 @@ const Dashboard: React.FC = () => {
                 Total Income
               </div>
               <div className="text-4xl font-semibold text-green-400">
-                LKR:
+                LKR:{" "}
                 {isIncomesLoading ? (
                   <div className="text-green-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
@@ -247,7 +244,7 @@ const Dashboard: React.FC = () => {
                 ) : (
                   <div className="w-80 h-36 flex flex-col  justify-center items-center rounded-lg text-gray-400 text-xl inset-0 bg-Dark bg-opacity-100 absolute">
                     <div className="text-2xl font-semibold text-gray-200">
-                      Total Income
+                      Total Income{" "}
                     </div>
                     <div>No data added yet</div>
                   </div>
@@ -259,7 +256,7 @@ const Dashboard: React.FC = () => {
                 Total Expense
               </div>
               <div className="text-4xl font-semibold text-red-400">
-                LKR:
+                LKR:{" "}
                 {isExpensesLoading ? (
                   <div className="text-red-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
@@ -281,7 +278,7 @@ const Dashboard: React.FC = () => {
                 Total Balance
               </div>
               <div className="text-4xl font-semibold text-yellow-400">
-                LKR:
+                LKR:{" "}
                 {isIncomesLoading && isExpensesLoading ? (
                   <div className="text-yellow-400 w-80 h-36 rounded-lg absolute flex justify-center items-center inset-0 bg-zinc-900 bg-opacity-70">
                     <Spinner />
