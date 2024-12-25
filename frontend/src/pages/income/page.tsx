@@ -137,7 +137,7 @@ const Income: React.FC = () => {
 
             {/* Incomes Chart */}
             <div className="flex flex-col items-center bg-Dark mr-14 w-full ml-7 rounded-lg pt-5 text-gray-200 text-lg min-h-[550px] max-h-[550px] relative">
-              <h2 className="pt-14">Incomes chart</h2>
+              <h2 className="pt-14">Incomes</h2>
               {renderIncomeChart()}
             </div>
           </div>

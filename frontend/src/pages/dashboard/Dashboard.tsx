@@ -244,7 +244,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="w-80 h-36 bg-Dark  rounded-lg flex flex-col justify-center items-center relative">
               <div className="text-2xl font-semibold text-gray-200">
-                Total Expense
+                Total Expenses
               </div>
               <div className="text-4xl font-semibold text-red-400">
                 LKR:{" "}
@@ -292,7 +292,7 @@ const Dashboard: React.FC = () => {
           <div className="flex justify-center items-center">
             <div className="mt-12 ml-14 w-3/6 h-96 rounded-lg bg-Dark p-2 text-sm">
               <div className="text-center text-lg font-semibold mt-5  text-gray-200">
-                Account balance
+                Account Balance
               </div>
 
               {renderAccountBalanceChart()}
