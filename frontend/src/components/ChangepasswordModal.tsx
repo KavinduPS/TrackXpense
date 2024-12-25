@@ -30,7 +30,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     currentPassword: Yup.string().required("Current password is required"),
     newPassword: Yup.string()
       .required("New password is required")
-      .min(4, "Password must be at least 8 characters long"),
+      .min(8, "Password must be at least 8 characters"),
     confirmPassword: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("newPassword")], "Passwords must match"),

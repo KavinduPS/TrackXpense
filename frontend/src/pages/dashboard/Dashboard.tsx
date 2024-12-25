@@ -3,14 +3,12 @@ import Sidebar from "../../components/Sidebar";
 import logo from "../../assets/trackxpense_logo.png";
 import {
   useGetAllExpensesByCategoryQuery,
-  useGetAllExpensesByDateQuery,
   useGetAllExpensesByMonthQuery,
   useGetAllExpensesQuery,
   useLazyGetAllExpensesByDateRangeQuery,
 } from "../../modules/expenses/expensesApiSlice";
 import {
   useGetAllIncomesQuery,
-  useGetAllIncomesByDateQuery,
   useGetAllIncomesByMonthQuery,
   useLazyGetAllincomesByDateRangeQuery,
 } from "../../modules/incomes/incomesApiSlice";
@@ -25,17 +23,11 @@ import IncomeExpenseBarChart from "../../components/Charts/IncomeExpenseBarChart
 const Dashboard: React.FC = () => {
   const [active, setActive] = useState<string>(TimeFrames.THIS_MONTH);
 
-  const {
-    data: expenses,
-    error: expensesError,
-    isLoading: isExpensesLoading,
-  } = useGetAllExpensesQuery();
+  const { data: expenses, isLoading: isExpensesLoading } =
+    useGetAllExpensesQuery();
 
-  const {
-    data: incomes,
-    error: incomesError,
-    isLoading: isIncomesLoading,
-  } = useGetAllIncomesQuery();
+  const { data: incomes, isLoading: isIncomesLoading } =
+    useGetAllIncomesQuery();
 
   const { data: expenseByMonth, isLoading: isExpensesByMonthLoading } =
     useGetAllExpensesByMonthQuery();
@@ -194,7 +186,7 @@ const Dashboard: React.FC = () => {
 
   // Render Income/Expense Bar chart
   const renderIncomeExpenseBarChart = (): ReactNode => {
-    if (isExpensesByMonthLoading) {
+    if (isExpensesByMonthLoading || isIncomesByMonthLoading) {
       return (
         <div className="text-blue-700">
           <Spinner />

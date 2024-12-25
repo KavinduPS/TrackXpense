@@ -33,7 +33,9 @@ const Signup: React.FC = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters"),
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
