@@ -55,7 +55,6 @@ const Dashboard: React.FC = () => {
       setActive(timeFrameKey);
     } catch (error) {
       toast.error("Error fetching date range data");
-      console.log(error);
     } finally {
       setIsLoading(false);
     }

@@ -53,7 +53,6 @@ const Login: React.FC = () => {
     try {
       const { email, password } = values;
       const response = await login({ email, password }).unwrap();
-      console.log(response);
       dispatch(setUser({ ...response }));
       navigate("/dashboard");
     } catch (error: any) {

@@ -29,7 +29,6 @@ const Income: React.FC = () => {
   const { data, isFetching } = useGetAllIncomesQuery();
   const { data: incomesByDate, isLoading: isIncomesByDateLoading } =
     useGetAllIncomesByDateQuery();
-  console.log(incomesByDate);
 
   const handleEditButtonClick = (income: IncomeType): void => {
     setEditingIncome(income);

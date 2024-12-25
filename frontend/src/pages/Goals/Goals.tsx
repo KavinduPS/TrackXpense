@@ -68,7 +68,6 @@ const Goals = (props: Props) => {
       toast.success("Goal deleted successfully");
       setEditingGoal(null);
     } catch (error: any) {
-      console.log(error);
       toast(error?.data?.message);
     }
   };

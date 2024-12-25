@@ -50,8 +50,6 @@ const AllTransactionsChart = ({
     });
   });
 
-  console.log(formatedDates);
-
   const expensesMap = new Map(
     expenses.map((expense) => [expense.originalDate, expense.amount])
   );
@@ -94,7 +92,6 @@ const AllTransactionsChart = ({
       },
     ],
   };
-  console.log(data.datasets);
   return <Line data={data}></Line>;
 };
 

@@ -48,7 +48,6 @@ const Signup: React.FC = () => {
       dispatch(setUser({ ...response }));
       navigate("/dashboard");
     } catch (error: any) {
-      console.log(error);
       toast(error?.data?.message);
     }
   };

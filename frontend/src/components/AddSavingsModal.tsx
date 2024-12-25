@@ -32,7 +32,6 @@ const AddSavingsModal = ({
   });
 
   const handleSubmit = (values: AddSavings): void => {
-    console.log(typeof values.amount);
     onSaveGoal(values.amount);
   };
 
