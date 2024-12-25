@@ -8,6 +8,7 @@ import expensesRoutes from "./routes/expenseRoutes";
 import goalRoutes from "./routes/goalRoutes";
 import { errorHandler, notFound } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
