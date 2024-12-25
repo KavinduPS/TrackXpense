@@ -24,10 +24,13 @@ const ForgotPassword: React.FC = () => {
   const [resetPassword] = useResetPasswordMutation();
 
   const validationSchema = Yup.object({
-    newPassword: Yup.string().required("Password is required"),
+    newPassword: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters"),
     confirmpassword: Yup.string()
       .oneOf([Yup.ref("newPassword")], "Passwords must match")
-      .required("Confirm password is required"),
+      .required("Confirm password is required")
+      .min(8, "Password must be at least 8 characters"),
   });
 
   useEffect(() => {
