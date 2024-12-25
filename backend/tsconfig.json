@@ -12,6 +12,6 @@
   },
   "files": ["./src/types/express/index.d.ts"],
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "client"],
+  "exclude": ["node_modules", "dist", "client", "build"],
   "typeRoots": ["./src/types", "./node_modules/@types"]
 }

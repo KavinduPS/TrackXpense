@@ -17,7 +17,6 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -33,8 +32,14 @@ app.use("/api/expenses", expensesRoutes);
 app.use("/api/incomes", incomeRoutes);
 app.use("/api/goals", goalRoutes);
 
-app.get("/", (req, res) => {
-  res.json({ message: "TrackXpense API is running" });
+// app.get("/", (req, res) => {
+//   res.json({ message: "TrackXpense API is running" });
+// });
+
+app.use(express.static(path.join(__dirname, "../build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
 
 app.use(errorHandler);
