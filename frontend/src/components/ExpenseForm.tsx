@@ -27,7 +27,6 @@ const AddExpenseForm = ({ onAddExpense }: AddExpenseFormProps) => {
       .positive("Amount must be positive")
       .typeError("Input only numbers"),
     category: Yup.string().required("Select category"),
-    reference: Yup.string().required("Add reference"),
   });
 
   const handleSubmit = (
