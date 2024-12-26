@@ -176,7 +176,7 @@ const forgotPassword = async (
       token: hashedToken,
     });
 
-    const resetUrl = `${process.env.APP_ORIGIN}/reset-password/${resetToken}/${user._id}`;
+    const resetUrl = `https://trackxpense.onrender.com/reset-password/${resetToken}/${user._id}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
