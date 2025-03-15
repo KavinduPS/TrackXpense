@@ -6,7 +6,7 @@ export interface IUser {
   password: string;
 }
 
-const userSchema: Schema = new Schema(
+const userSchema: Schema<IUser> = new Schema(
   {
     name: {
       type: String,
@@ -25,4 +25,4 @@ const userSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model<IUser>("User", userSchema);

@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e3260ffc.css",
+    "main.js": "/static/js/main.87cb5bfc.js",
+    "static/js/453.d855a71b.chunk.js": "/static/js/453.d855a71b.chunk.js",
+    "static/media/login-image.jpg": "/static/media/login-image.59b58b129d930ea08613.jpg",
+    "static/media/trackxpense_logo.png": "/static/media/trackxpense_logo.eaaeb912e8699c2f2899.png",
+    "static/media/x_logo.png": "/static/media/x_logo.80ed72a20c2419c842e4.png",
+    "index.html": "/index.html",
+    "main.e3260ffc.css.map": "/static/css/main.e3260ffc.css.map",
+    "main.87cb5bfc.js.map": "/static/js/main.87cb5bfc.js.map",
+    "453.d855a71b.chunk.js.map": "/static/js/453.d855a71b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e3260ffc.css",
+    "static/js/main.87cb5bfc.js"
+  ]
+}
